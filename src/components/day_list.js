@@ -24,7 +24,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignSelf: 'stretch',
-    justifyContent: 'center'
+    alignItems: 'stretch'
   },
   newButton: {
     flex: 1
