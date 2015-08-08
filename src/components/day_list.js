@@ -12,23 +12,10 @@ var {
   View,
 } = React;
 
+var RoutineList = require('./routine_list');
+var BottomBar = require('./bottom_bar');
+
 var styles = StyleSheet.create({
-  buttonText: {
-    color: '#ffffff',
-    paddingTop: 15,
-    textAlign: 'center',
-    backgroundColor: '#E57F7F',
-    alignSelf: 'stretch',
-    flex: 1,
-    borderRightColor: '#ffffff',
-    borderRightWidth: 1
-  },
-  buttonView: {
-    flex: 1,
-    flexDirection: 'row',
-    alignSelf: 'stretch',
-    justifyContent: 'space-between'
-  },
   scrollView: {
     flex: 10,
   },
@@ -45,12 +32,20 @@ var styles = StyleSheet.create({
   }
 });
 
+
+
 class DayList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentPage: 0
     };
+  }
+
+  _onPressRoutines() {
+    this.props.navigator.push({
+      component: RoutineList
+    });
   }
 
   _onScroll(event) {
@@ -73,14 +68,7 @@ class DayList extends Component {
             <Text>Now that we know who you are, I know who I am. I'm not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villain's going to be? He's the exact opposite of the hero. And most times they're friends, like you and me! I should've known way back when... You know why, David? Because of the kids. They called me Mr Glass.</Text>
           </View>
         </ScrollView>
-        <View style={styles.buttonView}>
-          <TouchableOpacity>
-            <Text style={styles.buttonText}>Routines</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.buttonText}>New Day</Text>
-          </TouchableOpacity>
-        </View>
+        <BottomBar buttons={[{ text: "Routines", onPressEvent: this._onPressRoutines.bind(this) }, { text: "New Day" }]} />
       </View>
     );
   }
