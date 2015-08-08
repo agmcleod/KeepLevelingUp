@@ -7,6 +7,7 @@ var {
   Dimensions,
   ScrollView,
   StyleSheet,
+  TextInput,
   View
 } = React;
 
@@ -15,6 +16,11 @@ var BottomBar = require('./bottom_bar');
 var styles = StyleSheet.create({
   scrollView: {
     flex: 10
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: '#E57F7F',
+    flex: 1
   },
   view: {
     flex: 1,
@@ -36,7 +42,9 @@ class NewRoutine extends Component {
     }];
     return (
       <View style={styles.view}>
-        <ScrollView style={styles.scrollView}></ScrollView>
+        <ScrollView style={styles.scrollView}>
+          <TextInput placeholder="Routine Name" style={styles.textInput} />
+        </ScrollView>
         <BottomBar buttons={buttons} />
       </View>
     );
