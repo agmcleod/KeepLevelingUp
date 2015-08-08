@@ -4,6 +4,8 @@ var React = require('react-native');
 
 var {
   Component,
+  Dimensions,
+  ScrollView,
   StyleSheet,
   View
 } = React;
@@ -11,16 +13,34 @@ var {
 var BottomBar = require('./bottom_bar');
 
 var styles = StyleSheet.create({
-  wrapper: {
-
+  scrollView: {
+    flex: 10,
+  },
+  view: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'column'
   }
 });
 
 class RoutineList extends Component {
+  _cancelButton() {
+    this.props.navigator.pop();
+  }
   render() {
+    var screen = Dimensions.get("window");
+    var bottomButtons = [{
+      text: "Cancel",
+      onPressEvent: this._cancelButton.bind(this)
+    }, {
+      text: "New Routine"
+    }];
     return(
-      <View style={styles.wrapper}>
-        <BottomBar buttons={[{text: "Cancel"}, { text: "New Routine" }]} />
+      <View style={styles.view}>
+        <ScrollView style={[{ width: screen.width }, styles.scrollView]}>
+
+        </ScrollView>
+        <BottomBar buttons={bottomButtons} />
       </View>
     );
   }

@@ -7,10 +7,11 @@
 var React = require('react-native');
 var {
   AppRegistry,
-  Navigator
+  Navigator,
 } = React;
 
 var DayList = require('./src/components/day_list');
+var NavConfig = require('./src/nav_config');
 
 var KeepLevelingUp = React.createClass({
   _renderScene(route, navigator) {
@@ -20,8 +21,10 @@ var KeepLevelingUp = React.createClass({
     );
   },
   render() {
+
     return (
       <Navigator
+        configureScene={(route) => NavConfig}
         initialRoute={{
           component: DayList,
           id: "day_list"
