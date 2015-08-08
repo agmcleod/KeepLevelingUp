@@ -5,12 +5,14 @@ var React = require('react-native');
 var {
   Component,
   Dimensions,
-  ScrollView,
+  ListView,
   StyleSheet,
   View
 } = React;
 
 var BottomBar = require('./bottom_bar');
+var RoutineActions = require('../routines/routine_actions');
+var RoutineStore = require('../routines/routine_store');
 
 var styles = StyleSheet.create({
   scrollView: {
@@ -24,9 +26,29 @@ var styles = StyleSheet.create({
 });
 
 class RoutineList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      routineDataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2
+      })
+    };
+  }
+  componentDidMount() {
+    RoutineStore.listen(this._onRoutinesChange.bind(this));
+    RoutineActions.listRoutines();
+  }
+
   _cancelButton() {
     this.props.navigator.pop();
   }
+
+  _onRoutinesChange(routines) {
+    this.setState({
+      routineDataSource: this.state.routineDataSource.cloneWithRows(Object.clone(routines))
+    });
+  }
+
   render() {
     var screen = Dimensions.get("window");
     var bottomButtons = [{
@@ -37,9 +59,9 @@ class RoutineList extends Component {
     }];
     return(
       <View style={styles.view}>
-        <ScrollView style={[{ width: screen.width }, styles.scrollView]}>
+        <ListView style={[{ width: screen.width }, styles.scrollView]} dataSource={this.state.routineDataSource}>
 
-        </ScrollView>
+        </ListView>
         <BottomBar buttons={bottomButtons} />
       </View>
     );

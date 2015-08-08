@@ -13,6 +13,8 @@ var {
 var DayList = require('./src/components/day_list');
 var NavConfig = require('./src/nav_config');
 
+require('./src/object.js');
+
 var KeepLevelingUp = React.createClass({
   _renderScene(route, navigator) {
     var Component = route.component;
