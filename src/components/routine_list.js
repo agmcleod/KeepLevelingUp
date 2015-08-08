@@ -13,6 +13,7 @@ var {
 var BottomBar = require('./bottom_bar');
 var RoutineActions = require('../routines/routine_actions');
 var RoutineStore = require('../routines/routine_store');
+import NewRoutine from './new_routine';
 
 var styles = StyleSheet.create({
   scrollView: {
@@ -35,12 +36,26 @@ class RoutineList extends Component {
     };
   }
   componentDidMount() {
-    RoutineStore.listen(this._onRoutinesChange.bind(this));
+    this._listen();
     RoutineActions.listRoutines();
   }
 
+
+
   _cancelButton() {
     this.props.navigator.pop();
+  }
+
+  _listen() {
+    this._subscription = RoutineStore.listen(this._onRoutinesChange.bind(this));
+  }
+
+  _newRoutineButton() {
+    this._unlisten();
+    this.props.navigator.push({
+      component: NewRoutine,
+      props: { parentListen: this._listen.bind(this) }
+    });
   }
 
   _onRoutinesChange(routines) {
@@ -49,19 +64,22 @@ class RoutineList extends Component {
     });
   }
 
+  _unlisten() {
+    this._subscription();
+  }
+
   render() {
     var screen = Dimensions.get("window");
     var bottomButtons = [{
       text: "Cancel",
       onPressEvent: this._cancelButton.bind(this)
     }, {
-      text: "New Routine"
+      text: "New Routine",
+      onPressEvent: this._newRoutineButton.bind(this)
     }];
     return(
       <View style={styles.view}>
-        <ListView style={[{ width: screen.width }, styles.scrollView]} dataSource={this.state.routineDataSource}>
-
-        </ListView>
+        <ListView style={[{ width: screen.width }, styles.scrollView]} dataSource={this.state.routineDataSource} />
         <BottomBar buttons={bottomButtons} />
       </View>
     );

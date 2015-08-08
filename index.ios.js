@@ -4,14 +4,15 @@
  */
 'use strict';
 
-var React = require('react-native');
+// var React = require('react-native');
+import React from 'react-native';
 var {
   AppRegistry,
   Navigator,
 } = React;
 
-var DayList = require('./src/components/day_list');
-var NavConfig = require('./src/nav_config');
+import DayList from './src/components/day_list';
+import NavConfig from './src/nav_config';
 
 require('./src/object.js');
 
