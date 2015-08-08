@@ -14,32 +14,23 @@ var {
 
 var styles = StyleSheet.create({
   buttonText: {
-    alignSelf: 'stretch',
     color: '#ffffff',
     paddingTop: 15,
-    paddingBottom: 15,
-    textAlign: 'center'
+    textAlign: 'center',
+    backgroundColor: '#E57F7F',
+    alignSelf: 'stretch',
+    flex: 1,
+    borderRightColor: '#ffffff',
+    borderRightWidth: 1
   },
   buttonView: {
     flex: 1,
     flexDirection: 'row',
     alignSelf: 'stretch',
-    alignItems: 'stretch'
-  },
-  newButton: {
-    flex: 1
-  },
-  newButtonText: {
-    backgroundColor: '#E57F7F',
-  },
-  routinesButton: {
-    flex: 1
-  },
-  routinesButtonText: {
-    backgroundColor: '#7FE593',
+    justifyContent: 'space-between'
   },
   scrollView: {
-    flex: 7,
+    flex: 10,
   },
   pageControl: {
     position: 'absolute',
@@ -49,7 +40,8 @@ var styles = StyleSheet.create({
   },
   view: {
     alignItems: 'center',
-    flex: 1
+    flex: 1,
+    flexDirection: 'column'
   }
 });
 
@@ -82,11 +74,11 @@ class DayList extends Component {
           </View>
         </ScrollView>
         <View style={styles.buttonView}>
-          <TouchableOpacity style={styles.routinesButton}>
-            <Text style={[styles.buttonText, styles.routinesButtonText]}>Routines</Text>
+          <TouchableOpacity>
+            <Text style={styles.buttonText}>Routines</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.newButton}>
-            <Text style={[styles.buttonText, styles.newButtonText]}>New Day</Text>
+          <TouchableOpacity>
+            <Text style={styles.buttonText}>New Day</Text>
           </TouchableOpacity>
         </View>
       </View>
