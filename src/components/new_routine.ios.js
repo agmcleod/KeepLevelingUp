@@ -15,6 +15,7 @@ var {
 
 import BottomBar from './bottom_bar';
 import ExerciseForm from './exercise_form';
+import RoutineActions from '../routines/routine_actions';
 
 var styles = StyleSheet.create({
   addExercise: {
@@ -107,6 +108,17 @@ class NewRoutine extends Component {
     if (hasErrors) {
       this.setState({ exercises: exercises, errors: errors });
     }
+    else {
+      this.props.parentListen();
+      RoutineActions.createRoutine({ name: this.state.name, exercises: this.state.exercises });
+      this.props.navigator.pop();
+    }
+  }
+
+  _onTextInputChange(event, field) {
+    var state = {};
+    state[field] = event.nativeEvent.text;
+    this.setState(state);
   }
 
   render() {
@@ -120,7 +132,7 @@ class NewRoutine extends Component {
     return (
       <View style={styles.view}>
         <ScrollView style={styles.scrollView}>
-          <TextInput placeholder="Routine Name" ref="textInput" style={styles.textInput} />
+          <TextInput placeholder="Routine Name" ref="textInput" style={styles.textInput} onChange={(e) => this._onTextInputChange(e, "name")} />
           {this.state.errors['name'] ? <Text style={styles.error}>{this.state.errors['name'].join(', ')}</Text> : null}
           <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff" onPress={this._addExercise.bind(this)}>
             <Text style={styles.addExercise}>Add Exercise</Text>

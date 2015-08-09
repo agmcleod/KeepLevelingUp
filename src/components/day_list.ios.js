@@ -74,4 +74,4 @@ class DayList extends Component {
   }
 }
 
-module.exports = DayList;
+export default DayList;

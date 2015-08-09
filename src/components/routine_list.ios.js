@@ -31,7 +31,8 @@ class RoutineList extends Component {
     super(props);
     this.state = {
       routineDataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2
+        rowHasChanged: (row1, row2) => row1 !== row2,
+
       })
     };
   }
@@ -79,11 +80,17 @@ class RoutineList extends Component {
     }];
     return(
       <View style={styles.view}>
-        <ListView style={[{ width: screen.width }, styles.scrollView]} dataSource={this.state.routineDataSource} />
+        <ListView
+          style={[{ width: screen.width }, styles.scrollView]}
+          dataSource={this.state.routineDataSource}
+          renderRow={(routine) => {
+            return (<Text>{routine.name}</Text>);
+          }}
+          />
         <BottomBar buttons={bottomButtons} />
       </View>
     );
   }
 }
 
-module.exports = RoutineList;
+export default RoutineList;

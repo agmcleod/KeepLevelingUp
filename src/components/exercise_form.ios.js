@@ -49,12 +49,12 @@ class ExerciseForm extends Component {
   render() {
     return (
       <View style={styles.view}>
-        <TextInput style={styles.textInput} onChange={(e) => { this.props._onTextInputChange(e, this.props.index, "name"); }} placeholder="Name" />
+        <TextInput style={styles.textInput} onChange={(e) => { this.props.onTextInputChange(e, this.props.index, "name"); }} placeholder="Name" />
         {this._outputErrorForField('name')}
-        <TextInput style={styles.textInput} onChange={(e) => { this.props._onNumberInputChange(e, this.props.index, "sets"); }} placeholder="Sets" keyboardType="number-pad" />
-        <TextInput style={styles.textInput} onChange={(e) => { this.props._onNumberInputChange(e, this.props.index, "weight"); }} placeholder="Weight" keyboardType="decimal-pad" />
-        <TextInput style={styles.textInput} onChange={(e) => { this.props._onNumberInputChange(e, this.props.index, "reps"); }} placeholder="Reps" keyboardType="number-pad" />
-        <TextInput style={styles.textInput} onChange={(e) => { this.props._onNumberInputChange(e, this.props.index, "duration"); }} placeholder="Duration in Seconds" keyboardType="decimal-pad" />
+        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "sets"); }} placeholder="Sets" keyboardType="number-pad" />
+        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "weight"); }} placeholder="Weight" keyboardType="decimal-pad" />
+        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "reps"); }} placeholder="Reps" keyboardType="number-pad" />
+        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "duration"); }} placeholder="Duration in Seconds" keyboardType="decimal-pad" />
       </View>
     );
   }

@@ -45,4 +45,4 @@ class BottomBar extends Component {
   }
 }
 
-module.exports = BottomBar;
+export default BottomBar;
