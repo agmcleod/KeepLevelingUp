@@ -49,18 +49,39 @@ class NewRoutine extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      exerciseCount: 0
+      exercises: []
     };
   }
   _addExercise() {
+    this.refs.textInput.blur();
+    var exercises = this.state.exercises;
+    exercises.push({});
     this.setState({
-      exerciseCount: this.state.exerciseCount + 1
+      exercises: exercises
     });
   }
   _cancelButton() {
     this.props.parentListen();
     this.props.navigator.pop();
   }
+
+  _onChildNumberInputChange(event, i, field) {
+    var exercises = this.state.exercises;
+    exercises[i][field] = parseFloat(event.nativeEvent.text);
+    this.setState({
+      exercises: exercises
+    });
+  }
+
+  _onChildTextInputChange(event, i, field) {
+    var exercises = this.state.exercises;
+
+    exercises[i][field] = event.nativeEvent.text;
+    this.setState({
+      exercises: exercises
+    });
+  }
+
   render() {
     var buttons = [{
       text: "Cancel",
@@ -68,18 +89,14 @@ class NewRoutine extends Component {
     }, {
       text: "Create"
     }];
-    var forms = [];
-    for (var i = 0; i < this.state.exerciseCount; i++) {
-      forms.push(<ExerciseForm />);
-    }
     return (
       <View style={styles.view}>
         <ScrollView style={styles.scrollView}>
-          <TextInput placeholder="Routine Name" style={styles.textInput} />
+          <TextInput placeholder="Routine Name" ref="textInput" style={styles.textInput} />
           <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff" onPress={this._addExercise.bind(this)}>
             <Text style={styles.addExercise}>Add Exercise</Text>
           </TouchableHighlight>
-          {forms}
+          {this.state.exercises.map((obj, i) => <ExerciseForm index={i} onTextInputChange={this._onChildTextInputChange.bind(this)} onNumberInputChange={this._onChildNumberInputChange.bind(this)} />)}
         </ScrollView>
         <BottomBar buttons={buttons} />
       </View>
