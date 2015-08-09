@@ -13,7 +13,8 @@ var {
   View
 } = React;
 
-var BottomBar = require('./bottom_bar');
+import BottomBar from './bottom_bar';
+import ExerciseForm from './exercise_form';
 
 var styles = StyleSheet.create({
   addExercise: {
@@ -45,6 +46,17 @@ var styles = StyleSheet.create({
 });
 
 class NewRoutine extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      exerciseCount: 0
+    };
+  }
+  _addExercise() {
+    this.setState({
+      exerciseCount: this.state.exerciseCount + 1
+    });
+  }
   _cancelButton() {
     this.props.parentListen();
     this.props.navigator.pop();
@@ -56,13 +68,18 @@ class NewRoutine extends Component {
     }, {
       text: "Create"
     }];
+    var forms = [];
+    for (var i = 0; i < this.state.exerciseCount; i++) {
+      forms.push(<ExerciseForm />);
+    }
     return (
       <View style={styles.view}>
         <ScrollView style={styles.scrollView}>
           <TextInput placeholder="Routine Name" style={styles.textInput} />
-          <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff">
+          <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff" onPress={this._addExercise.bind(this)}>
             <Text style={styles.addExercise}>Add Exercise</Text>
           </TouchableHighlight>
+          {forms}
         </ScrollView>
         <BottomBar buttons={buttons} />
       </View>

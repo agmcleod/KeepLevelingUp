@@ -14,7 +14,7 @@ var {
 import DayList from './src/components/day_list';
 import NavConfig from './src/nav_config';
 
-require('./src/object.js');
+import './src/object.js';
 
 var KeepLevelingUp = React.createClass({
   _renderScene(route, navigator) {
