@@ -12,8 +12,8 @@ var {
   View,
 } = React;
 
-var RoutineList = require('./routine_list');
-var BottomBar = require('./bottom_bar');
+import RoutineList from './routine_list.ios';
+import BottomBar from './bottom_bar.ios';
 
 var styles = StyleSheet.create({
   scrollView: {

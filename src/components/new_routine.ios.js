@@ -13,8 +13,8 @@ var {
   View
 } = React;
 
-import BottomBar from './bottom_bar';
-import ExerciseForm from './exercise_form';
+import BottomBar from './bottom_bar.ios';
+import ExerciseForm from './exercise_form.ios';
 import RoutineActions from '../routines/routine_actions';
 
 var styles = StyleSheet.create({

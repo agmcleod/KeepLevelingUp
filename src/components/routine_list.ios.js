@@ -7,13 +7,14 @@ var {
   Dimensions,
   ListView,
   StyleSheet,
+  Text,
   View
 } = React;
 
-var BottomBar = require('./bottom_bar');
-var RoutineActions = require('../routines/routine_actions');
-var RoutineStore = require('../routines/routine_store');
-import NewRoutine from './new_routine';
+import BottomBar from './bottom_bar.ios';
+import RoutineActions from '../routines/routine_actions';
+import RoutineStore from '../routines/routine_store';
+import NewRoutine from './new_routine.ios';
 
 var styles = StyleSheet.create({
   scrollView: {
