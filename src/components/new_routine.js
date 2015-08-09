@@ -28,6 +28,12 @@ var styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 10
   },
+  error: {
+    marginTop: 5,
+    marginBottom: 5,
+    color: 'red',
+    flex: 1
+  },
   scrollView: {
     flex: 10,
     padding: 15
@@ -49,7 +55,8 @@ class NewRoutine extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      exercises: []
+      exercises: [],
+      errors: {}
     };
   }
   _addExercise() {
@@ -65,6 +72,7 @@ class NewRoutine extends Component {
     this.props.navigator.pop();
   }
 
+  // TODO: Add validation for at least one
   _onChildNumberInputChange(event, i, field) {
     var exercises = this.state.exercises;
     exercises[i][field] = parseFloat(event.nativeEvent.text);
@@ -75,11 +83,30 @@ class NewRoutine extends Component {
 
   _onChildTextInputChange(event, i, field) {
     var exercises = this.state.exercises;
-
+    var text = event.nativeEvent.text;
     exercises[i][field] = event.nativeEvent.text;
     this.setState({
       exercises: exercises
     });
+  }
+
+  _onSave() {
+    var exercises = this.state.exercises;
+    var hasErrors = false;
+    var errors = this.state.errors;
+    if (!this.state.name) {
+      hasErrors = true;
+      errors['name'] = ["Must have a value"];
+    }
+    exercises.forEach((exercise) => {
+      if (!exercise.name) {
+        hasErrors = true;
+        exercise['errors'] = { "name": ["Must have a value"] }
+      }
+    });
+    if (hasErrors) {
+      this.setState({ exercises: exercises, errors: errors });
+    }
   }
 
   render() {
@@ -87,16 +114,18 @@ class NewRoutine extends Component {
       text: "Cancel",
       onPressEvent: this._cancelButton.bind(this)
     }, {
-      text: "Create"
+      text: "Create",
+      onPressEvent: this._onSave.bind(this)
     }];
     return (
       <View style={styles.view}>
         <ScrollView style={styles.scrollView}>
           <TextInput placeholder="Routine Name" ref="textInput" style={styles.textInput} />
+          {this.state.errors['name'] ? <Text style={styles.error}>{this.state.errors['name'].join(', ')}</Text> : null}
           <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff" onPress={this._addExercise.bind(this)}>
             <Text style={styles.addExercise}>Add Exercise</Text>
           </TouchableHighlight>
-          {this.state.exercises.map((obj, i) => <ExerciseForm index={i} onTextInputChange={this._onChildTextInputChange.bind(this)} onNumberInputChange={this._onChildNumberInputChange.bind(this)} />)}
+          {this.state.exercises.map((obj, i) => <ExerciseForm index={i} exercise={this.state.exercises[i]} onTextInputChange={this._onChildTextInputChange.bind(this)} onNumberInputChange={this._onChildNumberInputChange.bind(this)} />)}
         </ScrollView>
         <BottomBar buttons={buttons} />
       </View>
