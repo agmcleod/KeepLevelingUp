@@ -20,5 +20,5 @@
     "react",
     "react.displayName"
   ],
-  "sourceMaps": false
+  "sourceMaps": true
 }
