@@ -53,7 +53,6 @@ class RoutineList extends Component {
   }
   componentDidMount() {
     this._listen();
-    RoutineActions.listRoutines();
   }
 
   _cancelButton() {
@@ -62,6 +61,7 @@ class RoutineList extends Component {
 
   _listen() {
     this._subscription = RoutineStore.listen(this._onRoutinesChange.bind(this));
+    RoutineActions.listRoutines();
   }
 
   _newRoutineButton() {
