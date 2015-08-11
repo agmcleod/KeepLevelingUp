@@ -139,6 +139,14 @@ class RoutineForm extends Component {
     this.setState(state);
   }
 
+  _removeExercise(index) {
+    var exercises = this.state.exercises;
+    exercises.splice(index, 1);
+    this.setState({
+      exercises: exercises
+    });
+  }
+
   render() {
     var buttons = [{
       text: "Cancel",
@@ -155,7 +163,14 @@ class RoutineForm extends Component {
           <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff" onPress={this._addExercise.bind(this)}>
             <Text style={styles.addExercise}>Add Exercise</Text>
           </TouchableHighlight>
-          {this.state.exercises.map((obj, i) => <ExerciseForm index={i} exercise={this.state.exercises[i]} onTextInputChange={this._onChildTextInputChange.bind(this)} onNumberInputChange={this._onChildNumberInputChange.bind(this)} />)}
+          {this.state.exercises.map((obj, i) => {
+            return <ExerciseForm
+              index={i}
+              exercise={this.state.exercises[i]}
+              onTextInputChange={this._onChildTextInputChange.bind(this)}
+              onNumberInputChange={this._onChildNumberInputChange.bind(this)}
+              removeExercise={this._removeExercise.bind(this)} />
+          })}
         </ScrollView>
         <BottomBar buttons={buttons} />
       </View>

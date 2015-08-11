@@ -7,6 +7,7 @@ var {
   StyleSheet,
   Text,
   TextInput,
+  TouchableHighlight,
   View
 } = React;
 
@@ -16,6 +17,20 @@ var styles = StyleSheet.create({
     marginBottom: 5,
     color: 'red',
     flex: 1
+  },
+  removeButtonText: {
+    color: '#ffffff',
+    fontSize: 10
+  },
+  removeButtonTouch: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#E57F7F',
+    borderRadius: 5,
+    marginTop: 5,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
   },
   textInput: {
     borderWidth: 1,
@@ -38,6 +53,9 @@ var styles = StyleSheet.create({
 });
 
 class ExerciseForm extends Component {
+  _onRemovePress() {
+    this.props.removeExercise(this.props.index);
+  }
   _outputErrorForField(field) {
     var exercise = this.props.exercise;
     if (exercise && exercise.errors && exercise.errors[field]) {
@@ -51,10 +69,13 @@ class ExerciseForm extends Component {
       <View style={styles.view}>
         <TextInput style={styles.textInput} onChange={(e) => { this.props.onTextInputChange(e, this.props.index, "name"); }} placeholder="Name" value={this.props.exercise.name} />
         {this._outputErrorForField('name')}
-        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "sets"); }} placeholder="Sets" keyboardType="number-pad" value={this.props.exercise.sets} />
+        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "sets"); }} placeholder="Sets" keyboardType="decimal-pad" value={this.props.exercise.sets} />
         <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "weight"); }} placeholder="Weight" keyboardType="decimal-pad" value={this.props.exercise.weight} />
-        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "reps"); }} placeholder="Reps" keyboardType="number-pad" value={this.props.exercise.reps} />
+        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "reps"); }} placeholder="Reps" keyboardType="decimal-pad" value={this.props.exercise.reps} />
         <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "duration"); }} placeholder="Duration in Seconds" keyboardType="decimal-pad" value={this.props.exercise.duration} />
+        <TouchableHighlight onPress={this._onRemovePress.bind(this)} style={styles.removeButtonTouch}>
+          <Text style={styles.removeButtonText}>Remove</Text>
+        </TouchableHighlight>
       </View>
     );
   }
