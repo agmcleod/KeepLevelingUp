@@ -12,8 +12,8 @@ var {
   View,
 } = React;
 
-import RoutineList from './routine_list.ios';
-import BottomBar from './bottom_bar.ios';
+import RoutineList from '../routines/routine_list.ios';
+import BottomBar from '../components/bottom_bar.ios';
 
 var styles = StyleSheet.create({
   scrollView: {

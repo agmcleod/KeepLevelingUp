@@ -11,9 +11,9 @@ var {
   View
 } = React;
 
-import BottomBar from './bottom_bar.ios';
-import RoutineActions from '../routines/routine_actions';
-import RoutineStore from '../routines/routine_store';
+import BottomBar from '../components/bottom_bar.ios';
+import RoutineActions from './routine_actions';
+import RoutineStore from './routine_store';
 import RoutineForm from './routine_form.ios';
 
 import Swipeout from 'react-native-swipeout';
@@ -47,7 +47,6 @@ class RoutineList extends Component {
     this.state = {
       routineDataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
-
       })
     };
   }

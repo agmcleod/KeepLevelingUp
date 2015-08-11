@@ -13,9 +13,9 @@ var {
   View
 } = React;
 
-import BottomBar from './bottom_bar.ios';
+import BottomBar from '../components/bottom_bar.ios';
 import ExerciseForm from './exercise_form.ios';
-import RoutineActions from '../routines/routine_actions';
+import RoutineActions from './routine_actions';
 
 var styles = StyleSheet.create({
   addExercise: {

@@ -10,7 +10,7 @@ var {
   Navigator,
 } = React;
 
-import DayList from './src/components/day_list.ios';
+import DayList from './src/days/day_list.ios';
 import NavConfig from './src/nav_config';
 
 import './src/object.js';
