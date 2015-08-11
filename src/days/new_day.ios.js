@@ -19,6 +19,8 @@ import RoutineStore from '../routines/routine_store';
 import DayActions from './day_actions';
 import DayStore from './day_store';
 
+import DayForm from './day_form.ios';
+
 var styles = StyleSheet.create({
   formView: {
     flex: 10
@@ -60,24 +62,30 @@ class NewDay extends Component {
 
   _cancelPressEvent() {
     this.props.navigator.pop();
+    this.props.parentListen();
   }
 
   _goPressEvent() {
+    console.log(this.state.selectedUUID);
     if (this.state.selectedUUID) {
       DayActions.createDay({ routine_uuid: this.state.selectedUUID });
     }
   }
 
   _onDayCreation(day) {
-    this.props.navigator.push({
-      
+    this.props.navigator.replace({
+      component: DayForm,
+      props: { day: day }
     });
   }
 
   _onRoutinesChange(routines) {
-    this.setState({
-      routines: routines
-    });
+    if (routines) {
+      this.setState({
+        routines: routines,
+        selectedUUID: Object.keys(routines)[0]
+      });
+    }
   }
 
   _selectRoutineEvent(uuid) {

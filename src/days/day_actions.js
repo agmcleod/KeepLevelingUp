@@ -3,5 +3,5 @@
 import Reflux from 'reflux';
 
 export default Reflux.createActions([
-  "createDay", "updateDay"
+  "createDay", "listDays", "updateDay"
 ]);

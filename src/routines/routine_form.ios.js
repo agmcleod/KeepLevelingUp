@@ -81,7 +81,7 @@ class RoutineForm extends Component {
       exercises: exercises
     });
   }
-  _cancelButton() {
+  _cancelPressEvent() {
     this.props.parentListen();
     this.props.navigator.pop();
   }
@@ -150,7 +150,7 @@ class RoutineForm extends Component {
   render() {
     var buttons = [{
       text: "Cancel",
-      onPressEvent: this._cancelButton.bind(this)
+      onPressEvent: this._cancelPressEvent.bind(this)
     }, {
       text: "Create",
       onPressEvent: this._onSave.bind(this)

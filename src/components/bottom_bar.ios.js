@@ -29,17 +29,15 @@ var styles = StyleSheet.create({
 
 class BottomBar extends Component {
   render() {
-    var buttons = [];
-    this.props.buttons.map((button) => {
-      return buttons.push(
-        <TouchableOpacity onPress={button.onPressEvent}>
-          <Text style={styles.buttonText}>{button.text}</Text>
-        </TouchableOpacity>
-      );
-    });
     return (
       <View style={styles.buttonView}>
-        {buttons}
+        {this.props.buttons.map((button, key) => {
+          return (
+            <TouchableOpacity key={"bottom_bar_" + key} onPress={button.onPressEvent}>
+              <Text style={styles.buttonText}>{button.text}</Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     );
   }
