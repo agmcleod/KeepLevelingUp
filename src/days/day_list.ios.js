@@ -14,6 +14,7 @@ var {
 
 import RoutineList from '../routines/routine_list.ios';
 import BottomBar from '../components/bottom_bar.ios';
+import NewDay from './new_day.ios';
 
 var styles = StyleSheet.create({
   scrollView: {
@@ -42,6 +43,12 @@ class DayList extends Component {
     };
   }
 
+  _onPressNewDay() {
+    this.props.navigator.push({
+      component: NewDay
+    });
+  }
+
   _onPressRoutines() {
     this.props.navigator.push({
       component: RoutineList
@@ -58,6 +65,7 @@ class DayList extends Component {
 
   render() {
     var screen = Dimensions.get("window");
+    var buttons = [{ text: "Routines", onPressEvent: this._onPressRoutines.bind(this) }, { text: "New Day", onPressEvent: this._onPressNewDay.bind(this) }];
     return (
       <View style={styles.view}>
         <ScrollView style={[{width: screen.width}, styles.scrollView]} horizontal={true} bounces={false} showsHorizontalScrollIndicator={true} onScroll={this._onScroll.bind(this)} pagingEnabled={true}>
@@ -68,7 +76,7 @@ class DayList extends Component {
             <Text>Now that we know who you are, I know who I am. I'm not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villain's going to be? He's the exact opposite of the hero. And most times they're friends, like you and me! I should've known way back when... You know why, David? Because of the kids. They called me Mr Glass.</Text>
           </View>
         </ScrollView>
-        <BottomBar buttons={[{ text: "Routines", onPressEvent: this._onPressRoutines.bind(this) }, { text: "New Day" }]} />
+        <BottomBar buttons={buttons} />
       </View>
     );
   }
