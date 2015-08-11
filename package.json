@@ -9,5 +9,8 @@
     "react": "^0.13.3",
     "react-native": "^0.8.0",
     "reflux": "^0.2.11"
+  },
+  "devDependencies": {
+    "react-native-swipeout": "^2.0.5"
   }
 }

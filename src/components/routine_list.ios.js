@@ -16,9 +16,23 @@ import RoutineActions from '../routines/routine_actions';
 import RoutineStore from '../routines/routine_store';
 import NewRoutine from './new_routine.ios';
 
+import Swipeout from 'react-native-swipeout';
+
 var styles = StyleSheet.create({
+  listRow: {
+    padding: 10
+  },
   scrollView: {
     flex: 10,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#CCCCCC',
+  },
+  swipeButton: {
+    color: '#ffffff',
+    margin: 10,
+    textAlign: 'center'
   },
   view: {
     alignItems: 'center',
@@ -41,8 +55,6 @@ class RoutineList extends Component {
     this._listen();
     RoutineActions.listRoutines();
   }
-
-
 
   _cancelButton() {
     this.props.navigator.pop();
@@ -85,7 +97,21 @@ class RoutineList extends Component {
           style={[{ width: screen.width }, styles.scrollView]}
           dataSource={this.state.routineDataSource}
           renderRow={(routine) => {
-            return (<Text>{routine.name}</Text>);
+            var buttons = [{
+              backgroundColor: '#df9124',
+              component: (<Text style={styles.swipeButton}>Edit</Text>)
+            },{
+              backgroundColor: '#cc0000',
+              component: (<Text style={styles.swipeButton}>Delete</Text>)
+            }];
+            return (
+              <View>
+                <Swipeout autoClose={true} right={buttons} backgroundColor='#ffffff'>
+                  <Text style={styles.listRow}>{routine.name}</Text>
+                  <View style={styles.separator}></View>
+                </Swipeout>
+              </View>
+            );
           }}
           />
         <BottomBar buttons={bottomButtons} />
