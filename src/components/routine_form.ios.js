@@ -52,14 +52,27 @@ var styles = StyleSheet.create({
   }
 });
 
-class NewRoutine extends Component {
+class RoutineForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       exercises: [],
-      errors: {}
+      errors: {},
+      name: null,
+      uuid: null
     };
   }
+
+  componentWillMount() {
+    if (this.props.routine) {
+      this.setState({
+        name: this.props.routine.name,
+        uuid: this.props.routine.uuid,
+        exercises: this.props.routine.exercises
+      });
+    }
+  }
+
   _addExercise() {
     this.refs.textInput.blur();
     var exercises = this.state.exercises;
@@ -110,7 +123,12 @@ class NewRoutine extends Component {
     }
     else {
       this.props.parentListen();
-      RoutineActions.createRoutine({ name: this.state.name, exercises: this.state.exercises });
+      if (this.state.uuid) {
+        RoutineActions.updateRoutine({ name: this.state.name, uuid: this.state.uuid, exercises: this.state.exercises });
+      }
+      else {
+        RoutineActions.createRoutine({ name: this.state.name, exercises: this.state.exercises });
+      }
       this.props.navigator.pop();
     }
   }
@@ -132,7 +150,7 @@ class NewRoutine extends Component {
     return (
       <View style={styles.view}>
         <ScrollView style={styles.scrollView}>
-          <TextInput placeholder="Routine Name" ref="textInput" style={styles.textInput} onChange={(e) => this._onTextInputChange(e, "name")} />
+          <TextInput placeholder="Routine Name" ref="textInput" style={styles.textInput} onChange={(e) => this._onTextInputChange(e, "name")} value={this.state.name} />
           {this.state.errors['name'] ? <Text style={styles.error}>{this.state.errors['name'].join(', ')}</Text> : null}
           <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff" onPress={this._addExercise.bind(this)}>
             <Text style={styles.addExercise}>Add Exercise</Text>
@@ -145,4 +163,4 @@ class NewRoutine extends Component {
   }
 }
 
-export default NewRoutine;
+export default RoutineForm;

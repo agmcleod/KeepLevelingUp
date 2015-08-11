@@ -14,7 +14,7 @@ var {
 import BottomBar from './bottom_bar.ios';
 import RoutineActions from '../routines/routine_actions';
 import RoutineStore from '../routines/routine_store';
-import NewRoutine from './new_routine.ios';
+import RoutineForm from './routine_form.ios';
 
 import Swipeout from 'react-native-swipeout';
 
@@ -67,8 +67,20 @@ class RoutineList extends Component {
   _newRoutineButton() {
     this._unlisten();
     this.props.navigator.push({
-      component: NewRoutine,
+      component: RoutineForm,
       props: { parentListen: this._listen.bind(this) }
+    });
+  }
+
+  _onDeletePress(uuid) {
+    RoutineActions.deleteRoutine(uuid);
+  }
+
+  _onEditPress(routine) {
+    this._unlisten();
+    this.props.navigator.push({
+      component: RoutineForm,
+      props: { routine: routine, parentListen: this._listen.bind(this) }
     });
   }
 
@@ -99,10 +111,12 @@ class RoutineList extends Component {
           renderRow={(routine) => {
             var buttons = [{
               backgroundColor: '#df9124',
-              component: (<Text style={styles.swipeButton}>Edit</Text>)
+              component: (<Text style={styles.swipeButton}>Edit</Text>),
+              onPress: () => { this._onEditPress(routine); }
             },{
               backgroundColor: '#cc0000',
-              component: (<Text style={styles.swipeButton}>Delete</Text>)
+              component: (<Text style={styles.swipeButton}>Delete</Text>),
+              onPress: () => { this._onDeletePress(routine.uuid); }
             }];
             return (
               <View>

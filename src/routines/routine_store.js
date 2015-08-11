@@ -12,8 +12,10 @@ var {
 var RoutineStore = Reflux.createStore({
   init() {
     this.routines = {};
-    this.listenTo(RoutineActions.listRoutines, this.listRoutines);
     this.listenTo(RoutineActions.createRoutine, this.createRoutine);
+    this.listenTo(RoutineActions.deleteRoutine, this.deleteRoutine);
+    this.listenTo(RoutineActions.listRoutines, this.listRoutines);
+    this.listenTo(RoutineActions.updateRoutine, this.updateRoutine);
   },
 
   createRoutine(data) {
@@ -24,6 +26,16 @@ var RoutineStore = Reflux.createStore({
         routines = {};
       }
       routines[data.uuid] = data;
+      this.routines = routines;
+      return AsyncStorage.setItem("routines", JSON.stringify(routines));
+    })
+    .catch((err) => console.err(err));
+  },
+
+  deleteRoutine(uuid) {
+    AsyncStorage.getItem("routines").then((routines) => {
+      var routines = JSON.parse(routines);
+      delete routines[uuid];
       this.routines = routines;
       return AsyncStorage.setItem("routines", JSON.stringify(routines));
     })
@@ -38,6 +50,16 @@ var RoutineStore = Reflux.createStore({
       this.routines = JSON.parse(routines);
       this.trigger(this.routines);
     });
+  },
+
+  updateRoutine(data) {
+    AsyncStorage.getItem("routines").then((routines) => {
+      routines = JSON.parse(routines);
+      routines[data.uuid] = data;
+      this.routines = routines;
+      return AsyncStorage.setItem("routines", JSON.stringify(routines));
+    })
+    .catch((err) => console.err(err));
   }
 });
 
