@@ -22,10 +22,14 @@ var styles = StyleSheet.create({
 });
 
 class DayForm extends Component {
+  _cancelPressEvent() {
+    this.props.parentListen();
+    this.props.navigator.pop();
+  }
   render() {
     var buttons = [{
       text: "Cancel",
-      onPressEvent: this._cancelPressEvent
+      onPressEvent: this._cancelPressEvent.bind(this)
     }, {
       text: "Save"
     }];

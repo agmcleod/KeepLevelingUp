@@ -75,7 +75,7 @@ class NewDay extends Component {
   _onDayCreation(day) {
     this.props.navigator.replace({
       component: DayForm,
-      props: { day: day }
+      props: { day: day, parentListen: this.props.parentListen }
     });
   }
 
