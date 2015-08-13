@@ -21,6 +21,22 @@ import DayActions from './day_actions';
 import DayStore from './day_store';
 
 var styles = StyleSheet.create({
+  daySection: {
+    padding: 20
+  },
+  editDayText: {
+    color: '#ffffff'
+  },
+  editDayTouch: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#6DE375',
+    borderRadius: 5,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    marginTop: 20
+  },
   scrollView: {
     flex: 10,
   },
@@ -89,9 +105,11 @@ class DayList extends Component {
           {Object.keys(this.state.days).map((uuid) => {
             let day = this.state.days[uuid];
             return (
-              <View style={{width: screen.width}}>
+              <View style={[{width: screen.width}, styles.daySection]}>
                 <Text>{day.created_at}</Text>
-                <TouchableHighlight></TouchableHighlight>
+                <TouchableHighlight style={styles.editDayTouch} underlayColor='#C0FAC4'>
+                  <Text style={styles.editDayText}>Edit</Text>
+                </TouchableHighlight>
               </View>
             );
           })}
