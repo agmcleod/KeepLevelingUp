@@ -14,6 +14,7 @@ var RoutineStore = Reflux.createStore({
     this.routines = {};
     this.listenTo(RoutineActions.createRoutine, this.createRoutine);
     this.listenTo(RoutineActions.deleteRoutine, this.deleteRoutine);
+    this.listenTo(RoutineActions.getRoutine, this.getRoutine);
     this.listenTo(RoutineActions.listRoutines, this.listRoutines);
     this.listenTo(RoutineActions.updateRoutine, this.updateRoutine);
   },
