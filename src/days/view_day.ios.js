@@ -19,6 +19,12 @@ var styles = StyleSheet.create({
   dayContainer: {
     margin: 20
   },
+  dayHeader: {
+    color: '#555',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
   scrollView: {
     flex: 10
   },
@@ -36,7 +42,7 @@ class ViewDay extends Component {
   }
   componentDidMount() {
     this._listen();
-    RoutineActions.getRoutine();
+    RoutineActions.getRoutine(this.props.day.routine_uuid);
   }
 
   _listen() {
@@ -44,6 +50,7 @@ class ViewDay extends Component {
   }
 
   _onBackPressEvent() {
+    this._unlisten();
     this.props.parentListen();
     this.props.navigator.pop();
   }
@@ -52,8 +59,8 @@ class ViewDay extends Component {
     var exercises = [];
     var day = this.props.day;
     routine.exercises.forEach((exercise) => {
+      var dayExercise = null;
       if (day.exercises) {
-        var dayExercise = null;
         day.exercises.forEach((dayEx) => {
           if (dayEx.uuid === exercise.uuid) {
             dayExercise = dayEx;
@@ -63,14 +70,20 @@ class ViewDay extends Component {
         if (dayExercise) {
           exercises.push(dayExercise);
         }
-        else {
-          exercises.push(exercise);
-        }
       }
-      else {
-        exercises.push(exercise);
+      if (!dayExercise) {
+        var ex = {
+          name: exercise.name,
+          sets: []
+        };
+        for (var i = 0; i < exercise.sets; i++) {
+          sets.push({ weight: exercise.weight, reps: exercise.reps, duration: exercise.duration });
+        }
+        exercises.push(ex);
       }
     });
+
+    console.log(exercises);
 
     this.setState({
       exercises: exercises
@@ -90,7 +103,8 @@ class ViewDay extends Component {
       <View style={styles.view}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.dayContainer}>
-            <Text>{this.props.day.created_at}</Text>
+            <Text style={styles.dayHeader}>{this.props.day.created_at}</Text>
+            {this.state.exercises.map((exercise) => <Exercise exercise={exercise} />)}
           </View>
         </ScrollView>
         <BottomBar buttons={buttons} />
