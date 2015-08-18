@@ -19,7 +19,7 @@ import RoutineStore from '../routines/routine_store';
 import DayActions from './day_actions';
 import DayStore from './day_store';
 
-import DayForm from './day_form.ios';
+import ViewDay from './view_day.ios';
 
 var styles = StyleSheet.create({
   formView: {
@@ -58,23 +58,24 @@ class NewDay extends Component {
   componentWillUnmount() {
     this._subscription();
     this._dayCreationSub();
+    this.props.parentListen();
   }
 
   _cancelPressEvent() {
     this.props.navigator.pop();
-    this.props.parentListen();
   }
 
   _goPressEvent() {
-    console.log(this.state.selectedUUID);
     if (this.state.selectedUUID) {
       DayActions.createDay({ routine_uuid: this.state.selectedUUID });
     }
   }
 
   _onDayCreation(day) {
+    this._subscription();
+    this._dayCreationSub();
     this.props.navigator.replace({
-      component: DayForm,
+      component: ViewDay,
       props: { day: day, parentListen: this.props.parentListen }
     });
   }

@@ -67,7 +67,7 @@ class DayList extends Component {
     DayActions.listDays();
   }
 
-  _editDayPress(day) {
+  _editDayPressEvent(day) {
     this._unlisten();
     this.props.navigator.push({
       component: ViewDay,
@@ -85,7 +85,7 @@ class DayList extends Component {
     }
   }
 
-  _onPressNewDay() {
+  _newDayPressEvent() {
     this._unlisten();
     this.props.navigator.push({
       component: NewDay,
@@ -93,7 +93,7 @@ class DayList extends Component {
     });
   }
 
-  _onPressRoutines() {
+  _routinesPressEvent() {
     this._unlisten();
     this.props.navigator.push({
       component: RoutineList,
@@ -107,7 +107,7 @@ class DayList extends Component {
 
   render() {
     var screen = Dimensions.get("window");
-    var buttons = [{ text: "Routines", onPressEvent: this._onPressRoutines.bind(this) }, { text: "New Day", onPressEvent: this._onPressNewDay.bind(this) }];
+    var buttons = [{ text: "Routines", onPressEvent: this._routinesPressEvent.bind(this) }, { text: "New Day", onPressEvent: this._newDayPressEvent.bind(this) }];
     return (
       <View style={styles.view}>
         <ScrollView style={[{width: screen.width}, styles.scrollView]} horizontal={true} bounces={false} showsHorizontalScrollIndicator={true} pagingEnabled={true}>
@@ -116,7 +116,7 @@ class DayList extends Component {
             return (
               <View style={[{width: screen.width}, styles.daySection]}>
                 <Text>{day.created_at}</Text>
-                <TouchableHighlight style={styles.editDayTouch} underlayColor='#C0FAC4' onPress={() => { this._editDayPress(day) }}>
+                <TouchableHighlight style={styles.editDayTouch} underlayColor='#C0FAC4' onPress={() => { this._editDayPressEvent(day) }}>
                   <Text style={styles.editDayText}>Edit</Text>
                 </TouchableHighlight>
               </View>
