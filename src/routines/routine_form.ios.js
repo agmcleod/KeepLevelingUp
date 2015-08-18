@@ -16,6 +16,7 @@ var {
 import BottomBar from '../components/bottom_bar.ios';
 import ExerciseForm from './exercise_form.ios';
 import RoutineActions from './routine_actions';
+import RoutineStore from './routine_store';
 
 var styles = StyleSheet.create({
   addExercise: {
@@ -63,6 +64,10 @@ class RoutineForm extends Component {
     };
   }
 
+  componentDidMount() {
+    this._subscription = RoutineStore.listen(this._onRoutineChange.bind(this));
+  }
+
   componentWillMount() {
     if (this.props.routine) {
       this.setState({
@@ -71,6 +76,10 @@ class RoutineForm extends Component {
         exercises: this.props.routine.exercises
       });
     }
+  }
+
+  componentWillUnmount() {
+    this._subscription();
   }
 
   _addExercise() {
@@ -104,6 +113,11 @@ class RoutineForm extends Component {
     });
   }
 
+  _onRoutineChange() {
+    this.props.parentListen();
+    this.props.navigator.pop();
+  }
+
   _onSave() {
     var exercises = this.state.exercises;
     var hasErrors = false;
@@ -122,14 +136,12 @@ class RoutineForm extends Component {
       this.setState({ exercises: exercises, errors: errors });
     }
     else {
-      this.props.parentListen();
       if (this.state.uuid) {
         RoutineActions.updateRoutine({ name: this.state.name, uuid: this.state.uuid, exercises: this.state.exercises });
       }
       else {
         RoutineActions.createRoutine({ name: this.state.name, exercises: this.state.exercises });
       }
-      this.props.navigator.pop();
     }
   }
 
@@ -148,11 +160,12 @@ class RoutineForm extends Component {
   }
 
   render() {
+    var text = this.props.routine ? "Update" : "Create";
     var buttons = [{
       text: "Cancel",
       onPressEvent: this._cancelPressEvent.bind(this)
     }, {
-      text: "Create",
+      text: text,
       onPressEvent: this._onSave.bind(this)
     }];
     return (

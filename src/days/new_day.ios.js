@@ -55,7 +55,7 @@ class NewDay extends Component {
     RoutineActions.listRoutines();
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     this._subscription();
     this._dayCreationSub();
   }

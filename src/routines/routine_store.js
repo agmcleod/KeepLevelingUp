@@ -30,6 +30,7 @@ var RoutineStore = Reflux.createStore({
       this.routines = routines;
       return AsyncStorage.setItem("routines", JSON.stringify(routines));
     })
+    .then(() => this.trigger())
     .catch((err) => console.err(err));
   },
 
@@ -68,6 +69,7 @@ var RoutineStore = Reflux.createStore({
       this.routines = routines;
       return AsyncStorage.setItem("routines", JSON.stringify(routines));
     })
+    .then(() => this.trigger())
     .catch((err) => console.err(err));
   }
 });
