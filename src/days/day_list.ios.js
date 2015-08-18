@@ -94,11 +94,11 @@ class DayList extends Component {
   }
 
   _onPressRoutines() {
+    this._unlisten();
     this.props.navigator.push({
       component: RoutineList,
       props: { parentListen: this._listen.bind(this) }
     });
-    this._unlisten();
   }
 
   _unlisten() {

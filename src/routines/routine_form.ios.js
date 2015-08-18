@@ -80,6 +80,7 @@ class RoutineForm extends Component {
 
   componentWillUnmount() {
     this._subscription();
+    this.props.parentListen();
   }
 
   _addExercise() {
@@ -91,7 +92,6 @@ class RoutineForm extends Component {
     });
   }
   _cancelPressEvent() {
-    this.props.parentListen();
     this.props.navigator.pop();
   }
 
@@ -114,7 +114,6 @@ class RoutineForm extends Component {
   }
 
   _onRoutineChange() {
-    this.props.parentListen();
     this.props.navigator.pop();
   }
 

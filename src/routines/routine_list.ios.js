@@ -54,9 +54,13 @@ class RoutineList extends Component {
     this._listen();
   }
 
+  componentWillUnmount() {
+    this._unlisten();
+  }
+
   _cancelPressEvent() {
-    this.props.navigator.pop();
     this.props.parentListen();
+    this.props.navigator.pop();
   }
 
   _listen() {
