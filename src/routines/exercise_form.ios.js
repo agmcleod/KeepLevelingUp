@@ -5,6 +5,7 @@ var React = require('react-native');
 var {
   Component,
   StyleSheet,
+  SwitchIOS,
   Text,
   TextInput,
   TouchableHighlight,
@@ -31,6 +32,14 @@ var styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 10,
+  },
+  showWeight: {
+    flexDirection: 'row',
+    margin: 5
+  },
+  showWeightText: {
+    marginRight: 5,
+    paddingTop: 10
   },
   textInput: {
     borderWidth: 1,
@@ -72,6 +81,10 @@ class ExerciseForm extends Component {
         <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "sets"); }} placeholder="Sets" keyboardType="decimal-pad" value={this.props.exercise.sets} />
         <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "reps"); }} placeholder="Reps" keyboardType="decimal-pad" value={this.props.exercise.reps} />
         <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "duration"); }} placeholder="Duration in Seconds" keyboardType="decimal-pad" value={this.props.exercise.duration} />
+        <View style={styles.showWeight}>
+          <Text style={styles.showWeightText}>Show Weight:</Text>
+          <SwitchIOS value={this.props.exercise.showWeight} onValueChange={(e) => { this.props.onShowWeightChange(e, this.props.index); }} />
+        </View>
         <TouchableHighlight onPress={this._onRemovePress.bind(this)} style={styles.removeButtonTouch} underlayColor="#ffffff">
           <Text style={styles.removeButtonText}>Remove</Text>
         </TouchableHighlight>

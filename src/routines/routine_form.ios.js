@@ -104,6 +104,14 @@ class RoutineForm extends Component {
     });
   }
 
+  _onChildShowWeightChange(value, i) {
+    var exercises = this.state.exercises;
+    exercises[i].showWeight = value;
+    this.setState({
+      exercises: exercises
+    });
+  }
+
   _onChildTextInputChange(event, i, field) {
     var exercises = this.state.exercises;
     var text = event.nativeEvent.text;
@@ -181,6 +189,7 @@ class RoutineForm extends Component {
               exercise={this.state.exercises[i]}
               onTextInputChange={this._onChildTextInputChange.bind(this)}
               onNumberInputChange={this._onChildNumberInputChange.bind(this)}
+              onShowWeightChange={this._onChildShowWeightChange.bind(this)}
               removeExercise={this._removeExercise.bind(this)} />
           })}
         </ScrollView>

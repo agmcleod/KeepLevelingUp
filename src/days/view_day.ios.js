@@ -77,7 +77,8 @@ class ViewDay extends Component {
           sets: []
         };
         for (var i = 0; i < exercise.sets; i++) {
-          ex.sets.push({ weight: 0, reps: exercise.reps, duration: exercise.duration });
+          var object = { weight: exercise.showWeight ? 0 : undefined, reps: exercise.reps, duration: exercise.duration };
+          ex.sets.push(object);
         }
         exercises.push(ex);
       }
