@@ -71,14 +71,6 @@ class DayList extends Component {
     this._unlisten();
   }
 
-  _editDayPressEvent(day) {
-    this._unlisten();
-    this.props.navigator.push({
-      component: ViewDay,
-      props: { parentListen: this.props.parentListen, day: this.props.day }
-    });
-  }
-
   _listen() {
     this._subscription = DayStore.listen(this._onDayListChange.bind(this));
     this._routineSubscription = RoutineStore.listen(this._onRoutinesChange.bind(this));
