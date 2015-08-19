@@ -26,6 +26,11 @@ var RoutineStore = Reflux.createStore({
       if (!routines) {
         routines = {};
       }
+      data.exercises.forEach((exercise) => {
+        if (!exercise.uuid) {
+          exercise.uuid = uuid();
+        }
+      });
       routines[data.uuid] = data;
       this.routines = routines;
       return AsyncStorage.setItem("routines", JSON.stringify(routines));

@@ -45,13 +45,16 @@ class ViewDay extends Component {
     RoutineActions.getRoutine(this.props.day.routine_uuid);
   }
 
+  componentWillUnmount() {
+    this._unlisten();
+    this.props.parentListen();
+  }
+
   _listen() {
     this._subscription = RoutineStore.listen(this._onRoutinesChange.bind(this));
   }
 
   _onBackPressEvent() {
-    this._unlisten();
-    this.props.parentListen();
     this.props.navigator.pop();
   }
 
@@ -73,17 +76,16 @@ class ViewDay extends Component {
       }
       if (!dayExercise) {
         var ex = {
+          uuid: exercise.uuid,
           name: exercise.name,
           sets: []
         };
         for (var i = 0; i < exercise.sets; i++) {
-          sets.push({ weight: 0, reps: exercise.reps, duration: exercise.duration });
+          ex.sets.push({ weight: 0, reps: exercise.reps, duration: exercise.duration });
         }
         exercises.push(ex);
       }
     });
-
-    console.log(exercises);
 
     this.setState({
       exercises: exercises
