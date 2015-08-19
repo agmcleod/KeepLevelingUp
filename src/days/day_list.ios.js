@@ -114,7 +114,7 @@ class DayList extends Component {
           {Object.keys(this.state.days).map((uuid) => {
             let day = this.state.days[uuid];
             return (
-              <View style={[{width: screen.width}, styles.daySection]}>
+              <View key={uuid} style={[{width: screen.width}, styles.daySection]}>
                 <Text>{day.created_at}</Text>
                 <TouchableHighlight style={styles.editDayTouch} underlayColor='#C0FAC4' onPress={() => { this._editDayPressEvent(day) }}>
                   <Text style={styles.editDayText}>Edit</Text>

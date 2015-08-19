@@ -77,7 +77,7 @@ class ViewDay extends Component {
           sets: []
         };
         for (var i = 0; i < exercise.sets; i++) {
-          sets.push({ weight: exercise.weight, reps: exercise.reps, duration: exercise.duration });
+          sets.push({ weight: 0, reps: exercise.reps, duration: exercise.duration });
         }
         exercises.push(ex);
       }
@@ -104,7 +104,7 @@ class ViewDay extends Component {
         <ScrollView style={styles.scrollView}>
           <View style={styles.dayContainer}>
             <Text style={styles.dayHeader}>{this.props.day.created_at}</Text>
-            {this.state.exercises.map((exercise) => <Exercise exercise={exercise} />)}
+            {this.state.exercises.map((exercise) => <Exercise key={exercise.uuid} exercise={exercise} />)}
           </View>
         </ScrollView>
         <BottomBar buttons={buttons} />

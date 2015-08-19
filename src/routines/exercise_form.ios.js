@@ -70,7 +70,6 @@ class ExerciseForm extends Component {
         <TextInput style={styles.textInput} onChange={(e) => { this.props.onTextInputChange(e, this.props.index, "name"); }} placeholder="Name" value={this.props.exercise.name} />
         {this._outputErrorForField('name')}
         <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "sets"); }} placeholder="Sets" keyboardType="decimal-pad" value={this.props.exercise.sets} />
-        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "weight"); }} placeholder="Weight" keyboardType="decimal-pad" value={this.props.exercise.weight} />
         <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "reps"); }} placeholder="Reps" keyboardType="decimal-pad" value={this.props.exercise.reps} />
         <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "duration"); }} placeholder="Duration in Seconds" keyboardType="decimal-pad" value={this.props.exercise.duration} />
         <TouchableHighlight onPress={this._onRemovePress.bind(this)} style={styles.removeButtonTouch} underlayColor="#ffffff">
