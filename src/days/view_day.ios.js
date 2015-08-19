@@ -54,10 +54,6 @@ class ViewDay extends Component {
     this._subscription = RoutineStore.listen(this._onRoutinesChange.bind(this));
   }
 
-  _onBackPressEvent() {
-    this.props.navigator.pop();
-  }
-
   _onRoutinesChange(routine) {
     var exercises = [];
     var day = this.props.day;
@@ -92,14 +88,18 @@ class ViewDay extends Component {
     });
   }
 
+  _onSavePressEvent() {
+    this.props.navigator.pop();
+  }
+
   _unlisten() {
     this._subscription();
   }
 
   render() {
     var buttons = [{
-      text: "Back",
-      onPressEvent: this._onBackPressEvent.bind(this)
+      text: "Save",
+      onPressEvent: this._onSavePressEvent.bind(this)
     }];
     return (
       <View style={styles.view}>

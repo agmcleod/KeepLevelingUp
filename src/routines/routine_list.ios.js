@@ -56,10 +56,10 @@ class RoutineList extends Component {
 
   componentWillUnmount() {
     this._unlisten();
+    this.props.parentListen();
   }
 
   _cancelPressEvent() {
-    this.props.parentListen();
     this.props.navigator.pop();
   }
 
@@ -101,7 +101,7 @@ class RoutineList extends Component {
   render() {
     var screen = Dimensions.get("window");
     var bottomButtons = [{
-      text: "Cancel",
+      text: "Home",
       onPressEvent: this._cancelPressEvent.bind(this)
     }, {
       text: "New Routine",

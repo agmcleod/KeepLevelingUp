@@ -6,18 +6,43 @@ var {
   Component,
   StyleSheet,
   Text,
+  TextInput,
   View
 } = React;
 
 var styles = StyleSheet.create({
+  exerciseInput: {
+    alignSelf: 'stretch',
+    borderWidth: 1,
+    borderColor: '#555',
+    flex: 4,
+    height: 40,
+    padding: 5
+  },
   exerciseName: {
     color: "#555",
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold'
   },
-  exerciseValue: {
+  exerciseRow: {
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    marginBottom: 5
+  },
+  exerciseText: {
+    alignSelf: 'stretch',
     color: "#555",
-    fontSize: 14
+    flex: 1,
+    marginRight: 10,
+    fontSize: 16,
+    textAlign: 'right'
+  },
+  set: {
+    borderBottomWidth: 1,
+    borderColor: '#888',
+    marginTop: 15,
+    padding: 5,
+    paddingBottom: 15
   },
   view: {
     flex: 1,
@@ -25,17 +50,28 @@ var styles = StyleSheet.create({
   }
 });
 
+class ExerciseValue extends Component {
+  render() {
+    return (
+      <View style={styles.exerciseRow}>
+        <Text style={styles.exerciseText}>{this.props.label}:</Text>
+        <TextInput value={"" + this.props.value} style={styles.exerciseInput} />
+      </View>
+    );
+  }
+}
+
 class Exercise extends Component {
   render() {
     return (
       <View style={styles.view}>
         <Text style={styles.exerciseName}>{this.props.exercise.name}</Text>
-        {this.props.exercise.sets.forEach((set) => {
+        {this.props.exercise.sets.map((set, i) => {
           return (
-            <View>
-              {typeof this.props.exercise.weight === "number" ? <View><Text style={styles.label}>Weight: </Text><Text style={styles.exerciseValue}>{this.props.exercise.weight}</Text></View> : null}
-              {typeof this.props.exercise.reps === "number" ? <View><Text style={styles.label}>Reps: </Text><Text style={styles.exerciseValue}>{this.props.exercise.reps}</Text></View> : null}
-              {typeof this.props.exercise.duration === "number" ? <View><Text style={styles.label}>Duration: </Text><Text style={styles.exerciseValue}>{this.props.exercise.duration}</Text></View> : null}
+            <View key={"exercise_" + i} style={styles.set}>
+              {typeof set.weight === "number" ? <ExerciseValue label="Weight" value={set.weight} /> : null}
+              {typeof set.reps === "number" ? <ExerciseValue label="Reps" value={set.reps} /> : null}
+              {typeof set.duration === "number" ? <ExerciseValue label="Duration" value={set.duration} /> : null}
             </View>
           );
         })}
