@@ -12,17 +12,20 @@ var {
 
 var styles = StyleSheet.create({
   buttonText: {
+    color: '#ffffff',
     paddingTop: 15,
-    textAlign: 'center',
+    textAlign: 'center'
+  },
+  buttonTouch: {
     alignSelf: 'stretch',
     flex: 1,
-    color: '#ffffff',
     backgroundColor: '#E57F7F'
   },
   buttonView: {
     flex: 1,
     flexDirection: 'row',
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+    justifyContent: 'space-between'
   }
 });
 
@@ -33,7 +36,7 @@ class BottomBar extends Component {
       <View style={styles.buttonView}>
         {this.props.buttons.map((button, key) => {
           return (
-            <TouchableOpacity key={"bottom_bar_" + key} onPress={button.onPressEvent}>
+            <TouchableOpacity key={"bottom_bar_" + key} style={styles.buttonTouch} onPress={button.onPressEvent}>
               <Text style={styles.buttonText}>{button.text}</Text>
             </TouchableOpacity>
           );
