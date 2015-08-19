@@ -16,10 +16,10 @@ var {
 import RoutineList from '../routines/routine_list.ios';
 import BottomBar from '../components/bottom_bar.ios';
 import NewDay from './new_day.ios';
-import ViewDay from './view_day.ios';
 
 import DayActions from './day_actions';
 import DayStore from './day_store';
+import DayListItem from './day_list_item.ios';
 
 import RoutineActions from '../routines/routine_actions';
 import RoutineStore from '../routines/routine_store';
@@ -31,21 +31,9 @@ var styles = StyleSheet.create({
     marginTop: 100,
     textAlign: 'center'
   },
-  daySection: {
-    padding: 20
-  },
-  editDayText: {
-    color: '#ffffff'
-  },
-  editDayTouch: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#6DE375',
-    borderRadius: 5,
-    paddingBottom: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 10,
-    marginTop: 20
+  dayHeader: {
+    fontSize: 18,
+    marginBottom: 5
   },
   noRoutinesView: {
     flex: 10
@@ -87,7 +75,7 @@ class DayList extends Component {
     this._unlisten();
     this.props.navigator.push({
       component: ViewDay,
-      props: { parentListen: this._listen.bind(this), day: day }
+      props: { parentListen: this.props.parentListen, day: this.props.day }
     });
   }
 
@@ -150,14 +138,7 @@ class DayList extends Component {
             <ScrollView style={[{width: screen.width}, styles.scrollView]} horizontal={true} bounces={false} showsHorizontalScrollIndicator={true} pagingEnabled={true}>
               {Object.keys(this.state.days).map((uuid) => {
                 let day = this.state.days[uuid];
-                return (
-                  <View key={uuid} style={[{width: screen.width}, styles.daySection]}>
-                    <Text>{day.created_at}</Text>
-                    <TouchableHighlight style={styles.editDayTouch} underlayColor='#C0FAC4' onPress={() => { this._editDayPressEvent(day) }}>
-                      <Text style={styles.editDayText}>Edit</Text>
-                    </TouchableHighlight>
-                  </View>
-                );
+                return (<DayListItem day={day} navigator={this.props.navigator} parentListen={this._listen.bind(this)} />);
               })}
             </ScrollView>
             <BottomBar buttons={buttons} />
