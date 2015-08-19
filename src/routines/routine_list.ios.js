@@ -72,7 +72,8 @@ class RoutineList extends Component {
     this._unlisten();
     this.props.navigator.push({
       component: RoutineForm,
-      props: { parentListen: this._listen.bind(this) }
+      props: { parentListen: this._listen.bind(this) },
+      type: "left"
     });
   }
 

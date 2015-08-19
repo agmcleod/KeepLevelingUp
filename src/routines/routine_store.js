@@ -53,11 +53,18 @@ var RoutineStore = Reflux.createStore({
   },
 
   getRoutine(uuid) {
-    AsyncStorage.getItem("routines").then((routines) => {
+    return AsyncStorage.getItem("routines").then((routines) => {
       routines = JSON.parse(routines);
       this.trigger(routines[uuid]);
     })
     .catch((err) => console.err(err));
+  },
+
+  getRoutineData(uuid) {
+    return AsyncStorage.getItem("routines").then((routines) => {
+      routines = JSON.parse(routines);
+      return Promise.resolve(routines[uuid]);
+    });
   },
 
   listRoutines() {

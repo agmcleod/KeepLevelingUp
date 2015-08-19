@@ -4,6 +4,7 @@ import Reflux from 'reflux';
 import DayActions from './day_actions';
 import uuid from '../uuid';
 import React from 'react-native';
+import RoutineStore from '../routines/routine_store';
 
 var {
   AsyncStorage
@@ -20,7 +21,19 @@ var DayStore = Reflux.createStore({
   createDay(data) {
     data.uuid = uuid();
     data.created_at = new Date().toISOString();
-    AsyncStorage.getItem("days").then((days) => {
+    RoutineStore.getRoutineData(data.routine_uuid)
+    .then((routine) => {
+      data.exercises = [];
+      routine.exercises.forEach((exercise) => {
+        var ex = {...exercise, sets: []};
+        for (var i = 0; i < exercise.sets; i++) {
+          ex.sets.push({ weight: ex.showWeight ? 0 : undefined, reps: ex.reps, duration: ex.duration });
+        }
+        data.exercises.push(ex);
+      });
+      return AsyncStorage.getItem("days");
+    })
+    .then((days) => {
       days = JSON.parse(days);
       if (!days) {
         days = {};
