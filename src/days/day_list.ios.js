@@ -103,7 +103,8 @@ class DayList extends Component {
     this._unlisten();
     this.props.navigator.push({
       component: NewDay,
-      props: { parentListen: this._listen.bind(this) }
+      props: { parentListen: this._listen.bind(this) },
+      type: "right"
     });
   }
 
@@ -123,7 +124,8 @@ class DayList extends Component {
     this._unlisten();
     this.props.navigator.push({
       component: RoutineList,
-      props: { parentListen: this._listen.bind(this) }
+      props: { parentListen: this._listen.bind(this) },
+      type: "left"
     });
   }
 

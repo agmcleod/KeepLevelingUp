@@ -26,10 +26,18 @@ var KeepLevelingUp = React.createClass({
 
     return (
       <Navigator
-        configureScene={(route) => NavConfig}
+        configureScene={(route) => {
+          console.log(route);
+          if (route.type === "left") {
+            return NavConfig.toLeft;
+          }
+          else {
+            return NavConfig.toRight;
+          }
+        }}
         initialRoute={{
           component: DayList,
-          id: "day_list"
+          type: "right"
         }}
         renderScene={this._renderScene}
       />

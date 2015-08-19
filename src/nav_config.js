@@ -6,31 +6,8 @@ var {
 var buildStyleInterpolator = require('buildStyleInterpolator');
 var PixelRatio = require('PixelRatio');
 
-var BaseLeftToRightGesture = {
+var SCREEN_WIDTH = Dimensions.get('window').width;
 
-  // If the gesture can end and restart during one continuous touch
-  isDetachable: false,
-
-  // How far the swipe must drag to start transitioning
-  gestureDetectMovement: 2,
-
-  // Amplitude of release velocity that is considered still
-  notMoving: 0.3,
-
-  // Fraction of directional move required.
-  directionRatio: 0.66,
-
-  // Velocity to transition with when the gesture release was "not moving"
-  snapVelocity: 2,
-
-  // Region that can trigger swipe. iOS default is 30px from the left edge
-  edgeHitWidth: 30,
-
-  // Ratio of gesture completion when non-velocity release will cause action
-  stillCompletionRatio: 3 / 5,
-  fullDistance: Dimensions.get("window").width,
-  direction: 'left-to-right',
-};
 var FromTheRight = {
   opacity: {
     value: 1.0,
@@ -38,7 +15,7 @@ var FromTheRight = {
   },
 
   transformTranslate: {
-    from: {x: Dimensions.get('window').width, y: 0, z: 0},
+    from: {x: SCREEN_WIDTH, y: 0, z: 0},
     to: {x: 0, y: 0, z: 0},
     min: 0,
     max: 1,
@@ -48,7 +25,7 @@ var FromTheRight = {
   },
 
   translateX: {
-    from: Dimensions.get('window').width,
+    from: SCREEN_WIDTH,
     to: 0,
     min: 0,
     max: 1,
@@ -66,10 +43,11 @@ var FromTheRight = {
     type: 'constant',
   },
 };
+
 var ToTheLeft = {
   transformTranslate: {
     from: {x: 0, y: 0, z: 0},
-    to: {x: -Dimensions.get('window').width, y: 0, z: 0},
+    to: {x: -SCREEN_WIDTH, y: 0, z: 0},
     min: 0,
     max: 1,
     type: 'linear',
@@ -83,7 +61,7 @@ var ToTheLeft = {
 
   translateX: {
     from: 0,
-    to: -Dimensions.get('window').width,
+    to: -SCREEN_WIDTH,
     min: 0,
     max: 1,
     type: 'linear',
@@ -91,21 +69,78 @@ var ToTheLeft = {
     round: PixelRatio.get(),
   },
 };
-module.exports = {
-  gestures: {
-    pop: BaseLeftToRightGesture,
+
+var FromTheLeft = {
+  ...FromTheRight,
+  transformTranslate: {
+    from: {x: -SCREEN_WIDTH, y: 0, z: 0},
+    to: {x: 0, y: 0, z: 0},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
   },
+  translateX: {
+    from: -SCREEN_WIDTH,
+    to: 0,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+};
 
-  // Rebound spring parameters when transitioning FROM this scene
-  springFriction: 26,
-  springTension: 200,
+var ToTheRight = {
+  ...ToTheLeft,
+  transformTranslate: {
+    from: {x: 0, y: 0, z: 0},
+    to: {x: SCREEN_WIDTH, y: 0, z: 0},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+  translateX: {
+    from: 0,
+    to: SCREEN_WIDTH,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PixelRatio.get(),
+  },
+};
 
-  // Velocity to start at when transitioning without gesture
-  defaultTransitionVelocity: 1.5,
+module.exports = {
+  toLeft: {
+    // Rebound spring parameters when transitioning FROM this scene
+    springFriction: 26,
+    springTension: 200,
 
-  // Animation interpolators for horizontal transitioning:
-  animationInterpolators: {
-    into: buildStyleInterpolator(FromTheRight),
-    out: buildStyleInterpolator(ToTheLeft),
+    // Velocity to start at when transitioning without gesture
+    defaultTransitionVelocity: 1.5,
+
+    // Animation interpolators for horizontal transitioning:
+    animationInterpolators: {
+      into: buildStyleInterpolator(FromTheLeft),
+      out: buildStyleInterpolator(ToTheRight),
+    }
+  },
+  toRight: {
+    // Rebound spring parameters when transitioning FROM this scene
+    springFriction: 26,
+    springTension: 200,
+
+    // Velocity to start at when transitioning without gesture
+    defaultTransitionVelocity: 1.5,
+
+    // Animation interpolators for horizontal transitioning:
+    animationInterpolators: {
+      into: buildStyleInterpolator(FromTheRight),
+      out: buildStyleInterpolator(ToTheLeft),
+    }
   }
 };
