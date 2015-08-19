@@ -17,7 +17,7 @@ import friendlyDay from '../friendly_day';
 var styles = StyleSheet.create({
   counter: {
     color: '#555',
-    flex: 1,
+    width: 20
   },
   dayHeader: {
     fontSize: 18,
@@ -50,8 +50,7 @@ var styles = StyleSheet.create({
   },
 
   setDetails: {
-    color: '#555',
-    flex: 3
+    color: '#555'
   },
 
   setWrapper: {
