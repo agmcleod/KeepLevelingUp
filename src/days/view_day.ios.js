@@ -12,8 +12,9 @@ var {
 
 import BottomBar from '../components/bottom_bar.ios';
 import Exercise from './exercise.ios';
-import RoutineStore from '../routines/routine_store';
-import RoutineActions from '../routines/routine_actions';
+
+import DayStore from './day_store';
+import DayActions from './day_actions';
 
 var styles = StyleSheet.create({
   dayContainer: {
@@ -34,18 +35,29 @@ var styles = StyleSheet.create({
 });
 
 class ViewDay extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      exercises: []
-    };
+  componentDidMount() {
+    this._listen();
   }
+
   componentWillUnmount() {
     this.props.parentListen();
+    this._unlisten();
+  }
+
+  _listen() {
+    this._subscription = DayStore.listen(this._onDayUpdate.bind(this));
+  }
+
+  _onDayUpdate() {
+    this.props.navigator.pop();
   }
 
   _onSavePressEvent() {
-    this.props.navigator.pop();
+    DayActions.updateDay(this.props.day);
+  }
+
+  _unlisten() {
+    this._subscription();
   }
 
   render() {

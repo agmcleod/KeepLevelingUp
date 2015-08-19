@@ -55,13 +55,18 @@ class ExerciseValue extends Component {
     return (
       <View style={styles.exerciseRow}>
         <Text style={styles.exerciseText}>{this.props.label}:</Text>
-        <TextInput value={"" + this.props.value} style={styles.exerciseInput} />
+        <TextInput onChange={this.props.onChange} defaultValue={"" + this.props.value} style={styles.exerciseInput} keyboardType="decimal-pad" />
       </View>
     );
   }
 }
 
 class Exercise extends Component {
+  _onExerciseFieldChange(event, i, field) {
+    var text = parseFloat(event.nativeEvent.text);
+    console.log(text, field);
+    this.props.exercise.sets[i][field] = text;
+  }
   render() {
     return (
       <View style={styles.view}>
@@ -69,9 +74,9 @@ class Exercise extends Component {
         {this.props.exercise.sets.map((set, i) => {
           return (
             <View key={"exercise_" + i} style={styles.set}>
-              {typeof set.weight === "number" ? <ExerciseValue label="Weight" value={set.weight} /> : null}
-              {typeof set.reps === "number" ? <ExerciseValue label="Reps" value={set.reps} /> : null}
-              {typeof set.duration === "number" ? <ExerciseValue label="Duration" value={set.duration} /> : null}
+              {typeof set.weight === "number" ? <ExerciseValue label="Weight" onChange={(e) => { this._onExerciseFieldChange(e, i, "weight") }} value={set.weight} /> : null}
+              {typeof set.reps === "number" ? <ExerciseValue label="Reps" onChange={(e) => { this._onExerciseFieldChange(e, i, "reps") }} value={set.reps} /> : null}
+              {typeof set.duration === "number" ? <ExerciseValue label="Duration" onChange={(e) => { this._onExerciseFieldChange(e, i, "duration") }} value={set.duration} /> : null}
             </View>
           );
         })}

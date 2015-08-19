@@ -27,7 +27,6 @@ var KeepLevelingUp = React.createClass({
     return (
       <Navigator
         configureScene={(route) => {
-          console.log(route);
           if (route.type === "left") {
             return NavConfig.toLeft;
           }
