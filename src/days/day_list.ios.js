@@ -75,7 +75,7 @@ class DayList extends Component {
     this._subscription = DayStore.listen(this._onDayListChange.bind(this));
     this._routineSubscription = RoutineStore.listen(this._onRoutinesChange.bind(this));
 
-    DayActions.listDays();
+    DayActions.listDays(5);
     RoutineActions.listRoutines();
   }
 
