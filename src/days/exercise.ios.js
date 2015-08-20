@@ -64,7 +64,6 @@ class ExerciseValue extends Component {
 class Exercise extends Component {
   _onExerciseFieldChange(event, i, field) {
     var text = parseFloat(event.nativeEvent.text);
-    console.log(text, field);
     this.props.exercise.sets[i][field] = text;
   }
   render() {

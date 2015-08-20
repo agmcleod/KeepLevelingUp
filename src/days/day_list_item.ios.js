@@ -98,7 +98,7 @@ class ExerciseValue extends Component {
 
 class DayListItem extends Component {
   _editDayPressEvent() {
-    this._unlisten();
+    this.props.parentUnlisten();
     this.props.navigator.push({
       component: ViewDay,
       props: { parentListen: this.props.parentListen, day: this.props.day }

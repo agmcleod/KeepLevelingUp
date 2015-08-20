@@ -55,13 +55,10 @@ class NewDay extends Component {
     RoutineActions.listRoutines();
   }
 
-  componentWillUnmount() {
+  _cancelPressEvent() {
     this._subscription();
     this._dayCreationSub();
     this.props.parentListen();
-  }
-
-  _cancelPressEvent() {
     this.props.navigator.pop();
   }
 

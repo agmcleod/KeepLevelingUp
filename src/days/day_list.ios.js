@@ -130,7 +130,13 @@ class DayList extends Component {
             <ScrollView style={[{width: screen.width}, styles.scrollView]} horizontal={true} bounces={false} showsHorizontalScrollIndicator={true} pagingEnabled={true}>
               {Object.keys(this.state.days).map((uuid) => {
                 let day = this.state.days[uuid];
-                return (<DayListItem day={day} navigator={this.props.navigator} parentListen={this._listen.bind(this)} />);
+                return (
+                  <DayListItem
+                    day={day}
+                    navigator={this.props.navigator}
+                    parentListen={this._listen.bind(this)}
+                    parentUnlisten={this._unlisten.bind(this)} />
+                );
               })}
             </ScrollView>
             <BottomBar buttons={buttons} />
