@@ -39,6 +39,31 @@ var DayStore = Reflux.createStore({
         days = {};
       }
 
+      var dayUUIDs = Object.keys(days);
+      var lastDayForRoutine = null;
+      dayUUIDs.forEach((uuid) => {
+        var day = days[uuid];
+        if (day.routine_uuid === data.routine_uuid) {
+          lastDayForRoutine = day;
+        }
+      });
+
+      if (lastDayForRoutine) {
+        lastDayForRoutine.exercises.forEach((lastDayExercise, exerciseIndex) => {
+          lastDayExercise.sets.forEach((lastDaySet, setIndex) => {
+            var exercise = data.exercises[exerciseIndex];
+            var set = exercise.sets[setIndex];
+            set.last_reps = lastDaySet.reps;
+            set.weight = lastDaySet.weight;
+            set.last_duration = lastDaySet.duration;
+          });
+
+          if (typeof lastDayExercise.alternate_name !== "undefined") {
+            data.exercises[exerciseIndex].last_done_with = lastDayExercise.alternate_name;
+          }
+        });
+      }
+
       days[data.uuid] = data;
       this.selectedDay = data;
       return AsyncStorage.setItem("days", JSON.stringify(days));

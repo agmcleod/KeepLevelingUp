@@ -37,6 +37,11 @@ var styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'right'
   },
+  note: {
+    color: '#555',
+    fontSize: 13,
+    margin: 10
+  },
   set: {
     borderBottomWidth: 1,
     borderColor: '#888',
@@ -56,6 +61,7 @@ class ExerciseValue extends Component {
       <View style={styles.exerciseRow}>
         <Text style={styles.exerciseText}>{this.props.label}:</Text>
         <TextInput onChange={this.props.onChange} defaultValue={"" + this.props.value} style={styles.exerciseInput} keyboardType="decimal-pad" />
+        {typeof this.props.noteValue !== "undefined" ? <Text style={styles.note}>({this.props.noteValue})</Text> : null}
       </View>
     );
   }
@@ -74,8 +80,8 @@ class Exercise extends Component {
           return (
             <View key={"exercise_" + i} style={styles.set}>
               {typeof set.weight === "number" ? <ExerciseValue label="Weight" onChange={(e) => { this._onExerciseFieldChange(e, i, "weight") }} value={set.weight} /> : null}
-              {typeof set.reps === "number" ? <ExerciseValue label="Reps" onChange={(e) => { this._onExerciseFieldChange(e, i, "reps") }} value={set.reps} /> : null}
-              {typeof set.duration === "number" ? <ExerciseValue label="Duration" onChange={(e) => { this._onExerciseFieldChange(e, i, "duration") }} value={set.duration} /> : null}
+              {typeof set.reps === "number" ? <ExerciseValue label="Reps" onChange={(e) => { this._onExerciseFieldChange(e, i, "reps") }} value={set.reps} noteValue={set.last_reps} /> : null}
+              {typeof set.duration === "number" ? <ExerciseValue label="Duration" onChange={(e) => { this._onExerciseFieldChange(e, i, "duration") }} value={set.duration} noteValue={set.last_duration} /> : null}
             </View>
           );
         })}

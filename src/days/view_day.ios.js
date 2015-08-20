@@ -15,6 +15,7 @@ import Exercise from './exercise.ios';
 
 import DayStore from './day_store';
 import DayActions from './day_actions';
+import friendlyDay from '../friendly_day.js';
 
 var styles = StyleSheet.create({
   dayContainer: {
@@ -69,7 +70,7 @@ class ViewDay extends Component {
       <View style={styles.view}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.dayContainer}>
-            <Text style={styles.dayHeader}>{this.props.day.created_at}</Text>
+            <Text style={styles.dayHeader}>{friendlyDay(this.props.day.created_at)}</Text>
             {this.props.day.exercises.map((exercise) => <Exercise key={exercise.uuid} exercise={exercise} />)}
           </View>
         </ScrollView>
