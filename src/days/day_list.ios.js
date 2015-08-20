@@ -38,14 +38,18 @@ var styles = StyleSheet.create({
   noRoutinesView: {
     flex: 10
   },
-  scrollView: {
-    flex: 10,
-  },
   pageControl: {
     position: 'absolute',
     left: 0,
     right: 0,
     bottom: 10
+  },
+  scrollView: {
+    flex: 9
+  },
+  titleText: {
+    color: '#555',
+    marginTop: 30
   },
   view: {
     alignItems: 'center',
@@ -65,6 +69,12 @@ class DayList extends Component {
 
   componentDidMount() {
     this._listen();
+  }
+
+  componentDidUpdate() {
+    if (this.refs.scrollview) {
+      this.refs.scrollview.scrollWithoutAnimationTo(0, (Object.keys(this.state.days).length - 1) * Dimensions.get("window").width);
+    }
   }
 
   componentWillUnmount() {
@@ -127,7 +137,8 @@ class DayList extends Component {
         var screen = Dimensions.get("window");
         return (
           <View style={styles.view}>
-            <ScrollView style={[{width: screen.width}, styles.scrollView]} horizontal={true} bounces={false} showsHorizontalScrollIndicator={true} pagingEnabled={true}>
+            <Text style={styles.titleText}>Showing latest 5 workouts</Text>
+            <ScrollView ref="scrollview" style={[{width: screen.width}, styles.scrollView]} horizontal={true} bounces={false} showsHorizontalScrollIndicator={true} pagingEnabled={true} contentInset={{top:-20}}>
               {Object.keys(this.state.days).map((uuid) => {
                 let day = this.state.days[uuid];
                 return (
