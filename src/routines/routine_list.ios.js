@@ -20,7 +20,8 @@ import Swipeout from 'react-native-swipeout';
 
 var styles = StyleSheet.create({
   listRow: {
-    padding: 10
+    padding: 20,
+    fontSize: 16
   },
   scrollView: {
     flex: 10,
@@ -85,7 +86,8 @@ class RoutineList extends Component {
     this._unlisten();
     this.props.navigator.push({
       component: RoutineForm,
-      props: { routine: routine, parentListen: this._listen.bind(this) }
+      props: { routine: routine, parentListen: this._listen.bind(this) },
+      type: "left"
     });
   }
 

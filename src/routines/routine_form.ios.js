@@ -180,9 +180,6 @@ class RoutineForm extends Component {
         <ScrollView style={styles.scrollView}>
           <TextInput placeholder="Routine Name" ref="textInput" style={styles.textInput} onChange={(e) => this._onTextInputChange(e, "name")} value={this.state.name} />
           {this.state.errors['name'] ? <Text style={styles.error}>{this.state.errors['name'].join(', ')}</Text> : null}
-          <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff" onPress={this._addExercise.bind(this)}>
-            <Text style={styles.addExercise}>Add Exercise</Text>
-          </TouchableHighlight>
           {this.state.exercises.map((obj, i) => {
             return <ExerciseForm
               index={i}
@@ -192,6 +189,9 @@ class RoutineForm extends Component {
               onShowWeightChange={this._onChildShowWeightChange.bind(this)}
               removeExercise={this._removeExercise.bind(this)} />
           })}
+          <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff" onPress={this._addExercise.bind(this)}>
+            <Text style={styles.addExercise}>Add Exercise</Text>
+          </TouchableHighlight>
         </ScrollView>
         <BottomBar buttons={buttons} />
       </View>
