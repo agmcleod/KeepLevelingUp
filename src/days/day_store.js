@@ -25,6 +25,7 @@ var DayStore = Reflux.createStore({
     RoutineStore.getRoutineData(data.routine_uuid)
     .then((routine) => {
       data.exercises = [];
+      routine = Object.clone(routine);
       routine.exercises.forEach((exercise) => {
         var ex = {...exercise, sets: []};
         for (var i = 0; i < exercise.sets; i++) {
@@ -55,9 +56,11 @@ var DayStore = Reflux.createStore({
           if (dayEx) {
             lastDayExercise.sets.forEach((lastDaySet, setIndex) => {
               var set = dayEx.sets[setIndex];
-              set.last_reps = lastDaySet.reps;
-              set.weight = lastDaySet.weight;
-              set.last_duration = lastDaySet.duration;
+              if (set) {
+                set.last_reps = lastDaySet.reps;
+                set.weight = lastDaySet.weight;
+                set.last_duration = lastDaySet.duration;
+              }
             });
 
             if (typeof lastDayExercise.alternate_name !== "undefined") {

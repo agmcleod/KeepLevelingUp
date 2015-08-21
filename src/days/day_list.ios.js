@@ -138,7 +138,7 @@ class DayList extends Component {
         return (
           <View style={styles.view}>
             <Text style={styles.titleText}>Showing latest 5 workouts</Text>
-            <ScrollView ref="scrollview" style={[{width: screen.width}, styles.scrollView]} horizontal={true} bounces={false} showsHorizontalScrollIndicator={true} pagingEnabled={true} contentInset={{top:-20}}>
+            <ScrollView ref="scrollview" directionalLockEnabled={true} style={[{width: screen.width}, styles.scrollView]} horizontal={true} bounces={false} showsHorizontalScrollIndicator={true} pagingEnabled={true} contentInset={{top:-20}}>
               {Object.keys(this.state.days).map((uuid) => {
                 let day = this.state.days[uuid];
                 return (

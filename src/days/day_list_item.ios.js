@@ -25,6 +25,7 @@ var styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   dayHeader: {
+    color: '#000',
     fontSize: 18,
     fontWeight: 'bold'
   },
@@ -33,7 +34,7 @@ var styles = StyleSheet.create({
   },
   deleteDayTouch: {
     alignSelf: 'flex-start',
-    backgroundColor: '#cc0000',
+    backgroundColor: '#BB4949',
     borderRadius: 5,
     paddingBottom: 10,
     paddingLeft: 15,
@@ -49,7 +50,7 @@ var styles = StyleSheet.create({
   },
   editDayTouch: {
     alignSelf: 'flex-start',
-    backgroundColor: '#6DE375',
+    backgroundColor: '#8BAF44',
     borderRadius: 5,
     paddingBottom: 10,
     paddingLeft: 15,

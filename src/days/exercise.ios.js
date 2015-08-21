@@ -11,61 +11,27 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  exerciseInput: {
-    alignSelf: 'stretch',
-    borderWidth: 1,
-    borderColor: '#555',
-    flex: 4,
-    height: 40,
-    padding: 5
-  },
   exerciseName: {
     color: "#555",
     fontSize: 16,
     fontWeight: 'bold'
   },
-  exerciseRow: {
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-    marginBottom: 5
-  },
-  exerciseText: {
-    alignSelf: 'stretch',
-    color: "#555",
-    flex: 1,
-    marginRight: 10,
-    fontSize: 16,
-    textAlign: 'right'
-  },
-  note: {
-    color: '#555',
-    fontSize: 13,
-    margin: 10
-  },
   set: {
-    borderBottomWidth: 1,
-    borderColor: '#888',
     marginTop: 15,
     padding: 5,
-    paddingBottom: 15
+    paddingBottom: 10
   },
   view: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#888',
     flex: 1,
-    padding: 5
+    marginBottom: 10,
+    padding: 15
   }
 });
 
-class ExerciseValue extends Component {
-  render() {
-    return (
-      <View style={styles.exerciseRow}>
-        <Text style={styles.exerciseText}>{this.props.label}:</Text>
-        <TextInput onChange={this.props.onChange} defaultValue={"" + this.props.value} style={styles.exerciseInput} keyboardType="decimal-pad" />
-        {typeof this.props.noteValue !== "undefined" ? <Text style={styles.note}>({this.props.noteValue})</Text> : null}
-      </View>
-    );
-  }
-}
+import ExerciseField from './exercise_field.ios';
 
 class Exercise extends Component {
   _onExerciseFieldChange(event, i, field) {
@@ -79,9 +45,9 @@ class Exercise extends Component {
         {this.props.exercise.sets.map((set, i) => {
           return (
             <View key={"exercise_" + i} style={styles.set}>
-              {typeof set.weight === "number" ? <ExerciseValue label="Weight" onChange={(e) => { this._onExerciseFieldChange(e, i, "weight") }} value={set.weight} /> : null}
-              {typeof set.reps === "number" ? <ExerciseValue label="Reps" onChange={(e) => { this._onExerciseFieldChange(e, i, "reps") }} value={set.reps} noteValue={set.last_reps} /> : null}
-              {typeof set.duration === "number" ? <ExerciseValue label="Duration" onChange={(e) => { this._onExerciseFieldChange(e, i, "duration") }} value={set.duration} noteValue={set.last_duration} /> : null}
+              {typeof set.weight === "number" ? <ExerciseField label="Weight" onChange={(e) => { this._onExerciseFieldChange(e, i, "weight") }} value={set.weight} /> : null}
+              {typeof set.reps === "number" ? <ExerciseField label="Reps" onChange={(e) => { this._onExerciseFieldChange(e, i, "reps") }} value={set.reps} noteValue={set.last_reps} /> : null}
+              {typeof set.duration === "number" ? <ExerciseField label="Duration" onChange={(e) => { this._onExerciseFieldChange(e, i, "duration") }} value={set.duration} noteValue={set.last_duration} /> : null}
             </View>
           );
         })}

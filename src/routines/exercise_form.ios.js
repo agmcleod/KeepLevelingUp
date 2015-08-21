@@ -41,7 +41,7 @@ var styles = StyleSheet.create({
 
   removeButtonTouch: {
     alignSelf: 'flex-start',
-    backgroundColor: '#cc0000',
+    backgroundColor: '#BB4949',
     borderRadius: 5,
     marginTop: 5,
     paddingBottom: 10,

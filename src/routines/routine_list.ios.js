@@ -32,7 +32,9 @@ var styles = StyleSheet.create({
   },
   swipeButton: {
     color: '#ffffff',
+    fontSize: 16,
     margin: 10,
+    paddingTop: 5,
     textAlign: 'center'
   },
   view: {
@@ -104,11 +106,11 @@ class RoutineList extends Component {
   render() {
     var screen = Dimensions.get("window");
     var bottomButtons = [{
-      text: "Home",
-      onPressEvent: this._cancelPressEvent.bind(this)
-    }, {
       text: "New Routine",
       onPressEvent: this._newRoutineButton.bind(this)
+    }, {
+      text: "Home",
+      onPressEvent: this._cancelPressEvent.bind(this)
     }];
     return(
       <View style={styles.view}>
@@ -117,7 +119,7 @@ class RoutineList extends Component {
           dataSource={this.state.routineDataSource}
           renderRow={(routine) => {
             var buttons = [{
-              backgroundColor: '#df9124',
+              backgroundColor: '#4C8989',
               component: (<Text style={styles.swipeButton}>Edit</Text>),
               onPress: () => { this._onEditPress(routine); }
             },{

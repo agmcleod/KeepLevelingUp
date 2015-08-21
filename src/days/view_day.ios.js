@@ -22,10 +22,10 @@ var styles = StyleSheet.create({
     margin: 20
   },
   dayHeader: {
-    color: '#555',
+    color: '#000',
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10
+    marginBottom: 30
   },
   scrollView: {
     flex: 10
