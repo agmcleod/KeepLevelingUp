@@ -9,6 +9,8 @@ var {
   AsyncStorage
 } = React;
 
+import arrayMove from '../array_move';
+
 var RoutineStore = Reflux.createStore({
   init() {
     this.routines = {};

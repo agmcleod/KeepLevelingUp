@@ -49,17 +49,19 @@ var DayStore = Reflux.createStore({
       });
 
       if (lastDayForRoutine) {
-        lastDayForRoutine.exercises.forEach((lastDayExercise, exerciseIndex) => {
-          lastDayExercise.sets.forEach((lastDaySet, setIndex) => {
-            var exercise = data.exercises[exerciseIndex];
-            var set = exercise.sets[setIndex];
-            set.last_reps = lastDaySet.reps;
-            set.weight = lastDaySet.weight;
-            set.last_duration = lastDaySet.duration;
-          });
+        lastDayForRoutine.exercises.forEach((lastDayExercise) => {
+          var dayEx = data.exercises.find((ex) => ex.uuid === lastDayExercise.uuid);
+          if (dayEx) {
+            lastDayExercise.sets.forEach((lastDaySet, setIndex) => {
+              var set = dayEx.sets[setIndex];
+              set.last_reps = lastDaySet.reps;
+              set.weight = lastDaySet.weight;
+              set.last_duration = lastDaySet.duration;
+            });
 
-          if (typeof lastDayExercise.alternate_name !== "undefined") {
-            data.exercises[exerciseIndex].last_done_with = lastDayExercise.alternate_name;
+            if (typeof lastDayExercise.alternate_name !== "undefined") {
+              dayEx.last_done_with = lastDayExercise.alternate_name;
+            }
           }
         });
       }

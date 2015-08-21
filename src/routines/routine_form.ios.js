@@ -18,6 +18,8 @@ import ExerciseForm from './exercise_form.ios';
 import RoutineActions from './routine_actions';
 import RoutineStore from './routine_store';
 
+import arrayMove from '../array_move';
+
 var styles = StyleSheet.create({
   addExercise: {
     color: '#ffffff'
@@ -93,6 +95,22 @@ class RoutineForm extends Component {
   }
   _cancelPressEvent() {
     this.props.navigator.pop();
+  }
+
+  _moveDownPress(index) {
+    var exercises = this.state.exercises;
+    exercises = arrayMove(exercises, index, index + 1);
+    this.setState({
+      exercises: exercises
+    });
+  }
+
+  _moveUpPress(index) {
+    var exercises = this.state.exercises;
+    exercises = arrayMove(exercises, index, index - 1);
+    this.setState({
+      exercises: exercises
+    });
   }
 
   // TODO: Add validation for at least one
@@ -184,10 +202,13 @@ class RoutineForm extends Component {
             return <ExerciseForm
               index={i}
               exercise={this.state.exercises[i]}
+              moveDownPress={this._moveDownPress.bind(this)}
+              moveUpPress={this._moveUpPress.bind(this)}
               onTextInputChange={this._onChildTextInputChange.bind(this)}
               onNumberInputChange={this._onChildNumberInputChange.bind(this)}
               onShowWeightChange={this._onChildShowWeightChange.bind(this)}
-              removeExercise={this._removeExercise.bind(this)} />
+              removeExercise={this._removeExercise.bind(this)}
+              total={this.state.exercises.length} />
           })}
           <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff" onPress={this._addExercise.bind(this)}>
             <Text style={styles.addExercise}>Add Exercise</Text>

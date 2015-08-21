@@ -13,16 +13,32 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
+  actions: {
+    flexDirection: 'row'
+  },
+  actionButtonText: {
+    color: '#ffffff',
+    fontSize: 10
+  },
   error: {
     marginTop: 5,
     marginBottom: 5,
     color: 'red',
     flex: 1
   },
-  removeButtonText: {
-    color: '#ffffff',
-    fontSize: 10
+
+  moveButtonTouch: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#555',
+    borderRadius: 5,
+    marginTop: 5,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    marginRight: 5
   },
+
   removeButtonTouch: {
     alignSelf: 'flex-start',
     backgroundColor: '#cc0000',
@@ -32,6 +48,7 @@ var styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 10,
+    marginRight: 5
   },
   showWeight: {
     flexDirection: 'row',
@@ -62,7 +79,16 @@ var styles = StyleSheet.create({
 });
 
 class ExerciseForm extends Component {
-  _onRemovePress() {
+  _moveDownPress() {
+    this.props.moveDownPress(this.props.index);
+  }
+
+  _moveUpPress() {
+    this.props.moveUpPress(this.props.index);
+  }
+
+
+  _removePress() {
     this.props.removeExercise(this.props.index);
   }
   _outputErrorForField(field) {
@@ -85,9 +111,17 @@ class ExerciseForm extends Component {
           <Text style={styles.showWeightText}>Show Weight:</Text>
           <SwitchIOS value={this.props.exercise.showWeight} onValueChange={(e) => { this.props.onShowWeightChange(e, this.props.index); }} />
         </View>
-        <TouchableHighlight onPress={this._onRemovePress.bind(this)} style={styles.removeButtonTouch} underlayColor="#ffffff">
-          <Text style={styles.removeButtonText}>Remove</Text>
-        </TouchableHighlight>
+        <View style={styles.actions}>
+          <TouchableHighlight onPress={this._removePress.bind(this)} style={styles.removeButtonTouch} underlayColor="#ffffff">
+            <Text style={styles.actionButtonText}>Remove</Text>
+          </TouchableHighlight>
+          {this.props.index > 0 ? <TouchableHighlight onPress={this._moveUpPress.bind(this)} style={styles.moveButtonTouch} underlayColor="#ffffff">
+            <Text style={styles.actionButtonText}>Move Up</Text>
+          </TouchableHighlight> : null}
+          {this.props.index < this.props.total - 1 ? <TouchableHighlight onPress={this._moveDownPress.bind(this)} style={styles.moveButtonTouch} underlayColor="#ffffff">
+            <Text style={styles.actionButtonText}>Move Down</Text>
+          </TouchableHighlight> : null }
+        </View>
       </View>
     );
   }
