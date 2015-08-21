@@ -11,6 +11,7 @@ var {
   View
 } = React;
 
+import DayActions from './day_actions';
 import ViewDay from './view_day.ios';
 import friendlyDay from '../friendly_day';
 
@@ -19,12 +20,29 @@ var styles = StyleSheet.create({
     color: '#555',
     width: 20
   },
+  dayActions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
   dayHeader: {
     fontSize: 18,
     fontWeight: 'bold'
   },
   daySection: {
     padding: 20
+  },
+  deleteDayTouch: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#cc0000',
+    borderRadius: 5,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    marginTop: 20
+  },
+  deleteDayText: {
+    color: '#fff'
   },
   editDayText: {
     color: '#ffffff'
@@ -97,6 +115,9 @@ class ExerciseValue extends Component {
 }
 
 class DayListItem extends Component {
+  _deleteDayPressEvent() {
+    DayActions.deleteDay(this.props.day.uuid);
+  }
   _editDayPressEvent() {
     this.props.parentUnlisten();
     this.props.navigator.push({
@@ -111,9 +132,15 @@ class DayListItem extends Component {
     return (
       <View key={day.uuid} style={[{width: screen.width}, styles.daySection]}>
         <Text style={styles.dayHeader}>{friendlyDay(day.created_at)}</Text>
-        <TouchableHighlight style={styles.editDayTouch} underlayColor='#C0FAC4' onPress={this._editDayPressEvent.bind(this)}>
-          <Text style={styles.editDayText}>Edit</Text>
-        </TouchableHighlight>
+        <View style={styles.dayActions}>
+          <TouchableHighlight style={styles.editDayTouch} underlayColor='#C0FAC4' onPress={this._editDayPressEvent.bind(this)}>
+            <Text style={styles.editDayText}>Edit</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight style={styles.deleteDayTouch} underlayColor='#ff8888' onPress={this._deleteDayPressEvent.bind(this)}>
+            <Text style={styles.deleteDayText}>Delete</Text>
+          </TouchableHighlight>
+        </View>
         {day.exercises.map((ex, i) => {
           return (
             <ExerciseValue key={"exercise_value_" + i} exercise={ex} />
