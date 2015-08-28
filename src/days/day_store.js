@@ -58,7 +58,9 @@ var DayStore = Reflux.createStore({
               var set = dayEx.sets[setIndex];
               if (set) {
                 set.last_reps = lastDaySet.reps;
-                set.weight = lastDaySet.weight;
+                if (typeof lastDaySet.weight !== "undefined") {
+                  set.weight = lastDaySet.weight;
+                }
                 set.last_duration = lastDaySet.duration;
               }
             });
