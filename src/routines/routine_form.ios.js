@@ -18,6 +18,8 @@ import ExerciseForm from './exercise_form.ios';
 import RoutineActions from './routine_actions';
 import RoutineStore from './routine_store';
 
+import arrayMove from '../array_move';
+
 var styles = StyleSheet.create({
   addExercise: {
     color: '#ffffff'
@@ -95,10 +97,33 @@ class RoutineForm extends Component {
     this.props.navigator.pop();
   }
 
-  // TODO: Add validation for at least one
+  _moveDownPress(index) {
+    var exercises = this.state.exercises;
+    exercises = arrayMove(exercises, index, index + 1);
+    this.setState({
+      exercises: exercises
+    });
+  }
+
+  _moveUpPress(index) {
+    var exercises = this.state.exercises;
+    exercises = arrayMove(exercises, index, index - 1);
+    this.setState({
+      exercises: exercises
+    });
+  }
+
   _onChildNumberInputChange(event, i, field) {
     var exercises = this.state.exercises;
     exercises[i][field] = parseFloat(event.nativeEvent.text);
+    this.setState({
+      exercises: exercises
+    });
+  }
+
+  _onChildShowWeightChange(value, i) {
+    var exercises = this.state.exercises;
+    exercises[i].showWeight = value;
     this.setState({
       exercises: exercises
     });
@@ -172,17 +197,21 @@ class RoutineForm extends Component {
         <ScrollView style={styles.scrollView}>
           <TextInput placeholder="Routine Name" ref="textInput" style={styles.textInput} onChange={(e) => this._onTextInputChange(e, "name")} value={this.state.name} />
           {this.state.errors['name'] ? <Text style={styles.error}>{this.state.errors['name'].join(', ')}</Text> : null}
-          <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff" onPress={this._addExercise.bind(this)}>
-            <Text style={styles.addExercise}>Add Exercise</Text>
-          </TouchableHighlight>
           {this.state.exercises.map((obj, i) => {
             return <ExerciseForm
               index={i}
               exercise={this.state.exercises[i]}
+              moveDownPress={this._moveDownPress.bind(this)}
+              moveUpPress={this._moveUpPress.bind(this)}
               onTextInputChange={this._onChildTextInputChange.bind(this)}
               onNumberInputChange={this._onChildNumberInputChange.bind(this)}
-              removeExercise={this._removeExercise.bind(this)} />
+              onShowWeightChange={this._onChildShowWeightChange.bind(this)}
+              removeExercise={this._removeExercise.bind(this)}
+              total={this.state.exercises.length} />
           })}
+          <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff" onPress={this._addExercise.bind(this)}>
+            <Text style={styles.addExercise}>Add Exercise</Text>
+          </TouchableHighlight>
         </ScrollView>
         <BottomBar buttons={buttons} />
       </View>

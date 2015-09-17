@@ -55,13 +55,10 @@ class NewDay extends Component {
     RoutineActions.listRoutines();
   }
 
-  componentWillUnmount() {
+  _cancelPressEvent() {
     this._subscription();
     this._dayCreationSub();
     this.props.parentListen();
-  }
-
-  _cancelPressEvent() {
     this.props.navigator.pop();
   }
 
@@ -107,7 +104,10 @@ class NewDay extends Component {
       <View style={styles.view}>
         <View style={styles.formView}>
           <Text style={styles.label}>Select which routine:</Text>
-          <PickerIOS style={styles.picker} onValueChange={this._selectRoutineEvent.bind(this)}>
+          <PickerIOS
+            style={styles.picker}
+            onValueChange={this._selectRoutineEvent.bind(this)}
+            selectedValue={this.state.selectedUUID}>
             {Object.keys(this.state.routines).map((key) => {
               let routine = this.state.routines[key];
               return (<PickerItemIOS

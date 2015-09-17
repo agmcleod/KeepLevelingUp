@@ -2,12 +2,14 @@
 
 import Reflux from 'reflux';
 import RoutineActions from './routine_actions';
-import uuid from '../uuid';
+import {uuid} from '../utils/utility_functions';
 
 import React from 'react-native';
 var {
   AsyncStorage
 } = React;
+
+import arrayMove from '../array_move';
 
 var RoutineStore = Reflux.createStore({
   init() {
@@ -26,6 +28,11 @@ var RoutineStore = Reflux.createStore({
       if (!routines) {
         routines = {};
       }
+      data.exercises.forEach((exercise) => {
+        if (!exercise.uuid) {
+          exercise.uuid = uuid();
+        }
+      });
       routines[data.uuid] = data;
       this.routines = routines;
       return AsyncStorage.setItem("routines", JSON.stringify(routines));
@@ -48,11 +55,18 @@ var RoutineStore = Reflux.createStore({
   },
 
   getRoutine(uuid) {
-    AsyncStorage.getItem("routines").then((routines) => {
+    return AsyncStorage.getItem("routines").then((routines) => {
       routines = JSON.parse(routines);
       this.trigger(routines[uuid]);
     })
     .catch((err) => console.err(err));
+  },
+
+  getRoutineData(uuid) {
+    return AsyncStorage.getItem("routines").then((routines) => {
+      routines = JSON.parse(routines);
+      return Promise.resolve(routines[uuid]);
+    });
   },
 
   listRoutines() {

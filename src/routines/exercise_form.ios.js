@@ -2,35 +2,158 @@
 
 var React = require('react-native');
 
+import {numberAsString} from '../utils/utility_functions';
+
 var {
   Component,
   StyleSheet,
+  SwitchIOS,
   Text,
   TextInput,
   TouchableHighlight,
   View
 } = React;
 
-var styles = StyleSheet.create({
+class ExerciseForm extends Component {
+  _moveDownPress() {
+    this.props.moveDownPress(this.props.index);
+  }
+
+  _moveUpPress() {
+    this.props.moveUpPress(this.props.index);
+  }
+
+
+  _removePress() {
+    this.props.removeExercise(this.props.index);
+  }
+  _outputErrorForField(field) {
+    var exercise = this.props.exercise;
+    if (exercise && exercise.errors && exercise.errors[field]) {
+      return (
+        <Text style={styles.error}>{exercise.errors[field].join(', ')}</Text>
+      );
+    }
+  }
+  render() {
+    let moveUpButton = null;
+    if (this.props.index > 0) {
+      moveUpButton = (
+        <TouchableHighlight
+          onPress={this._moveUpPress.bind(this)}
+          style={styles.moveButtonTouch}
+          underlayColor="#ffffff">
+          <Text style={styles.actionButtonText}>Move Up</Text>
+        </TouchableHighlight>
+      );
+    }
+
+    let moveDownButton = null;
+    if (this.props.index < this.props.total - 1) {
+      moveDownButton = (
+        <TouchableHighlight
+          onPress={this._moveDownPress.bind(this)}
+          style={styles.moveButtonTouch}
+          underlayColor="#ffffff">
+          <Text style={styles.actionButtonText}>Move Down</Text>
+        </TouchableHighlight>
+      );
+    }
+
+    return (
+      <View style={styles.view}>
+        <TextInput
+          style={styles.textInput}
+          onChange={(e) => { this.props.onTextInputChange(e, this.props.index, "name"); }}
+          placeholder="Name"
+          defaultValue={this.props.exercise.name}
+        />
+        {this._outputErrorForField('name')}
+        <TextInput
+          style={styles.textInput}
+          onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "sets"); }}
+          placeholder="Sets"
+          keyboardType="numeric"
+          defaultValue={numberAsString(this.props.exercise.sets)} />
+        <TextInput
+          style={styles.textInput}
+          onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "reps"); }}
+          placeholder="Reps"
+          keyboardType="numeric"
+          defaultValue={numberAsString(this.props.exercise.reps)} />
+        <TextInput
+          style={styles.textInput}
+          onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "duration"); }}
+          placeholder="Duration in Seconds"
+          keyboardType="numeric"
+          defaultValue={numberAsString(this.props.exercise.duration)} />
+        <View style={styles.showWeight}>
+          <Text style={styles.showWeightText}>Show Weight:</Text>
+          <SwitchIOS
+            value={this.props.exercise.showWeight}
+            onValueChange={(e) => { this.props.onShowWeightChange(e, this.props.index); }}
+          />
+        </View>
+        <View style={styles.actions}>
+          <TouchableHighlight
+            onPress={this._removePress.bind(this)}
+            style={styles.removeButtonTouch}
+            underlayColor="#ffffff">
+            <Text style={styles.actionButtonText}>Remove</Text>
+          </TouchableHighlight>
+          {moveUpButton}
+          {moveDownButton}
+        </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  actions: {
+    flexDirection: 'row'
+  },
+  actionButtonText: {
+    color: '#ffffff',
+    fontSize: 10
+  },
   error: {
     marginTop: 5,
     marginBottom: 5,
     color: 'red',
     flex: 1
   },
-  removeButtonText: {
-    color: '#ffffff',
-    fontSize: 10
-  },
-  removeButtonTouch: {
+
+  moveButtonTouch: {
     alignSelf: 'flex-start',
-    backgroundColor: '#cc0000',
+    backgroundColor: '#555',
     borderRadius: 5,
     marginTop: 5,
     paddingBottom: 10,
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 10,
+    marginRight: 5
+  },
+
+  removeButtonTouch: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#BB4949',
+    borderRadius: 5,
+    marginTop: 5,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    marginRight: 5
+  },
+  showWeight: {
+    flexDirection: 'row',
+    margin: 5
+  },
+  showWeightText: {
+    marginRight: 5,
+    paddingTop: 10
   },
   textInput: {
     borderWidth: 1,
@@ -51,34 +174,5 @@ var styles = StyleSheet.create({
     borderBottomColor: '#666666'
   }
 });
-
-class ExerciseForm extends Component {
-  _onRemovePress() {
-    this.props.removeExercise(this.props.index);
-  }
-  _outputErrorForField(field) {
-    var exercise = this.props.exercise;
-    if (exercise && exercise.errors && exercise.errors[field]) {
-      return (
-        <Text style={styles.error}>{exercise.errors[field].join(', ')}</Text>
-      );
-    }
-  }
-  render() {
-    return (
-      <View style={styles.view}>
-        <TextInput style={styles.textInput} onChange={(e) => { this.props.onTextInputChange(e, this.props.index, "name"); }} placeholder="Name" value={this.props.exercise.name} />
-        {this._outputErrorForField('name')}
-        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "sets"); }} placeholder="Sets" keyboardType="decimal-pad" value={this.props.exercise.sets} />
-        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "weight"); }} placeholder="Weight" keyboardType="decimal-pad" value={this.props.exercise.weight} />
-        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "reps"); }} placeholder="Reps" keyboardType="decimal-pad" value={this.props.exercise.reps} />
-        <TextInput style={styles.textInput} onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "duration"); }} placeholder="Duration in Seconds" keyboardType="decimal-pad" value={this.props.exercise.duration} />
-        <TouchableHighlight onPress={this._onRemovePress.bind(this)} style={styles.removeButtonTouch} underlayColor="#ffffff">
-          <Text style={styles.removeButtonText}>Remove</Text>
-        </TouchableHighlight>
-      </View>
-    );
-  }
-}
 
 export default ExerciseForm;
