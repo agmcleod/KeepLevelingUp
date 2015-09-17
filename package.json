@@ -3,14 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh --root ./"
+    "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
-    "react": "^0.13.3",
-    "react-native": "^0.8.0",
-    "reflux": "^0.2.11"
-  },
-  "devDependencies": {
-    "react-native-swipeout": "^2.0.5"
+    "react-native": "^0.11.0",
+    "reflux": "^0.2.11",
+    "react-native-swipeout": "https://github.com/agmcleod/react-native-swipeout"
   }
 }
