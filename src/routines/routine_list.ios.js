@@ -20,6 +20,7 @@ import Swipeout from 'react-native-swipeout';
 
 var styles = StyleSheet.create({
   listRow: {
+    fontFamily: 'Optima',
     padding: 20,
     fontSize: 16
   },
@@ -32,6 +33,7 @@ var styles = StyleSheet.create({
   },
   swipeButton: {
     color: '#ffffff',
+    fontFamily: 'Optima',
     fontSize: 16,
     margin: 10,
     paddingTop: 5,

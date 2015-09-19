@@ -26,14 +26,16 @@ var styles = StyleSheet.create({
     flex: 10
   },
   label: {
-    fontSize: 16,
+    fontFamily: 'Optima',
+    fontSize: 22,
     fontWeight: 'bold',
     marginTop: 35,
     marginLeft: 15,
     marginBottom: 30
   },
   picker: {
-    backgroundColor: '#eaeaea'
+    backgroundColor: '#eaeaea',
+    fontFamily: 'Optima'
   },
   view: {
     flex: 1,

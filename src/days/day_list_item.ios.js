@@ -18,6 +18,8 @@ import friendlyDay from '../friendly_day';
 var styles = StyleSheet.create({
   counter: {
     color: '#555',
+    fontFamily: 'Optima',
+    fontSize: 16,
     width: 20
   },
   dayActions: {
@@ -26,6 +28,7 @@ var styles = StyleSheet.create({
   },
   dayHeader: {
     color: '#000',
+    fontFamily: 'Optima',
     fontSize: 18,
     fontWeight: 'bold'
   },
@@ -43,10 +46,14 @@ var styles = StyleSheet.create({
     marginTop: 20
   },
   deleteDayText: {
-    color: '#fff'
+    color: '#fff',
+    fontFamily: 'Optima',
+    fontSize: 16
   },
   editDayText: {
-    color: '#ffffff'
+    color: '#fff',
+    fontFamily: 'Optima',
+    fontSize: 16
   },
   editDayTouch: {
     alignSelf: 'flex-start',
@@ -60,6 +67,7 @@ var styles = StyleSheet.create({
   },
 
   exerciseName: {
+    fontFamily: 'Optima',
     fontSize: 14,
     marginTop: 5
   },
@@ -69,7 +77,9 @@ var styles = StyleSheet.create({
   },
 
   setDetails: {
-    color: '#555'
+    color: '#555',
+    fontFamily: 'Optima',
+    fontSize: 16
   },
 
   setWrapper: {

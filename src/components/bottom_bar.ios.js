@@ -13,6 +13,8 @@ var {
 var styles = StyleSheet.create({
   buttonText: {
     color: '#ffffff',
+    fontFamily: 'Optima',
+    fontSize: 18,
     paddingTop: 15,
     textAlign: 'center'
   },

@@ -26,6 +26,7 @@ import RoutineStore from '../routines/routine_store';
 
 var styles = StyleSheet.create({
   actionText: {
+    fontFamily: 'Optima',
     fontSize: 18,
     margin: 20,
     marginTop: 100,
@@ -49,6 +50,8 @@ var styles = StyleSheet.create({
   },
   titleText: {
     color: '#555',
+    fontFamily: 'Optima',
+    fontSize: 18,
     marginTop: 30
   },
   view: {

@@ -15,6 +15,7 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     borderWidth: 1,
     borderColor: '#555',
+    fontFamily: 'Optima',
     height: 40,
     width: 150,
     padding: 5
@@ -27,6 +28,7 @@ var styles = StyleSheet.create({
   exerciseText: {
     alignSelf: 'stretch',
     color: "#555",
+    fontFamily: 'Optima',
     marginRight: 10,
     fontSize: 16,
     paddingTop: 10,
@@ -35,6 +37,7 @@ var styles = StyleSheet.create({
   },
   note: {
     color: '#555',
+    fontFamily: 'Optima',
     fontSize: 13,
     margin: 10
   }

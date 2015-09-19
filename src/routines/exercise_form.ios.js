@@ -115,9 +115,11 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     color: '#ffffff',
+    fontFamily: 'Optima',
     fontSize: 10
   },
   error: {
+    fontFamily: 'Optima',
     marginTop: 5,
     marginBottom: 5,
     color: 'red',
@@ -152,6 +154,7 @@ const styles = StyleSheet.create({
     margin: 5
   },
   showWeightText: {
+    fontFamily: 'Optima',
     marginRight: 5,
     paddingTop: 10
   },
@@ -159,6 +162,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E57F7F',
     flex: 1,
+    fontFamily: 'Optima',
     height: 30,
     padding: 5,
     marginTop: 5

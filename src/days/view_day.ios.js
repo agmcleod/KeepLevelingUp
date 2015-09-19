@@ -23,6 +23,7 @@ var styles = StyleSheet.create({
   },
   dayHeader: {
     color: '#000',
+    fontFamily: 'Optima',
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 30

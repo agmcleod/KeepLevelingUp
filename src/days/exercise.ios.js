@@ -13,6 +13,7 @@ var {
 var styles = StyleSheet.create({
   exerciseName: {
     color: "#555",
+    fontFamily: 'Optima',
     fontSize: 16,
     fontWeight: 'bold'
   },

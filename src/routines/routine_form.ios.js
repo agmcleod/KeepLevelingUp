@@ -22,7 +22,8 @@ import arrayMove from '../array_move';
 
 var styles = StyleSheet.create({
   addExercise: {
-    color: '#ffffff'
+    color: '#ffffff',
+    fontFamily: 'Optima'
   },
   addExerciseTouch: {
     alignSelf: 'flex-start',
@@ -33,6 +34,7 @@ var styles = StyleSheet.create({
     marginBottom: 10
   },
   error: {
+    fontFamily: 'Optima',
     marginTop: 5,
     marginBottom: 5,
     color: 'red',
@@ -46,6 +48,7 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E57F7F',
     flex: 1,
+    fontFamily: 'Optima',
     height: 35,
     padding: 5
   },
