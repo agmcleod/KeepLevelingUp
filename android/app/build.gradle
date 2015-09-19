@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.keeplevelingup"
+        applicationId "com.yourroutine"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1

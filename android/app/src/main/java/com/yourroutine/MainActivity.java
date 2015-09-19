@@ -1,4 +1,4 @@
-package com.keeplevelingup;
+package com.yourroutine;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -30,7 +30,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
 
-        mReactRootView.startReactApplication(mReactInstanceManager, "KeepLevelingUp", null);
+        mReactRootView.startReactApplication(mReactInstanceManager, "YourRoutine", null);
 
         setContentView(mReactRootView);
     }
