@@ -44,4 +44,4 @@ var KeepLevelingUp = React.createClass({
   }
 });
 
-AppRegistry.registerComponent('KeepLevelingUp', () => KeepLevelingUp);
+AppRegistry.registerComponent('YourRoutine', () => KeepLevelingUp);
