@@ -197,7 +197,7 @@ class RoutineForm extends Component {
     }];
     return (
       <View style={styles.view}>
-        <ScrollView style={styles.scrollView}>
+        <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={false}>
           <TextInput placeholder="Routine Name" ref="textInput" style={styles.textInput} onChange={(e) => this._onTextInputChange(e, "name")} value={this.state.name} />
           {this.state.errors['name'] ? <Text style={styles.error}>{this.state.errors['name'].join(', ')}</Text> : null}
           {this.state.exercises.map((obj, i) => {

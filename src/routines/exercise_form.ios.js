@@ -27,6 +27,7 @@ class ExerciseForm extends Component {
   _removePress() {
     this.props.removeExercise(this.props.index);
   }
+
   _outputErrorForField(field) {
     var exercise = this.props.exercise;
     if (exercise && exercise.errors && exercise.errors[field]) {
@@ -35,6 +36,7 @@ class ExerciseForm extends Component {
       );
     }
   }
+
   render() {
     let moveUpButton = null;
     if (this.props.index > 0) {
