@@ -69,7 +69,7 @@ class ViewDay extends Component {
     }];
     return (
       <View style={styles.view}>
-        <ScrollView style={styles.scrollView}>
+        <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={false}>
           <View style={styles.dayContainer}>
             <Text style={styles.dayHeader}>{friendlyDay(this.props.day.created_at)}</Text>
             {this.props.day.exercises.map((exercise) => <Exercise key={exercise.uuid} exercise={exercise} />)}
