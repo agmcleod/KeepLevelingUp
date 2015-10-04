@@ -1,8 +1,8 @@
 'use strict';
 
-var React = require('react-native');
+const React = require('react-native');
 
-var {
+const {
   Component,
   Dimensions,
   ListView,
@@ -18,7 +18,7 @@ import RoutineForm from './routine_form.ios';
 
 import Swipeout from 'react-native-swipeout';
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   listRow: {
     fontFamily: 'Optima',
     padding: 20,
@@ -106,8 +106,8 @@ class RoutineList extends Component {
   }
 
   render() {
-    var screen = Dimensions.get("window");
-    var bottomButtons = [{
+    const screen = Dimensions.get("window");
+    const bottomButtons = [{
       text: "New Routine",
       onPressEvent: this._newRoutineButton.bind(this)
     }, {
@@ -120,7 +120,7 @@ class RoutineList extends Component {
           style={[{ width: screen.width }, styles.scrollView]}
           dataSource={this.state.routineDataSource}
           renderRow={(routine) => {
-            var buttons = [{
+            const buttons = [{
               backgroundColor: '#4C8989',
               component: (<Text style={styles.swipeButton}>Edit</Text>),
               onPress: () => { this._onEditPress(routine); }
