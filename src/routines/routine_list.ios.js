@@ -121,7 +121,7 @@ class RoutineList extends Component {
           dataSource={this.state.routineDataSource}
           renderRow={(routine) => {
             const buttons = [{
-              backgroundColor: '#4C8989',
+              backgroundColor: '#39b54a',
               component: (<Text style={styles.swipeButton}>Edit</Text>),
               onPress: () => { this._onEditPress(routine); }
             },{

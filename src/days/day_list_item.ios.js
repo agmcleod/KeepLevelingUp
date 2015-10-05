@@ -57,7 +57,7 @@ var styles = StyleSheet.create({
   },
   editDayTouch: {
     alignSelf: 'flex-start',
-    backgroundColor: '#8BAF44',
+    backgroundColor: '#39b54a',
     borderRadius: 5,
     paddingBottom: 10,
     paddingLeft: 15,
