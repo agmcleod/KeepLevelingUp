@@ -13,7 +13,7 @@ var {
 } = React;
 
 import DayActions from './day_actions';
-import ViewDay from './view_day';
+import EditDay from './edit_day';
 import friendlyDay from '../friendly_day';
 
 var styles = StyleSheet.create({
@@ -34,7 +34,8 @@ var styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   daySection: {
-    padding: 20
+    padding: 20,
+    flex: 9
   },
   deleteDayTouch: {
     alignSelf: 'flex-start',
@@ -126,14 +127,14 @@ class ExerciseValue extends Component {
   }
 }
 
-class DayListItem extends Component {
+class DayOverview extends Component {
   _deleteDayPressEvent() {
     DayActions.deleteDay(this.props.day.uuid);
   }
   _editDayPressEvent() {
     this.props.parentUnlisten();
     this.props.navigator.push({
-      component: ViewDay,
+      component: EditDay,
       props: { parentListen: this.props.parentListen, day: this.props.day }
     });
   }
@@ -163,4 +164,4 @@ class DayListItem extends Component {
   }
 }
 
-export default DayListItem;
+export default DayOverview;

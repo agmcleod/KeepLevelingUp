@@ -19,7 +19,7 @@ import RoutineStore from '../routines/routine_store';
 import DayActions from './day_actions';
 import DayStore from './day_store';
 
-import ViewDay from './view_day';
+import EditDay from './edit_day';
 
 const OPTIONLIST_REF = 'optionlist';
 
@@ -83,7 +83,7 @@ class NewDay extends Component {
     this._subscription();
     this._dayCreationSub();
     this.props.navigator.replace({
-      component: ViewDay,
+      component: EditDay,
       props: { day: day, parentListen: this.props.parentListen }
     });
   }

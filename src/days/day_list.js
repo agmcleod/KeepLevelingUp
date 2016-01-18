@@ -18,8 +18,9 @@ import BottomBar from '../components/bottom_bar';
 import NewDay from './new_day';
 
 import DayActions from './day_actions';
+import DayNavItem from './day_nav_item';
 import DayStore from './day_store';
-import DayListItem from './day_list_item';
+import DayOverview from './day_overview';
 
 import RoutineActions from '../routines/routine_actions';
 import RoutineStore from '../routines/routine_store';
@@ -32,9 +33,12 @@ var styles = StyleSheet.create({
     marginTop: 100,
     textAlign: 'center'
   },
-  dayHeader: {
-    fontSize: 18,
-    marginBottom: 5
+  nav: {
+    padding: 0,
+    marginTop: 30,
+    flex: 1,
+    borderBottomWidth: 1,
+    borderColor: '#000000'
   },
   noRoutinesView: {
     flex: 10
@@ -44,9 +48,6 @@ var styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 10
-  },
-  scrollView: {
-    flex: 9
   },
   titleText: {
     color: '#555',
@@ -65,19 +66,13 @@ class DayList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      days: {},
+      days: new Map(),
       hasRoutines: false
     };
   }
 
   componentDidMount() {
     this._listen();
-  }
-
-  componentDidUpdate() {
-    if (this.refs.scrollview) {
-      this.refs.scrollview.scrollWithoutAnimationTo(0, (Object.keys(this.state.days).length - 1) * Dimensions.get("window").width);
-    }
   }
 
   componentWillUnmount() {
@@ -88,7 +83,7 @@ class DayList extends Component {
     this._subscription = DayStore.listen(this._onDayListChange.bind(this));
     this._routineSubscription = RoutineStore.listen(this._onRoutinesChange.bind(this));
 
-    DayActions.listDays(5);
+    DayActions.listDays();
     RoutineActions.listRoutines();
   }
 
@@ -101,15 +96,29 @@ class DayList extends Component {
     });
   }
 
-  _onDayListChange(days) {
-    if (days) {
-      this.setState({ days: days });
+  _onDayListChange(daysDataSet) {
+    if (daysDataSet) {
+      const dayUuids = Object.keys(daysDataSet);
+      dayUuids.reverse();
+      const days = this.state.days;
+      days.clear();
+      for (let i = 0; i < dayUuids.length; i++) {
+        const uuid = dayUuids[i];
+        days.set(uuid, daysDataSet[uuid]);
+      }
+      this.setState({days: days, viewingDay: days.get(dayUuids[0])});
     }
   }
 
   _onRoutinesChange(routines) {
     this.setState({
       hasRoutines: (Object.keys(routines).length > 0)
+    });
+  }
+
+  _selectDay(uuid) {
+    this.setState({
+      viewingDay: this.state.days.get(uuid)
     });
   }
 
@@ -133,27 +142,42 @@ class DayList extends Component {
     }
     else {
       var buttons = [{ text: "Routines", onPressEvent: this._routinesPressEvent.bind(this) }, { text: "New Day", onPressEvent: this._newDayPressEvent.bind(this) }];
-      if (Object.keys(this.state.days).length === 0) {
+      if (this.state.days.size === 0) {
         return this.renderNoDays(buttons);
       }
       else {
         var screen = Dimensions.get("window");
+        const viewingDay = this.state.viewingDay;
+        let i = 0;
+        const dayNavItems = [];
+        this.state.days.forEach((day, uuid) => {
+          const odd = i % 2 === 0 ? false : true;
+          i += 1;
+          dayNavItems.push(
+            (
+              <DayNavItem
+                key={uuid}
+                day={day}
+                odd={odd}
+                selected={uuid === this.state.viewingDay.uuid}
+                selectDay={this._selectDay.bind(this)} />
+            )
+          );
+        });
         return (
           <View style={styles.view}>
-            <Text style={styles.titleText}>Showing latest 5 workouts</Text>
-            <ScrollView ref="scrollview" style={[{width: screen.width}, styles.scrollView]} horizontal={true} bounces={false} showsHorizontalScrollIndicator={false} pagingEnabled={true} contentInset={{top:-20}}>
-              {Object.keys(this.state.days).map((uuid) => {
-                let day = this.state.days[uuid];
-                return (
-                  <DayListItem
-                    key={`day-${uuid}`}
-                    day={day}
-                    navigator={this.props.navigator}
-                    parentListen={this._listen.bind(this)}
-                    parentUnlisten={this._unlisten.bind(this)} />
-                );
-              })}
+            <ScrollView
+              style={[{width: screen.width}, styles.nav]}
+              horizontal={true}
+              showsHorizontalScrollIndicator={true}
+              automaticallyAdjustContentInsets={false}>
+              {dayNavItems}
             </ScrollView>
+            <DayOverview
+              day={viewingDay}
+              navigator={this.props.navigator}
+              parentListen={this._listen.bind(this)}
+              parentUnlisten={this._unlisten.bind(this)} />
             <BottomBar buttons={buttons} />
           </View>
         );

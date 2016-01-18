@@ -36,7 +36,7 @@ var styles = StyleSheet.create({
   }
 });
 
-class ViewDay extends Component {
+class EditDay extends Component {
   componentDidMount() {
     this._listen();
   }
@@ -81,4 +81,4 @@ class ViewDay extends Component {
   }
 }
 
-export default ViewDay;
+export default EditDay;

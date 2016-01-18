@@ -89,7 +89,7 @@ var DayStore = Reflux.createStore({
       return AsyncStorage.setItem("days", JSON.stringify(days));
     })
     .then(() => {
-      DayActions.listDays(5);
+      DayActions.listDays();
     })
     .catch((err) => console.error(err));
   },
@@ -98,21 +98,10 @@ var DayStore = Reflux.createStore({
     return this.selectedDay;
   },
 
-  listDays(limit) {
+  listDays() {
     AsyncStorage.getItem("days").then((days) => {
       days = JSON.parse(days);
-      var uuids = Object.keys(days);
-      if (limit && limit < uuids.length) {
-        var limitDays = {};
-        for (var i = uuids.length - limit; i < uuids.length; i++) {
-          var uuid = uuids[i];
-          limitDays[uuid] = days[uuid];
-        }
-        this.trigger(limitDays);
-      }
-      else {
-        this.trigger(days);
-      }
+      this.trigger(days);
     });
   },
 
