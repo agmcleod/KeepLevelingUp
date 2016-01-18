@@ -11,10 +11,10 @@ const {
   View
 } = React;
 
-import BottomBar from '../components/bottom_bar.ios';
+import BottomBar from '../components/bottom_bar';
 import RoutineActions from './routine_actions';
 import RoutineStore from './routine_store';
-import RoutineForm from './routine_form.ios';
+import RoutineForm from './routine_form';
 
 import Swipeout from 'react-native-swipeout';
 

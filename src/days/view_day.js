@@ -10,8 +10,8 @@ var {
   View
 } = React;
 
-import BottomBar from '../components/bottom_bar.ios';
-import Exercise from './exercise.ios';
+import BottomBar from '../components/bottom_bar';
+import Exercise from './exercise';
 
 import DayStore from './day_store';
 import DayActions from './day_actions';

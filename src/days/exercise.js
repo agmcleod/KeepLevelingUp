@@ -32,7 +32,7 @@ var styles = StyleSheet.create({
   }
 });
 
-import ExerciseField from './exercise_field.ios';
+import ExerciseField from './exercise_field';
 
 class Exercise extends Component {
   _onExerciseFieldChange(event, i, field) {

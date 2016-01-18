@@ -5,6 +5,7 @@ import React from 'react-native';
 var {
   Component,
   Dimensions,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -12,7 +13,7 @@ var {
 } = React;
 
 import DayActions from './day_actions';
-import ViewDay from './view_day.ios';
+import ViewDay from './view_day';
 import friendlyDay from '../friendly_day';
 
 var styles = StyleSheet.create({
@@ -110,10 +111,10 @@ class ExerciseValue extends Component {
               setString += (set.weight) + "lbs ";
             }
             if (typeof set.duration === "number") {
-              setString += (set.duration);
+              setString += " for " + (set.duration);
             }
             return (
-              <View style={styles.setWrapper}>
+              <View key={`${set.uuid}-${i}`} style={styles.setWrapper}>
                 <Text style={styles.counter}>{i + 1}.</Text>
                 <Text style={styles.setDetails}>{setString}</Text>
               </View>
@@ -141,7 +142,7 @@ class DayListItem extends Component {
     var screen = Dimensions.get("window");
     var day = this.props.day;
     return (
-      <View key={day.uuid} style={[{width: screen.width}, styles.daySection]}>
+      <ScrollView key={day.uuid} style={[{width: screen.width}, styles.daySection]} pagingEnabled={false}>
         <Text style={styles.dayHeader}>{friendlyDay(day.created_at)}</Text>
         <View style={styles.dayActions}>
           <TouchableHighlight style={styles.editDayTouch} underlayColor='#C0FAC4' onPress={this._editDayPressEvent.bind(this)}>
@@ -157,7 +158,7 @@ class DayListItem extends Component {
             <ExerciseValue key={"exercise_value_" + i} exercise={ex} />
           );
         })}
-      </View>
+      </ScrollView>
     );
   }
 }

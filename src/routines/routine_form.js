@@ -13,8 +13,8 @@ var {
   View
 } = React;
 
-import BottomBar from '../components/bottom_bar.ios';
-import ExerciseForm from './exercise_form.ios';
+import BottomBar from '../components/bottom_bar';
+import ExerciseForm from './exercise_form';
 import RoutineActions from './routine_actions';
 import RoutineStore from './routine_store';
 
@@ -124,9 +124,9 @@ class RoutineForm extends Component {
     });
   }
 
-  _onChildShowWeightChange(value, i) {
+  _onToggleWeightChange(i) {
     var exercises = this.state.exercises;
-    exercises[i].showWeight = value;
+    exercises[i].showWeight = !execercises[i].showWeight;
     this.setState({
       exercises: exercises
     });
@@ -202,13 +202,14 @@ class RoutineForm extends Component {
           {this.state.errors['name'] ? <Text style={styles.error}>{this.state.errors['name'].join(', ')}</Text> : null}
           {this.state.exercises.map((obj, i) => {
             return <ExerciseForm
+              key={`ex-form-${i}`}
               index={i}
               exercise={this.state.exercises[i]}
               moveDownPress={this._moveDownPress.bind(this)}
               moveUpPress={this._moveUpPress.bind(this)}
               onTextInputChange={this._onChildTextInputChange.bind(this)}
               onNumberInputChange={this._onChildNumberInputChange.bind(this)}
-              onShowWeightChange={this._onChildShowWeightChange.bind(this)}
+              onToggleWeightChange={this._onToggleWeightChange.bind(this)}
               removeExercise={this._removeExercise.bind(this)}
               total={this.state.exercises.length} />
           })}

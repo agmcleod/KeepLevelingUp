@@ -13,13 +13,13 @@ var {
   View,
 } = React;
 
-import RoutineList from '../routines/routine_list.ios';
-import BottomBar from '../components/bottom_bar.ios';
-import NewDay from './new_day.ios';
+import RoutineList from '../routines/routine_list';
+import BottomBar from '../components/bottom_bar';
+import NewDay from './new_day';
 
 import DayActions from './day_actions';
 import DayStore from './day_store';
-import DayListItem from './day_list_item.ios';
+import DayListItem from './day_list_item';
 
 import RoutineActions from '../routines/routine_actions';
 import RoutineStore from '../routines/routine_store';
@@ -141,11 +141,12 @@ class DayList extends Component {
         return (
           <View style={styles.view}>
             <Text style={styles.titleText}>Showing latest 5 workouts</Text>
-            <ScrollView ref="scrollview" directionalLockEnabled={true} style={[{width: screen.width}, styles.scrollView]} horizontal={true} bounces={false} showsHorizontalScrollIndicator={false} pagingEnabled={true} contentInset={{top:-20}}>
+            <ScrollView ref="scrollview" style={[{width: screen.width}, styles.scrollView]} horizontal={true} bounces={false} showsHorizontalScrollIndicator={false} pagingEnabled={true} contentInset={{top:-20}}>
               {Object.keys(this.state.days).map((uuid) => {
                 let day = this.state.days[uuid];
                 return (
                   <DayListItem
+                    key={`day-${uuid}`}
                     day={day}
                     navigator={this.props.navigator}
                     parentListen={this._listen.bind(this)}

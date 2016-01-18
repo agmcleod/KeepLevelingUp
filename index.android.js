@@ -10,7 +10,7 @@ var {
   Navigator,
 } = React;
 
-import DayList from './src/days/day_list.ios';
+import DayList from './src/days/day_list';
 import NavConfig from './src/nav_config';
 
 import './src/object.js';
@@ -26,7 +26,14 @@ var KeepLevelingUp = React.createClass({
 
     return (
       <Navigator
-        configureScene={(route) => NavConfig}
+        configureScene={(route) => {
+          if (route.type === "left") {
+            return NavConfig.toLeft;
+          }
+          else {
+            return NavConfig.toRight;
+          }
+        }}
         initialRoute={{
           component: DayList,
           id: "day_list"
@@ -37,4 +44,4 @@ var KeepLevelingUp = React.createClass({
   }
 });
 
-AppRegistry.registerComponent('KeepLevelingUp', () => KeepLevelingUp);
+AppRegistry.registerComponent('YourRoutine', () => KeepLevelingUp);

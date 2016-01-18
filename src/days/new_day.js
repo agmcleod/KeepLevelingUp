@@ -2,24 +2,26 @@
 
 import React from 'react-native';
 
+import {Select, Option, OptionList, updatePosition} from 'react-native-dropdown';
+
 var {
   Component,
-  PickerIOS,
-  PickerItemIOS,
   StyleSheet,
   Text,
   TouchableHighlight,
   View
 } = React;
 
-import BottomBar from '../components/bottom_bar.ios';
+import BottomBar from '../components/bottom_bar';
 import RoutineActions from '../routines/routine_actions';
 import RoutineStore from '../routines/routine_store';
 
 import DayActions from './day_actions';
 import DayStore from './day_store';
 
-import ViewDay from './view_day.ios';
+import ViewDay from './view_day';
+
+const OPTIONLIST_REF = 'optionlist';
 
 var styles = StyleSheet.create({
   formView: {
@@ -55,6 +57,9 @@ class NewDay extends Component {
     this._subscription = RoutineStore.listen(this._onRoutinesChange.bind(this));
     this._dayCreationSub = DayStore.listen(this._onDayCreation.bind(this));
     RoutineActions.listRoutines();
+
+    updatePosition(this.refs['select']);
+    updatePosition(this.refs[OPTIONLIST_REF]);
   }
 
   _cancelPressEvent() {
@@ -62,6 +67,10 @@ class NewDay extends Component {
     this._dayCreationSub();
     this.props.parentListen();
     this.props.navigator.pop();
+  }
+
+  _getOptionList() {
+    return this.refs[OPTIONLIST_REF];
   }
 
   _goPressEvent() {
@@ -106,19 +115,17 @@ class NewDay extends Component {
       <View style={styles.view}>
         <View style={styles.formView}>
           <Text style={styles.label}>Select which routine:</Text>
-          <PickerIOS
-            style={styles.picker}
-            onValueChange={this._selectRoutineEvent.bind(this)}
-            selectedValue={this.state.selectedUUID}>
+          <Select
+            defaultValue='Select which routine'
+            onSelect={this._selectRoutineEvent.bind(this)}
+            optionListRef={this._getOptionList.bind(this)}
+            ref='select'>
             {Object.keys(this.state.routines).map((key) => {
               let routine = this.state.routines[key];
-              return (<PickerItemIOS
-                key={routine.uuid}
-                value={routine.uuid}
-                label={routine.name}
-              />);
+              return <Option key={key} value={routine.uuid}>{routine.name}</Option>;
             })}
-          </PickerIOS>
+          </Select>
+          <OptionList ref={OPTIONLIST_REF} />
         </View>
         <BottomBar buttons={buttons} />
       </View>

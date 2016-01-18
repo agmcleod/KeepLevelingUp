@@ -7,14 +7,18 @@ import {numberAsString} from '../utils/utility_functions';
 var {
   Component,
   StyleSheet,
-  SwitchIOS,
   Text,
   TextInput,
   TouchableHighlight,
   View
 } = React;
 
+import Switch from 'react-native-material-switch';
+
 class ExerciseForm extends Component {
+  static propTypes = {
+    onToggleWeightChange: React.PropTypes.func
+  };
   _moveDownPress() {
     this.props.moveDownPress(this.props.index);
   }
@@ -91,9 +95,14 @@ class ExerciseForm extends Component {
           defaultValue={numberAsString(this.props.exercise.duration)} />
         <View style={styles.showWeight}>
           <Text style={styles.showWeightText}>Show Weight:</Text>
-          <SwitchIOS
-            value={this.props.exercise.showWeight}
-            onValueChange={(e) => { this.props.onShowWeightChange(e, this.props.index); }}
+          <Switch
+            active={this.props.exercise.showWeight}
+            activeBackgroundColor='rgba(0, 205, 0, 1)'
+            inactiveBackgroundColor='rgba(205, 0, 0, 1)'
+            inactiveButtonColor='rgba(255, 255, 255, 1)'
+            inactiveButtonPressedColor='rgba(255, 255, 255, 1)'
+            onStateChange={() => { this.props.onToggleWeightChange(this.props.index); }}
+            style={styles.switch}
           />
         </View>
         <View style={styles.actions}>
@@ -159,6 +168,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Optima',
     marginRight: 5,
     paddingTop: 10
+  },
+  switch: {
+    marginTop: 5
   },
   textInput: {
     borderWidth: 1,
