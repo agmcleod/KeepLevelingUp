@@ -57357,7 +57357,7 @@ Object.keys(componentOrElement));}
 
 module.exports=findDOMNode;
 });
-__d('KeepLevelingUp/src/days/day_list.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _routine_list=require('KeepLevelingUp/src/routines/routine_list.js');var _routine_list2=babelHelpers.interopRequireDefault(_routine_list);var _bottom_bar=require('KeepLevelingUp/src/components/bottom_bar.js');var _bottom_bar2=babelHelpers.interopRequireDefault(_bottom_bar);var _new_day=require('KeepLevelingUp/src/days/new_day.js');var _new_day2=babelHelpers.interopRequireDefault(_new_day);var _day_actions=require('KeepLevelingUp/src/days/day_actions.js');var _day_actions2=babelHelpers.interopRequireDefault(_day_actions);var _day_store=require('KeepLevelingUp/src/days/day_store.js');var _day_store2=babelHelpers.interopRequireDefault(_day_store);var _day_list_item=require('KeepLevelingUp/src/days/day_list_item.js');var _day_list_item2=babelHelpers.interopRequireDefault(_day_list_item);var _routine_actions=require('KeepLevelingUp/src/routines/routine_actions.js');var _routine_actions2=babelHelpers.interopRequireDefault(_routine_actions);var _routine_store=require('KeepLevelingUp/src/routines/routine_store.js');var _routine_store2=babelHelpers.interopRequireDefault(_routine_store);
+__d('KeepLevelingUp/src/days/day_list.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _routine_list=require('KeepLevelingUp/src/routines/routine_list.js');var _routine_list2=babelHelpers.interopRequireDefault(_routine_list);var _bottom_bar=require('KeepLevelingUp/src/components/bottom_bar.js');var _bottom_bar2=babelHelpers.interopRequireDefault(_bottom_bar);var _new_day=require('KeepLevelingUp/src/days/new_day.js');var _new_day2=babelHelpers.interopRequireDefault(_new_day);var _day_actions=require('KeepLevelingUp/src/days/day_actions.js');var _day_actions2=babelHelpers.interopRequireDefault(_day_actions);var _day_nav_item=require('KeepLevelingUp/src/days/day_nav_item.js');var _day_nav_item2=babelHelpers.interopRequireDefault(_day_nav_item);var _day_store=require('KeepLevelingUp/src/days/day_store.js');var _day_store2=babelHelpers.interopRequireDefault(_day_store);var _day_overview=require('KeepLevelingUp/src/days/day_overview.js');var _day_overview2=babelHelpers.interopRequireDefault(_day_overview);var _routine_actions=require('KeepLevelingUp/src/routines/routine_actions.js');var _routine_actions2=babelHelpers.interopRequireDefault(_routine_actions);var _routine_store=require('KeepLevelingUp/src/routines/routine_store.js');var _routine_store2=babelHelpers.interopRequireDefault(_routine_store);
 
 var React=require('react-native/Libraries/react-native/react-native.js');var 
 
@@ -57383,6 +57383,7 @@ React.Component;var Dimensions=React.Dimensions;var ScrollView=React.ScrollView;
 
 
 
+
 var styles=StyleSheet.create({
 actionText:{
 fontFamily:'Optima',
@@ -57391,9 +57392,12 @@ margin:20,
 marginTop:100,
 textAlign:'center'},
 
-dayHeader:{
-fontSize:18,
-marginBottom:5},
+nav:{
+padding:0,
+marginTop:30,
+flex:1,
+borderBottomWidth:1,
+borderColor:'#000000'},
 
 noRoutinesView:{
 flex:10},
@@ -57403,9 +57407,6 @@ position:'absolute',
 left:0,
 right:0,
 bottom:10},
-
-scrollView:{
-flex:9},
 
 titleText:{
 color:'#555',
@@ -57424,19 +57425,13 @@ DayList=function(_Component){babelHelpers.inherits(DayList,_Component);
 function DayList(props){babelHelpers.classCallCheck(this,DayList);var _this=babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(DayList).call(this,
 props));
 _this.state={
-days:{},
+days:new Map(),
 hasRoutines:false};return _this;}babelHelpers.createClass(DayList,[{key:'componentDidMount',value:function componentDidMount()
 
 
 
 {
-this._listen();}},{key:'componentDidUpdate',value:function componentDidUpdate()
-
-
-{
-if(this.refs.scrollview){
-this.refs.scrollview.scrollWithoutAnimationTo(0,(Object.keys(this.state.days).length-1)*Dimensions.get("window").width);}}},{key:'componentWillUnmount',value:function componentWillUnmount()
-
+this._listen();}},{key:'componentWillUnmount',value:function componentWillUnmount()
 
 
 {
@@ -57447,7 +57442,7 @@ this._unlisten();}},{key:'_listen',value:function _listen()
 this._subscription=_day_store2.default.listen(this._onDayListChange.bind(this));
 this._routineSubscription=_routine_store2.default.listen(this._onRoutinesChange.bind(this));
 
-_day_actions2.default.listDays(5);
+_day_actions2.default.listDays();
 _routine_actions2.default.listRoutines();}},{key:'_newDayPressEvent',value:function _newDayPressEvent()
 
 
@@ -57460,15 +57455,29 @@ type:"right"});}},{key:'_onDayListChange',value:function _onDayListChange(
 
 
 
-days){
-if(days){
-this.setState({days:days});}}},{key:'_onRoutinesChange',value:function _onRoutinesChange(
+daysDataSet){
+if(daysDataSet){
+var dayUuids=Object.keys(daysDataSet);
+dayUuids.reverse();
+var days=this.state.days;
+days.clear();
+for(var i=0;i<dayUuids.length;i++){
+var uuid=dayUuids[i];
+days.set(uuid,daysDataSet[uuid]);}
+
+this.setState({days:days,viewingDay:days.get(dayUuids[0])});}}},{key:'_onRoutinesChange',value:function _onRoutinesChange(
 
 
 
 routines){
 this.setState({
-hasRoutines:Object.keys(routines).length>0});}},{key:'_routinesPressEvent',value:function _routinesPressEvent()
+hasRoutines:Object.keys(routines).length>0});}},{key:'_selectDay',value:function _selectDay(
+
+
+
+uuid){
+this.setState({
+viewingDay:this.state.days.get(uuid)});}},{key:'_routinesPressEvent',value:function _routinesPressEvent()
 
 
 
@@ -57492,28 +57501,43 @@ return this.renderNoRoutines();}else
 
 {
 var buttons=[{text:"Routines",onPressEvent:this._routinesPressEvent.bind(this)},{text:"New Day",onPressEvent:this._newDayPressEvent.bind(this)}];
-if(Object.keys(this.state.days).length===0){
+if(this.state.days.size===0){
 return this.renderNoDays(buttons);}else 
 
-{
-var screen=Dimensions.get("window");
-return (
-React.createElement(View,{style:styles.view},
-React.createElement(Text,{style:styles.titleText},'Showing latest 5 workouts'),
-React.createElement(ScrollView,{ref:'scrollview',style:[{width:screen.width},styles.scrollView],horizontal:true,bounces:false,showsHorizontalScrollIndicator:false,pagingEnabled:true,contentInset:{top:-20}},
-Object.keys(this.state.days).map(function(uuid){
-var day=_this2.state.days[uuid];
-return (
-React.createElement(_day_list_item2.default,{
-key:'day-'+uuid,
+{var 
+screen;var _ret=function(){screen=Dimensions.get("window");
+var viewingDay=_this2.state.viewingDay;
+var i=0;
+var dayNavItems=[];
+_this2.state.days.forEach(function(day,uuid){
+var odd=i%2===0?false:true;
+i+=1;
+dayNavItems.push(
+
+React.createElement(_day_nav_item2.default,{
+key:uuid,
 day:day,
+odd:odd,
+selected:uuid===_this2.state.viewingDay.uuid,
+selectDay:_this2._selectDay.bind(_this2)}));});
+
+
+
+return {v:
+React.createElement(View,{style:styles.view},
+React.createElement(ScrollView,{
+style:[{width:screen.width},styles.nav],
+horizontal:true,
+showsHorizontalScrollIndicator:true,
+automaticallyAdjustContentInsets:false},
+dayNavItems),
+
+React.createElement(_day_overview2.default,{
+day:viewingDay,
 navigator:_this2.props.navigator,
 parentListen:_this2._listen.bind(_this2),
-parentUnlisten:_this2._unlisten.bind(_this2)}));})),
-
-
-
-React.createElement(_bottom_bar2.default,{buttons:buttons})));}}}},{key:'renderNoDays',value:function renderNoDays(
+parentUnlisten:_this2._unlisten.bind(_this2)}),
+React.createElement(_bottom_bar2.default,{buttons:buttons}))};}();if(typeof _ret==="object")return _ret.v;}}}},{key:'renderNoDays',value:function renderNoDays(
 
 
 
@@ -60330,7 +60354,7 @@ backgroundColor:'#fd9427'}});
 
 module.exports=styles;
 });
-__d('KeepLevelingUp/src/days/new_day.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _reactNativeDropdown=require('react-native-dropdown/lib/index.js');var _bottom_bar=require('KeepLevelingUp/src/components/bottom_bar.js');var _bottom_bar2=babelHelpers.interopRequireDefault(_bottom_bar);var _routine_actions=require('KeepLevelingUp/src/routines/routine_actions.js');var _routine_actions2=babelHelpers.interopRequireDefault(_routine_actions);var _routine_store=require('KeepLevelingUp/src/routines/routine_store.js');var _routine_store2=babelHelpers.interopRequireDefault(_routine_store);var _day_actions=require('KeepLevelingUp/src/days/day_actions.js');var _day_actions2=babelHelpers.interopRequireDefault(_day_actions);var _day_store=require('KeepLevelingUp/src/days/day_store.js');var _day_store2=babelHelpers.interopRequireDefault(_day_store);var _view_day=require('KeepLevelingUp/src/days/view_day.js');var _view_day2=babelHelpers.interopRequireDefault(_view_day);var 
+__d('KeepLevelingUp/src/days/new_day.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _reactNativeDropdown=require('react-native-dropdown/lib/index.js');var _bottom_bar=require('KeepLevelingUp/src/components/bottom_bar.js');var _bottom_bar2=babelHelpers.interopRequireDefault(_bottom_bar);var _routine_actions=require('KeepLevelingUp/src/routines/routine_actions.js');var _routine_actions2=babelHelpers.interopRequireDefault(_routine_actions);var _routine_store=require('KeepLevelingUp/src/routines/routine_store.js');var _routine_store2=babelHelpers.interopRequireDefault(_routine_store);var _day_actions=require('KeepLevelingUp/src/days/day_actions.js');var _day_actions2=babelHelpers.interopRequireDefault(_day_actions);var _day_store=require('KeepLevelingUp/src/days/day_store.js');var _day_store2=babelHelpers.interopRequireDefault(_day_store);var _edit_day=require('KeepLevelingUp/src/days/edit_day.js');var _edit_day2=babelHelpers.interopRequireDefault(_edit_day);var 
 
 
 
@@ -60415,7 +60439,7 @@ day){
 this._subscription();
 this._dayCreationSub();
 this.props.navigator.replace({
-component:_view_day2.default,
+component:_edit_day2.default,
 props:{day:day,parentListen:this.props.parentListen}});}},{key:'_onRoutinesChange',value:function _onRoutinesChange(
 
 
@@ -60996,7 +61020,7 @@ delete days[uuid];
 return AsyncStorage.setItem("days",JSON.stringify(days));}).
 
 then(function(){
-_day_actions2.default.listDays(5);}).
+_day_actions2.default.listDays();}).
 
 catch(function(err){return console.error(err);});},
 
@@ -61005,21 +61029,10 @@ getSelectedDay:function(){
 return this.selectedDay;},
 
 
-listDays:function(limit){var _this2=this;
+listDays:function(){var _this2=this;
 AsyncStorage.getItem("days").then(function(days){
 days=JSON.parse(days);
-var uuids=Object.keys(days);
-if(limit&&limit<uuids.length){
-var limitDays={};
-for(var i=uuids.length-limit;i<uuids.length;i++){
-var uuid=uuids[i];
-limitDays[uuid]=days[uuid];}
-
-_this2.trigger(limitDays);}else 
-
-{
-_this2.trigger(days);}});},
-
+_this2.trigger(days);});},
 
 
 
@@ -61039,7 +61052,7 @@ catch(function(err){return console.error(err);});}});exports.default=
 
 DayStore;
 });
-__d('KeepLevelingUp/src/days/view_day.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _bottom_bar=require('KeepLevelingUp/src/components/bottom_bar.js');var _bottom_bar2=babelHelpers.interopRequireDefault(_bottom_bar);var _exercise=require('KeepLevelingUp/src/days/exercise.js');var _exercise2=babelHelpers.interopRequireDefault(_exercise);var _day_store=require('KeepLevelingUp/src/days/day_store.js');var _day_store2=babelHelpers.interopRequireDefault(_day_store);var _day_actions=require('KeepLevelingUp/src/days/day_actions.js');var _day_actions2=babelHelpers.interopRequireDefault(_day_actions);var _friendly_day=require('KeepLevelingUp/src/friendly_day.js');var _friendly_day2=babelHelpers.interopRequireDefault(_friendly_day);var 
+__d('KeepLevelingUp/src/days/edit_day.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _bottom_bar=require('KeepLevelingUp/src/components/bottom_bar.js');var _bottom_bar2=babelHelpers.interopRequireDefault(_bottom_bar);var _exercise=require('KeepLevelingUp/src/days/exercise.js');var _exercise2=babelHelpers.interopRequireDefault(_exercise);var _day_store=require('KeepLevelingUp/src/days/day_store.js');var _day_store2=babelHelpers.interopRequireDefault(_day_store);var _day_actions=require('KeepLevelingUp/src/days/day_actions.js');var _day_actions2=babelHelpers.interopRequireDefault(_day_actions);var _friendly_day=require('KeepLevelingUp/src/friendly_day.js');var _friendly_day2=babelHelpers.interopRequireDefault(_friendly_day);var 
 
 
 
@@ -61077,7 +61090,7 @@ flex:1}});var
 
 
 
-ViewDay=function(_Component){babelHelpers.inherits(ViewDay,_Component);function ViewDay(){babelHelpers.classCallCheck(this,ViewDay);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(ViewDay).apply(this,arguments));}babelHelpers.createClass(ViewDay,[{key:'componentDidMount',value:function componentDidMount()
+EditDay=function(_Component){babelHelpers.inherits(EditDay,_Component);function EditDay(){babelHelpers.classCallCheck(this,EditDay);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(EditDay).apply(this,arguments));}babelHelpers.createClass(EditDay,[{key:'componentDidMount',value:function componentDidMount()
 {
 this._listen();}},{key:'componentWillUnmount',value:function componentWillUnmount()
 
@@ -61116,13 +61129,13 @@ _reactNative2.default.createElement(Text,{style:styles.dayHeader},(0,_friendly_d
 this.props.day.exercises.map(function(exercise){return _reactNative2.default.createElement(_exercise2.default,{key:exercise.uuid,exercise:exercise});}))),
 
 
-_reactNative2.default.createElement(_bottom_bar2.default,{buttons:buttons})));}}]);return ViewDay;}(Component);exports.default=
+_reactNative2.default.createElement(_bottom_bar2.default,{buttons:buttons})));}}]);return EditDay;}(Component);exports.default=
 
 
 
 
 
-ViewDay;
+EditDay;
 });
 __d('KeepLevelingUp/src/days/exercise.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _exercise_field=require('KeepLevelingUp/src/days/exercise_field.js');var _exercise_field2=babelHelpers.interopRequireDefault(_exercise_field);var 
 
@@ -61272,7 +61285,69 @@ time=d.getHours()+":"+minutes+"AM";}
 
 return WEEK_DAYS[d.getDay()]+", "+MONTHS[d.getMonth()]+" "+d.getDate()+" "+d.getFullYear()+" at "+time;};var WEEK_DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];var MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
 });
-__d('KeepLevelingUp/src/days/day_list_item.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _day_actions=require('KeepLevelingUp/src/days/day_actions.js');var _day_actions2=babelHelpers.interopRequireDefault(_day_actions);var _view_day=require('KeepLevelingUp/src/days/view_day.js');var _view_day2=babelHelpers.interopRequireDefault(_view_day);var _friendly_day=require('KeepLevelingUp/src/friendly_day.js');var _friendly_day2=babelHelpers.interopRequireDefault(_friendly_day);var 
+__d('KeepLevelingUp/src/days/day_nav_item.js',function(global, require, module, exports) {  Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require("react-native/Libraries/react-native/react-native.js");var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var 
+
+
+StyleSheet=_reactNative2.default.StyleSheet;var 
+Text=_reactNative2.default.Text;var 
+TouchableOpacity=_reactNative2.default.TouchableOpacity;var 
+View=_reactNative2.default.View;
+
+
+var MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+var getMonth=function(date){
+return MONTHS[date.getMonth()];};var 
+
+
+DayNavItem=function(_React$Component){babelHelpers.inherits(DayNavItem,_React$Component);function DayNavItem(){babelHelpers.classCallCheck(this,DayNavItem);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(DayNavItem).apply(this,arguments));}babelHelpers.createClass(DayNavItem,[{key:"render",value:function render()
+
+
+
+
+
+
+
+{var _this2=this;
+var d=new Date(this.props.day.created_at);
+var viewStyles=[styles.container];
+if(this.props.selected){
+viewStyles.push(styles.selected);}else 
+if(this.props.odd){
+viewStyles.push(styles.odd);}
+
+return (
+_reactNative2.default.createElement(TouchableOpacity,{style:viewStyles,onPress:function(){return _this2.props.selectDay(_this2.props.day.uuid);}},
+_reactNative2.default.createElement(View,null,
+_reactNative2.default.createElement(Text,{style:styles.text},getMonth(d)),
+_reactNative2.default.createElement(Text,{style:styles.text},d.getDate()))));}}]);return DayNavItem;}(_reactNative2.default.Component);DayNavItem.propTypes={day:_reactNative2.default.PropTypes.object.isRequired,odd:_reactNative2.default.PropTypes.bool,selectDay:_reactNative2.default.PropTypes.func.isRequired,selected:_reactNative2.default.PropTypes.bool};
+
+
+
+
+
+
+var styles=StyleSheet.create({
+container:{
+paddingLeft:15,
+paddingRight:15,
+width:50,
+justifyContent:'center'},
+
+odd:{
+backgroundColor:'#ccc'},
+
+selected:{
+backgroundColor:'#39b54a'},
+
+text:{
+fontFamily:'Optima'}});exports.default=
+
+
+
+DayNavItem;
+});
+__d('KeepLevelingUp/src/days/day_overview.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _day_actions=require('KeepLevelingUp/src/days/day_actions.js');var _day_actions2=babelHelpers.interopRequireDefault(_day_actions);var _edit_day=require('KeepLevelingUp/src/days/edit_day.js');var _edit_day2=babelHelpers.interopRequireDefault(_edit_day);var _friendly_day=require('KeepLevelingUp/src/friendly_day.js');var _friendly_day2=babelHelpers.interopRequireDefault(_friendly_day);var 
 
 
 
@@ -61308,7 +61383,8 @@ fontSize:18,
 fontWeight:'bold'},
 
 daySection:{
-padding:20},
+padding:20,
+flex:9},
 
 deleteDayTouch:{
 alignSelf:'flex-start',
@@ -61400,14 +61476,14 @@ _reactNative2.default.createElement(Text,{style:styles.setDetails},setString)));
 
 
 
-DayListItem=function(_Component2){babelHelpers.inherits(DayListItem,_Component2);function DayListItem(){babelHelpers.classCallCheck(this,DayListItem);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(DayListItem).apply(this,arguments));}babelHelpers.createClass(DayListItem,[{key:'_deleteDayPressEvent',value:function _deleteDayPressEvent()
+DayOverview=function(_Component2){babelHelpers.inherits(DayOverview,_Component2);function DayOverview(){babelHelpers.classCallCheck(this,DayOverview);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(DayOverview).apply(this,arguments));}babelHelpers.createClass(DayOverview,[{key:'_deleteDayPressEvent',value:function _deleteDayPressEvent()
 {
 _day_actions2.default.deleteDay(this.props.day.uuid);}},{key:'_editDayPressEvent',value:function _editDayPressEvent()
 
 {
 this.props.parentUnlisten();
 this.props.navigator.push({
-component:_view_day2.default,
+component:_edit_day2.default,
 props:{parentListen:this.props.parentListen,day:this.props.day}});}},{key:'render',value:function render()
 
 
@@ -61429,7 +61505,7 @@ _reactNative2.default.createElement(Text,{style:styles.deleteDayText},'Delete'))
 
 day.exercises.map(function(ex,i){
 return (
-_reactNative2.default.createElement(ExerciseValue,{key:"exercise_value_"+i,exercise:ex}));})));}}]);return DayListItem;}(Component);exports.default=
+_reactNative2.default.createElement(ExerciseValue,{key:"exercise_value_"+i,exercise:ex}));})));}}]);return DayOverview;}(Component);exports.default=
 
 
 
@@ -61437,7 +61513,7 @@ _reactNative2.default.createElement(ExerciseValue,{key:"exercise_value_"+i,exerc
 
 
 
-DayListItem;
+DayOverview;
 });
 __d('KeepLevelingUp/src/nav_config.js',function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
 
@@ -61594,4 +61670,4 @@ return newObject;};}
 });
 ;require("InitializeJavaScriptAppEngine");
 ;require("KeepLevelingUp/index.ios.js");
-__SSTOKENSTRING = "@generated SignedSource<<80f485775660d0b0594351021a60eb13>>";
+__SSTOKENSTRING = "@generated SignedSource<<1937c27cf00feb197b0fd333e905079e>>";

@@ -44,8 +44,7 @@ const styles = StyleSheet.create({
   container: {
     paddingLeft: 15,
     paddingRight: 15,
-    width: 50,
-    justifyContent: 'center'
+    width: 60
   },
   odd: {
     backgroundColor: '#ccc'
@@ -54,7 +53,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#39b54a'
   },
   text: {
-    fontFamily: 'Optima'
+    fontFamily: 'Optima',
+    justifyContent: 'center'
   }
 });
 

@@ -1,17 +1,11 @@
-'use strict';
-
 import Reflux from 'reflux';
 import RoutineActions from './routine_actions';
-import {uuid} from '../utils/utility_functions';
+import {createUuid} from '../utils/utility_functions';
 
 import React from 'react-native';
-var {
-  AsyncStorage
-} = React;
+const {AsyncStorage} = React;
 
-import arrayMove from '../array_move';
-
-var RoutineStore = Reflux.createStore({
+const RoutineStore = Reflux.createStore({
   init() {
     this.routines = {};
     this.listenTo(RoutineActions.createRoutine, this.createRoutine);
@@ -22,31 +16,28 @@ var RoutineStore = Reflux.createStore({
   },
 
   createRoutine(data) {
-    data.uuid = uuid();
-    AsyncStorage.getItem("routines").then((routines) => {
-      routines = JSON.parse(routines);
-      if (!routines) {
-        routines = {};
-      }
+    data.uuid = createUuid();
+    AsyncStorage.getItem('routines').then((routines) => {
+      const routineData = JSON.parse(routines) || {};
       data.exercises.forEach((exercise) => {
         if (!exercise.uuid) {
-          exercise.uuid = uuid();
+          exercise.uuid = createUuid();
         }
       });
-      routines[data.uuid] = data;
-      this.routines = routines;
-      return AsyncStorage.setItem("routines", JSON.stringify(routines));
+      routineData[data.uuid] = data;
+      this.routines = routineData;
+      return AsyncStorage.setItem('routines', JSON.stringify(routineData));
     })
     .then(() => this.trigger())
     .catch((err) => console.err(err));
   },
 
   deleteRoutine(uuid) {
-    AsyncStorage.getItem("routines").then((routines) => {
-      routines = JSON.parse(routines);
-      delete routines[uuid];
-      this.routines = routines;
-      return AsyncStorage.setItem("routines", JSON.stringify(routines));
+    AsyncStorage.getItem('routines').then((routines) => {
+      const routineData = JSON.parse(routines);
+      delete routineData[uuid];
+      this.routines = routineData;
+      return AsyncStorage.setItem('routines', JSON.stringify(routineData));
     })
     .then(() => {
       this.trigger(this.routines);
@@ -55,33 +46,31 @@ var RoutineStore = Reflux.createStore({
   },
 
   getRoutine(uuid) {
-    return AsyncStorage.getItem("routines").then((routines) => {
-      routines = JSON.parse(routines);
-      this.trigger(routines[uuid]);
+    return AsyncStorage.getItem('routines').then((routines) => {
+      this.trigger(JSON.parse(routines)[uuid]);
     })
     .catch((err) => console.err(err));
   },
 
   getRoutineData(uuid) {
-    return AsyncStorage.getItem("routines").then((routines) => {
-      routines = JSON.parse(routines);
-      return Promise.resolve(routines[uuid]);
+    return AsyncStorage.getItem('routines').then((routines) => {
+      return Promise.resolve(JSON.parse(routines)[uuid]);
     });
   },
 
   listRoutines() {
-    AsyncStorage.getItem("routines").then((routines) => {
+    AsyncStorage.getItem('routines').then((routines) => {
       this.routines = JSON.parse(routines);
       this.trigger(this.routines);
     });
   },
 
   updateRoutine(data) {
-    AsyncStorage.getItem("routines").then((routines) => {
-      routines = JSON.parse(routines);
-      routines[data.uuid] = data;
-      this.routines = routines;
-      return AsyncStorage.setItem("routines", JSON.stringify(routines));
+    AsyncStorage.getItem('routines').then((routines) => {
+      const routineData = JSON.parse(routines);
+      routineData[data.uuid] = data;
+      this.routines = routineData;
+      return AsyncStorage.setItem('routines', JSON.stringify(routineData));
     })
     .then(() => this.trigger())
     .catch((err) => console.err(err));

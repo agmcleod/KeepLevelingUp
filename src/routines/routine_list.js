@@ -1,5 +1,3 @@
-'use strict';
-
 const React = require('react-native');
 
 const {
@@ -25,11 +23,11 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   scrollView: {
-    flex: 10,
+    flex: 10
   },
   separator: {
     height: 1,
-    backgroundColor: '#CCCCCC',
+    backgroundColor: '#CCCCCC'
   },
   swipeButton: {
     color: '#ffffff',
@@ -47,11 +45,18 @@ const styles = StyleSheet.create({
 });
 
 class RoutineList extends Component {
+  static displayName = 'RoutineList';
+
+  static propTypes = {
+    navigator: React.PropTypes.object,
+    parentListen: React.PropTypes.Func
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       routineDataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
+        rowHasChanged: (row1, row2) => row1 !== row2
       })
     };
   }
@@ -77,7 +82,7 @@ class RoutineList extends Component {
     this._unlisten();
     this.props.navigator.push({
       component: RoutineForm,
-      props: { parentListen: this._listen.bind(this) },
+      props: {parentListen: this._listen.bind(this)},
       type: "left"
     });
   }
@@ -90,7 +95,7 @@ class RoutineList extends Component {
     this._unlisten();
     this.props.navigator.push({
       component: RoutineForm,
-      props: { routine: routine, parentListen: this._listen.bind(this) },
+      props: {routine: routine, parentListen: this._listen.bind(this)},
       type: "left"
     });
   }
@@ -114,26 +119,26 @@ class RoutineList extends Component {
       text: "Home",
       onPressEvent: this._cancelPressEvent.bind(this)
     }];
-    return(
+    return (
       <View style={styles.view}>
         <ListView
-          style={[{ width: screen.width }, styles.scrollView]}
+          style={[{width: screen.width}, styles.scrollView]}
           dataSource={this.state.routineDataSource}
           renderRow={(routine) => {
             const buttons = [{
               backgroundColor: '#39b54a',
               component: (<Text style={styles.swipeButton}>Edit</Text>),
-              onPress: () => { this._onEditPress(routine); }
-            },{
+              onPress: () => this._onEditPress(routine)
+            }, {
               backgroundColor: '#cc0000',
               component: (<Text style={styles.swipeButton}>Delete</Text>),
-              onPress: () => { this._onDeletePress(routine.uuid); }
+              onPress: () => this._onDeletePress(routine.uuid)
             }];
             return (
               <View>
                 <Swipeout autoClose={true} right={buttons} backgroundColor='#ffffff'>
                   <Text style={styles.listRow}>{routine.name}</Text>
-                  <View style={styles.separator}></View>
+                  <View style={styles.separator} />
                 </Swipeout>
               </View>
             );

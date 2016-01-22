@@ -1,8 +1,7 @@
 const numberAsString = function (n) {
   if (typeof n === 'number') {
-    return '' + n;
-  }
-  else {
+    return String(n);
+  } else {
     return n;
   }
 };
