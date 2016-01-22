@@ -1,8 +1,6 @@
-'use strict';
+import React from 'react-native';
 
-var React = require('react-native');
-
-var {
+const {
   Component,
   Dimensions,
   ScrollView,
@@ -25,7 +23,7 @@ import DayOverview from './day_overview';
 import RoutineActions from '../routines/routine_actions';
 import RoutineStore from '../routines/routine_store';
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   actionText: {
     fontFamily: 'Optima',
     fontSize: 18,
@@ -63,6 +61,10 @@ var styles = StyleSheet.create({
 });
 
 class DayList extends Component {
+  static displayName = 'DayList';
+  static propTypes = {
+    navigator: React.PropTypes.object
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -91,8 +93,8 @@ class DayList extends Component {
     this._unlisten();
     this.props.navigator.push({
       component: NewDay,
-      props: { parentListen: this._listen.bind(this) },
-      type: "right"
+      props: {parentListen: this._listen.bind(this)},
+      type: 'right'
     });
   }
 
@@ -127,7 +129,7 @@ class DayList extends Component {
     this.props.navigator.push({
       component: RoutineList,
       props: { parentListen: this._listen.bind(this) },
-      type: "left"
+      type: 'left'
     });
   }
 
@@ -139,14 +141,15 @@ class DayList extends Component {
   render() {
     if (!this.state.hasRoutines) {
       return this.renderNoRoutines();
-    }
-    else {
-      var buttons = [{ text: "Routines", onPressEvent: this._routinesPressEvent.bind(this) }, { text: "New Day", onPressEvent: this._newDayPressEvent.bind(this) }];
+    } else {
+      const buttons = [
+        {text: 'Routines', onPressEvent: this._routinesPressEvent.bind(this)},
+        {text: 'New Day', onPressEvent: this._newDayPressEvent.bind(this)}
+      ];
       if (this.state.days.size === 0) {
         return this.renderNoDays(buttons);
-      }
-      else {
-        var screen = Dimensions.get("window");
+      } else {
+        const screen = Dimensions.get('window');
         const viewingDay = this.state.viewingDay;
         let i = 0;
         const dayNavItems = [];
@@ -189,7 +192,7 @@ class DayList extends Component {
     return (
       <View style={styles.view}>
         <View style={styles.noRoutinesView} horizontal={true} bounces={false} showsHorizontalScrollIndicator={true} pagingEnabled={true}>
-          <Text style={styles.actionText}>{"You haven't entered a work out day yet. Start one!"}</Text>
+          <Text style={styles.actionText}>{'You haven\'t entered a work out day yet. Start one!'}</Text>
         </View>
         <BottomBar buttons={buttons} />
       </View>
@@ -197,7 +200,7 @@ class DayList extends Component {
   }
 
   renderNoRoutines() {
-    var buttons = [{ text: "Routines", onPressEvent: this._routinesPressEvent.bind(this) }];
+    const buttons = [{text: 'Routines', onPressEvent: this._routinesPressEvent.bind(this)}];
     return (
       <View style={styles.view}>
         <View style={styles.noRoutinesView}>
@@ -205,7 +208,7 @@ class DayList extends Component {
         </View>
         <BottomBar buttons={buttons} />
       </View>
-    )
+    );
   }
 }
 

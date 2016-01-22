@@ -1,10 +1,8 @@
-'use strict';
-
-var React = require('react-native');
+import React from 'react-native';
 
 import {numberAsString} from '../utils/utility_functions';
 
-var {
+const {
   Component,
   StyleSheet,
   Text,
@@ -16,8 +14,20 @@ var {
 import Switch from 'react-native-material-switch';
 
 class ExerciseForm extends Component {
+  static displayName = 'ExerciseForm';
   static propTypes = {
-    onToggleWeightChange: React.PropTypes.func
+    exercise: React.PropTypes.shape({
+      errors: React.PropTypes.object,
+      duration: React.PropTypes.number,
+      name: React.PropTypes.string,
+      sets: React.PropTypes.number,
+      showWeight: React.PropTypes.bool,
+    }).isRequired,
+    index: React.PropTypes.number.isRequired,
+    moveDownPress: React.PropTypes.func.isRequired,
+    moveUpPress: React.PropTypes.func.isRequired,
+    onToggleWeightChange: React.PropTypes.func.isRequired,
+    removeExercise: React.PropTypes.func.isRequired
   };
   _moveDownPress() {
     this.props.moveDownPress(this.props.index);
@@ -27,13 +37,12 @@ class ExerciseForm extends Component {
     this.props.moveUpPress(this.props.index);
   }
 
-
   _removePress() {
     this.props.removeExercise(this.props.index);
   }
 
   _outputErrorForField(field) {
-    var exercise = this.props.exercise;
+    const exercise = this.props.exercise;
     if (exercise && exercise.errors && exercise.errors[field]) {
       return (
         <Text style={styles.error}>{exercise.errors[field].join(', ')}</Text>
@@ -48,7 +57,7 @@ class ExerciseForm extends Component {
         <TouchableHighlight
           onPress={this._moveUpPress.bind(this)}
           style={styles.moveButtonTouch}
-          underlayColor="#ffffff">
+          underlayColor='#ffffff'>
           <Text style={styles.actionButtonText}>Move Up</Text>
         </TouchableHighlight>
       );
@@ -60,7 +69,7 @@ class ExerciseForm extends Component {
         <TouchableHighlight
           onPress={this._moveDownPress.bind(this)}
           style={styles.moveButtonTouch}
-          underlayColor="#ffffff">
+          underlayColor='#ffffff'>
           <Text style={styles.actionButtonText}>Move Down</Text>
         </TouchableHighlight>
       );
@@ -70,28 +79,28 @@ class ExerciseForm extends Component {
       <View style={styles.view}>
         <TextInput
           style={styles.textInput}
-          onChange={(e) => { this.props.onTextInputChange(e, this.props.index, "name"); }}
-          placeholder="Name"
+          onChange={(e) => {this.props.onTextInputChange(e, this.props.index, 'name');}}
+          placeholder='Name'
           defaultValue={this.props.exercise.name}
         />
         {this._outputErrorForField('name')}
         <TextInput
           style={styles.textInput}
-          onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "sets"); }}
-          placeholder="Sets"
-          keyboardType="numeric"
+          onChange={(e) => {this.props.onNumberInputChange(e, this.props.index, 'sets');}}
+          placeholder='Sets'
+          keyboardType='numeric'
           defaultValue={numberAsString(this.props.exercise.sets)} />
         <TextInput
           style={styles.textInput}
-          onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "reps"); }}
-          placeholder="Reps"
-          keyboardType="numeric"
+          onChange={(e) => {this.props.onNumberInputChange(e, this.props.index, 'reps');}}
+          placeholder='Reps'
+          keyboardType='numeric'
           defaultValue={numberAsString(this.props.exercise.reps)} />
         <TextInput
           style={styles.textInput}
-          onChange={(e) => { this.props.onNumberInputChange(e, this.props.index, "duration"); }}
-          placeholder="Duration in Seconds"
-          keyboardType="numeric"
+          onChange={(e) => {this.props.onNumberInputChange(e, this.props.index, 'duration');}}
+          placeholder='Duration in Seconds'
+          keyboardType='numeric'
           defaultValue={numberAsString(this.props.exercise.duration)} />
         <View style={styles.showWeight}>
           <Text style={styles.showWeightText}>Show Weight:</Text>
@@ -109,7 +118,7 @@ class ExerciseForm extends Component {
           <TouchableHighlight
             onPress={this._removePress.bind(this)}
             style={styles.removeButtonTouch}
-            underlayColor="#ffffff">
+            underlayColor='#ffffff'>
             <Text style={styles.actionButtonText}>Remove</Text>
           </TouchableHighlight>
           {moveUpButton}

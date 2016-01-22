@@ -1,8 +1,6 @@
-'use strict';
-
 import React from 'react-native';
 
-var {
+const {
   Component,
   Dimensions,
   ScrollView,
@@ -16,7 +14,7 @@ import DayActions from './day_actions';
 import EditDay from './edit_day';
 import friendlyDay from '../friendly_day';
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   counter: {
     color: '#555',
     fontFamily: 'Optima',
@@ -95,24 +93,31 @@ var styles = StyleSheet.create({
 });
 
 class ExerciseValue extends Component {
+  static displayName = 'ExerciseValue';
+  static propTypes = {
+    exercise: React.PropTypes.shape({
+      name: React.PropTypes.string,
+      sets: React.PropTypes.array
+    }).isRequired
+  };
   render() {
     return (
       <View style={styles.exerciseWrapper}>
         <Text style={styles.exerciseName}>{this.props.exercise.name}</Text>
         <View style={styles.setsWrapper}>
           {this.props.exercise.sets.map((set, i) => {
-            var setString = "";
-            if (typeof set.reps === "number") {
+            let setString = '';
+            if (typeof set.reps === 'number') {
               setString += set.reps;
             }
-            if (typeof set.weight === "number") {
-              if (setString !== "") {
-                setString += " x ";
+            if (typeof set.weight === 'number') {
+              if (setString !== '') {
+                setString += ' x ';
               }
-              setString += (set.weight) + "lbs ";
+              setString += (set.weight) + 'lbs ';
             }
-            if (typeof set.duration === "number") {
-              setString += " for " + (set.duration);
+            if (typeof set.duration === 'number') {
+              setString += ' for ' + (set.duration);
             }
             return (
               <View key={`${set.uuid}-${i}`} style={styles.setWrapper}>
@@ -128,6 +133,14 @@ class ExerciseValue extends Component {
 }
 
 class DayOverview extends Component {
+  static displayName = 'DayOverview';
+  static propTypes = {
+    day: React.PropTypes.shape({
+      uuid: React.PropTypes.string,
+      created_at: React.PropTypes.string,
+      exercises: React.PropTypes.array
+    }).isRequired
+  };
   _deleteDayPressEvent() {
     DayActions.deleteDay(this.props.day.uuid);
   }
@@ -135,13 +148,13 @@ class DayOverview extends Component {
     this.props.parentUnlisten();
     this.props.navigator.push({
       component: EditDay,
-      props: { parentListen: this.props.parentListen, day: this.props.day }
+      props: {parentListen: this.props.parentListen, day: this.props.day}
     });
   }
 
   render() {
-    var screen = Dimensions.get("window");
-    var day = this.props.day;
+    const screen = Dimensions.get('window');
+    const day = this.props.day;
     return (
       <ScrollView key={day.uuid} style={[{width: screen.width}, styles.daySection]} pagingEnabled={false}>
         <Text style={styles.dayHeader}>{friendlyDay(day.created_at)}</Text>
@@ -154,11 +167,7 @@ class DayOverview extends Component {
             <Text style={styles.deleteDayText}>Delete</Text>
           </TouchableHighlight>
         </View>
-        {day.exercises.map((ex, i) => {
-          return (
-            <ExerciseValue key={"exercise_value_" + i} exercise={ex} />
-          );
-        })}
+        {day.exercises.map((ex, i) => <ExerciseValue key={`exercise_value_${i}`} exercise={ex} />)}
       </ScrollView>
     );
   }

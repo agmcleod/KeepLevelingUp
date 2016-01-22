@@ -1,8 +1,6 @@
-'use strict';
-
 import React from 'react-native';
 
-var {
+const {
   Component,
   StyleSheet,
   Text,
@@ -10,7 +8,7 @@ var {
   View
 } = React;
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   exerciseInput: {
     alignSelf: 'stretch',
     borderWidth: 1,
@@ -27,7 +25,7 @@ var styles = StyleSheet.create({
   },
   exerciseText: {
     alignSelf: 'stretch',
-    color: "#555",
+    color: '#555',
     fontFamily: 'Optima',
     marginRight: 10,
     fontSize: 16,
@@ -44,12 +42,19 @@ var styles = StyleSheet.create({
 });
 
 class ExerciseField extends Component {
+  static displayName = 'ExerciseField';
+  static propTypes = {
+    label: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    noteValue: React.PropTypes.oneOf([React.PropTypes.string, React.PropTypes.number]),
+    value: React.PropTypes.oneOf([React.PropTypes.string, React.PropTypes.number])
+  };
   render() {
     return (
       <View style={styles.exerciseRow}>
         <Text style={styles.exerciseText}>{this.props.label}:</Text>
-        <TextInput onChange={this.props.onChange} defaultValue={"" + this.props.value} style={styles.exerciseInput} keyboardType="decimal-pad" />
-        {typeof this.props.noteValue !== "undefined" ? <Text style={styles.note}>({this.props.noteValue})</Text> : null}
+        <TextInput onChange={this.props.onChange} defaultValue={`${this.props.value}`} style={styles.exerciseInput} keyboardType='decimal-pad' />
+        {typeof this.props.noteValue !== 'undefined' ? <Text style={styles.note}>({this.props.noteValue})</Text> : null}
       </View>
     );
   }

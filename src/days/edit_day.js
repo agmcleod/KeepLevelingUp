@@ -1,8 +1,6 @@
-'use strict';
-
 import React from 'react-native';
 
-var {
+const {
   Component,
   ScrollView,
   StyleSheet,
@@ -17,7 +15,7 @@ import DayStore from './day_store';
 import DayActions from './day_actions';
 import friendlyDay from '../friendly_day.js';
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   dayContainer: {
     margin: 20
   },

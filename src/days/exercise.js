@@ -1,8 +1,6 @@
-'use strict';
-
 import React from 'react-native';
 
-var {
+const {
   Component,
   StyleSheet,
   Text,
@@ -10,9 +8,9 @@ var {
   View
 } = React;
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   exerciseName: {
-    color: "#555",
+    color: '#555',
     fontFamily: 'Optima',
     fontSize: 16,
     fontWeight: 'bold'
@@ -35,20 +33,40 @@ var styles = StyleSheet.create({
 import ExerciseField from './exercise_field';
 
 class Exercise extends Component {
+  static displayName = 'Exercise';
+  static propTypes = {
+    exercise: React.PropTypes.shape({
+      name: React.PropTypes.string,
+      sets: React.PropTypes.array
+    }).isRequired
+  };
+
+  _getExerciseFieldForProperty(label, propName, object) {
+    if (typeof object[propName] === 'Number') {
+      return (
+        <ExerciseField
+          label={label}
+          onChange={(e) => { this._onExerciseFieldChange(e, i, propName) }}
+          value={value} />
+      );
+    }
+  }
+
   _onExerciseFieldChange(event, i, field) {
     var text = parseFloat(event.nativeEvent.text);
     this.props.exercise.sets[i][field] = text;
   }
+
   render() {
     return (
       <View style={styles.view}>
         <Text style={styles.exerciseName}>{this.props.exercise.name}</Text>
         {this.props.exercise.sets.map((set, i) => {
           return (
-            <View key={"exercise_" + i} style={styles.set}>
-              {typeof set.weight === "number" ? <ExerciseField label="Weight" onChange={(e) => { this._onExerciseFieldChange(e, i, "weight") }} value={set.weight} /> : null}
-              {typeof set.reps === "number" ? <ExerciseField label="Reps" onChange={(e) => { this._onExerciseFieldChange(e, i, "reps") }} value={set.reps} noteValue={set.last_reps} /> : null}
-              {typeof set.duration === "number" ? <ExerciseField label="Duration" onChange={(e) => { this._onExerciseFieldChange(e, i, "duration") }} value={set.duration} noteValue={set.last_duration} /> : null}
+            <View key={'exercise_' + i} style={styles.set}>
+              {this._getExerciseFieldForProperty('Weight', 'weight', set)}
+              {this._getExerciseFieldForProperty('Reps', 'reps', set)}
+              {this._getExerciseFieldForProperty('Duration', 'duration', set)}
             </View>
           );
         })}

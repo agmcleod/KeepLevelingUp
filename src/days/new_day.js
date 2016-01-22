@@ -1,10 +1,8 @@
-'use strict';
-
 import React from 'react-native';
 
 import {Select, Option, OptionList, updatePosition} from 'react-native-dropdown';
 
-var {
+const {
   Component,
   StyleSheet,
   Text,
@@ -23,7 +21,7 @@ import EditDay from './edit_day';
 
 const OPTIONLIST_REF = 'optionlist';
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   formView: {
     flex: 10
   },
@@ -46,6 +44,12 @@ var styles = StyleSheet.create({
 });
 
 class NewDay extends Component {
+  static displayName = 'NewDay';
+  static propTypes = {
+    navigator: React.PropTypes.object,
+    parentListen: React.PropTypes.func
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -75,7 +79,7 @@ class NewDay extends Component {
 
   _goPressEvent() {
     if (this.state.selectedUUID) {
-      DayActions.createDay({ routine_uuid: this.state.selectedUUID });
+      DayActions.createDay({routine_uuid: this.state.selectedUUID});
     }
   }
 
@@ -84,7 +88,7 @@ class NewDay extends Component {
     this._dayCreationSub();
     this.props.navigator.replace({
       component: EditDay,
-      props: { day: day, parentListen: this.props.parentListen }
+      props: {day: day, parentListen: this.props.parentListen}
     });
   }
 
@@ -105,10 +109,10 @@ class NewDay extends Component {
 
   render() {
     var buttons = [{
-      text: "Cancel",
+      text: 'Cancel',
       onPressEvent: this._cancelPressEvent.bind(this)
     }, {
-      text: "Go",
+      text: 'Go',
       onPressEvent: this._goPressEvent.bind(this)
     }];
     return (
