@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingTop: 10,
     textAlign: 'left',
-    width: 70,
+    width: 70
   },
   note: {
     color: '#555',
@@ -53,7 +53,11 @@ class ExerciseField extends Component {
     return (
       <View style={styles.exerciseRow}>
         <Text style={styles.exerciseText}>{this.props.label}:</Text>
-        <TextInput onChange={this.props.onChange} defaultValue={`${this.props.value}`} style={styles.exerciseInput} keyboardType='decimal-pad' />
+        <TextInput
+          onChange={this.props.onChange}
+          defaultValue={`${this.props.value}`}
+          style={styles.exerciseInput}
+          keyboardType='decimal-pad' />
         {typeof this.props.noteValue !== 'undefined' ? <Text style={styles.note}>({this.props.noteValue})</Text> : null}
       </View>
     );

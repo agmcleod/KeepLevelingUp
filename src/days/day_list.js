@@ -6,9 +6,7 @@ const {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
+  View
 } = React;
 
 import RoutineList from '../routines/routine_list';
@@ -128,7 +126,7 @@ class DayList extends Component {
     this._unlisten();
     this.props.navigator.push({
       component: RoutineList,
-      props: { parentListen: this._listen.bind(this) },
+      props: {parentListen: this._listen.bind(this)},
       type: 'left'
     });
   }
@@ -136,6 +134,34 @@ class DayList extends Component {
   _unlisten() {
     this._subscription();
     this._routineSubscription();
+  }
+
+  renderNoDays(buttons) {
+    return (
+      <View style={styles.view}>
+        <View
+          style={styles.noRoutinesView}
+          horizontal={true}
+          bounces={false}
+          showsHorizontalScrollIndicator={true}
+          pagingEnabled={true}>
+          <Text style={styles.actionText}>{'You haven\'t entered a work out day yet. Start one!'}</Text>
+        </View>
+        <BottomBar buttons={buttons} />
+      </View>
+    );
+  }
+
+  renderNoRoutines() {
+    const buttons = [{text: 'Routines', onPressEvent: this._routinesPressEvent.bind(this)}];
+    return (
+      <View style={styles.view}>
+        <View style={styles.noRoutinesView}>
+          <Text style={styles.actionText}>Create a routine to get started.</Text>
+        </View>
+        <BottomBar buttons={buttons} />
+      </View>
+    );
   }
 
   render() {
@@ -154,18 +180,15 @@ class DayList extends Component {
         let i = 0;
         const dayNavItems = [];
         this.state.days.forEach((day, uuid) => {
-          const odd = i % 2 === 0 ? false : true;
+          const odd = i % 2 !== 0;
           i += 1;
-          dayNavItems.push(
-            (
-              <DayNavItem
-                key={uuid}
-                day={day}
-                odd={odd}
-                selected={uuid === this.state.viewingDay.uuid}
-                selectDay={this._selectDay.bind(this)} />
-            )
-          );
+          dayNavItems.push((
+            <DayNavItem
+              key={uuid}
+              day={day}
+              odd={odd}
+              selected={uuid === this.state.viewingDay.uuid}
+              selectDay={this._selectDay.bind(this)} />));
         });
         return (
           <View style={styles.view}>
@@ -186,29 +209,6 @@ class DayList extends Component {
         );
       }
     }
-  }
-
-  renderNoDays(buttons) {
-    return (
-      <View style={styles.view}>
-        <View style={styles.noRoutinesView} horizontal={true} bounces={false} showsHorizontalScrollIndicator={true} pagingEnabled={true}>
-          <Text style={styles.actionText}>{'You haven\'t entered a work out day yet. Start one!'}</Text>
-        </View>
-        <BottomBar buttons={buttons} />
-      </View>
-    );
-  }
-
-  renderNoRoutines() {
-    const buttons = [{text: 'Routines', onPressEvent: this._routinesPressEvent.bind(this)}];
-    return (
-      <View style={styles.view}>
-        <View style={styles.noRoutinesView}>
-          <Text style={styles.actionText}>Create a routine to get started.</Text>
-        </View>
-        <BottomBar buttons={buttons} />
-      </View>
-    );
   }
 }
 

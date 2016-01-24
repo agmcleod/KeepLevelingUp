@@ -1,10 +1,7 @@
-'use strict';
+import React from 'react-native';
 
-var React = require('react-native');
-
-var {
+const {
   Component,
-  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
@@ -20,7 +17,7 @@ import RoutineStore from './routine_store';
 
 import arrayMove from '../array_move';
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   addExercise: {
     color: '#ffffff',
     fontFamily: 'Optima'
@@ -59,6 +56,17 @@ var styles = StyleSheet.create({
 });
 
 class RoutineForm extends Component {
+  static displayName = 'RoutineForm';
+  static propTypes = {
+    navigator: React.PropTypes.object.isRequired,
+    parentListen: React.PropTypes.func.isRequired,
+    routine: React.PropTypes.shape({
+      name: React.PropTypes.string,
+      uuid: React.PropTypes.string,
+      exercises: React.PropTypes.array
+    })
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -67,10 +75,6 @@ class RoutineForm extends Component {
       name: null,
       uuid: null
     };
-  }
-
-  componentDidMount() {
-    this._subscription = RoutineStore.listen(this._onRoutineChange.bind(this));
   }
 
   componentWillMount() {
@@ -83,6 +87,10 @@ class RoutineForm extends Component {
     }
   }
 
+  componentDidMount() {
+    this._subscription = RoutineStore.listen(this._onRoutineChange.bind(this));
+  }
+
   componentWillUnmount() {
     this._subscription();
     this.props.parentListen();
@@ -90,7 +98,7 @@ class RoutineForm extends Component {
 
   _addExercise() {
     this.refs.textInput.blur();
-    var exercises = this.state.exercises;
+    const exercises = this.state.exercises;
     exercises.push({});
     this.setState({
       exercises: exercises
@@ -101,7 +109,7 @@ class RoutineForm extends Component {
   }
 
   _moveDownPress(index) {
-    var exercises = this.state.exercises;
+    let exercises = this.state.exercises;
     exercises = arrayMove(exercises, index, index + 1);
     this.setState({
       exercises: exercises
@@ -109,7 +117,7 @@ class RoutineForm extends Component {
   }
 
   _moveUpPress(index) {
-    var exercises = this.state.exercises;
+    let exercises = this.state.exercises;
     exercises = arrayMove(exercises, index, index - 1);
     this.setState({
       exercises: exercises
@@ -117,7 +125,7 @@ class RoutineForm extends Component {
   }
 
   _onChildNumberInputChange(event, i, field) {
-    var exercises = this.state.exercises;
+    const exercises = this.state.exercises;
     exercises[i][field] = parseFloat(event.nativeEvent.text);
     this.setState({
       exercises: exercises
@@ -125,16 +133,15 @@ class RoutineForm extends Component {
   }
 
   _onToggleWeightChange(i) {
-    var exercises = this.state.exercises;
-    exercises[i].showWeight = !execercises[i].showWeight;
+    const exercises = this.state.exercises;
+    exercises[i].showWeight = !exercises[i].showWeight;
     this.setState({
       exercises: exercises
     });
   }
 
   _onChildTextInputChange(event, i, field) {
-    var exercises = this.state.exercises;
-    var text = event.nativeEvent.text;
+    const exercises = this.state.exercises;
     exercises[i][field] = event.nativeEvent.text;
     this.setState({
       exercises: exercises
@@ -146,40 +153,36 @@ class RoutineForm extends Component {
   }
 
   _onSave() {
-    var exercises = this.state.exercises;
-    var hasErrors = false;
-    var errors = this.state.errors;
+    const exercises = this.state.exercises;
+    let hasErrors = false;
+    const errors = this.state.errors;
     if (!this.state.name) {
       hasErrors = true;
-      errors['name'] = ["Must have a value"];
+      errors.name = ['Must have a value'];
     }
     exercises.forEach((exercise) => {
       if (!exercise.name) {
         hasErrors = true;
-        exercise['errors'] = { "name": ["Must have a value"] }
+        exercise.errors = {name: ['Must have a value']};
       }
     });
     if (hasErrors) {
-      this.setState({ exercises: exercises, errors: errors });
-    }
-    else {
-      if (this.state.uuid) {
-        RoutineActions.updateRoutine({ name: this.state.name, uuid: this.state.uuid, exercises: this.state.exercises });
-      }
-      else {
-        RoutineActions.createRoutine({ name: this.state.name, exercises: this.state.exercises });
-      }
+      this.setState({exercises: exercises, errors: errors});
+    } else if (this.state.uuid) {
+      RoutineActions.updateRoutine({name: this.state.name, uuid: this.state.uuid, exercises: this.state.exercises});
+    } else {
+      RoutineActions.createRoutine({name: this.state.name, exercises: this.state.exercises});
     }
   }
 
   _onTextInputChange(event, field) {
-    var state = {};
+    const state = {};
     state[field] = event.nativeEvent.text;
     this.setState(state);
   }
 
   _removeExercise(index) {
-    var exercises = this.state.exercises;
+    const exercises = this.state.exercises;
     exercises.splice(index, 1);
     this.setState({
       exercises: exercises
@@ -187,9 +190,9 @@ class RoutineForm extends Component {
   }
 
   render() {
-    var text = this.props.routine ? "Update" : "Create";
-    var buttons = [{
-      text: "Cancel",
+    const text = this.props.routine ? 'Update' : 'Create';
+    const buttons = [{
+      text: 'Cancel',
       onPressEvent: this._cancelPressEvent.bind(this)
     }, {
       text: text,
@@ -198,22 +201,32 @@ class RoutineForm extends Component {
     return (
       <View style={styles.view}>
         <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={false}>
-          <TextInput placeholder="Routine Name" ref="textInput" style={styles.textInput} onChange={(e) => this._onTextInputChange(e, "name")} value={this.state.name} />
-          {this.state.errors['name'] ? <Text style={styles.error}>{this.state.errors['name'].join(', ')}</Text> : null}
+          <TextInput
+            placeholder='Routine Name'
+            ref='textInput'
+            style={styles.textInput}
+            onChange={(e) => this._onTextInputChange(e, 'name')}
+            value={this.state.name} />
+          {this.state.errors.name ? <Text style={styles.error}>{this.state.errors.name.join(', ')}</Text> : null}
           {this.state.exercises.map((obj, i) => {
-            return <ExerciseForm
-              key={`ex-form-${i}`}
-              index={i}
-              exercise={this.state.exercises[i]}
-              moveDownPress={this._moveDownPress.bind(this)}
-              moveUpPress={this._moveUpPress.bind(this)}
-              onTextInputChange={this._onChildTextInputChange.bind(this)}
-              onNumberInputChange={this._onChildNumberInputChange.bind(this)}
-              onToggleWeightChange={this._onToggleWeightChange.bind(this)}
-              removeExercise={this._removeExercise.bind(this)}
-              total={this.state.exercises.length} />
+            return (
+              <ExerciseForm
+                key={`ex-form-${i}`}
+                index={i}
+                exercise={this.state.exercises[i]}
+                moveDownPress={this._moveDownPress.bind(this)}
+                moveUpPress={this._moveUpPress.bind(this)}
+                onTextInputChange={this._onChildTextInputChange.bind(this)}
+                onNumberInputChange={this._onChildNumberInputChange.bind(this)}
+                onToggleWeightChange={this._onToggleWeightChange.bind(this)}
+                removeExercise={this._removeExercise.bind(this)}
+                total={this.state.exercises.length} />
+            );
           })}
-          <TouchableHighlight style={styles.addExerciseTouch} underlayColor="#ffffff" onPress={this._addExercise.bind(this)}>
+          <TouchableHighlight
+            style={styles.addExerciseTouch}
+            underlayColor='#ffffff'
+            onPress={this._addExercise.bind(this)}>
             <Text style={styles.addExercise}>Add Exercise</Text>
           </TouchableHighlight>
         </ScrollView>

@@ -13,6 +13,79 @@ const {
 
 import Switch from 'react-native-material-switch';
 
+const styles = StyleSheet.create({
+  actions: {
+    flexDirection: 'row'
+  },
+  actionButtonText: {
+    color: '#ffffff',
+    fontFamily: 'Optima',
+    fontSize: 10
+  },
+  error: {
+    fontFamily: 'Optima',
+    marginTop: 5,
+    marginBottom: 5,
+    color: 'red',
+    flex: 1
+  },
+
+  moveButtonTouch: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#555',
+    borderRadius: 5,
+    marginTop: 5,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    marginRight: 5
+  },
+
+  removeButtonTouch: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#BB4949',
+    borderRadius: 5,
+    marginTop: 5,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    marginRight: 5
+  },
+  showWeight: {
+    flexDirection: 'row',
+    margin: 5
+  },
+  showWeightText: {
+    fontFamily: 'Optima',
+    marginRight: 5,
+    paddingTop: 10
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: '#E57F7F',
+    flex: 1,
+    fontFamily: 'Optima',
+    height: 30,
+    padding: 5,
+    marginTop: 5
+  },
+  view: {
+    flex: 1,
+    flexDirection: 'column',
+    paddingBottom: 30,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 30,
+    borderBottomWidth: 1,
+    borderBottomColor: '#666666'
+  },
+  weight: {
+    marginTop: 5
+  }
+});
+
 class ExerciseForm extends Component {
   static displayName = 'ExerciseForm';
   static propTypes = {
@@ -20,13 +93,17 @@ class ExerciseForm extends Component {
       errors: React.PropTypes.object,
       duration: React.PropTypes.number,
       name: React.PropTypes.string,
+      reps: React.PropTypes.string,
       sets: React.PropTypes.number,
-      showWeight: React.PropTypes.bool,
+      showWeight: React.PropTypes.bool
     }).isRequired,
     index: React.PropTypes.number.isRequired,
     moveDownPress: React.PropTypes.func.isRequired,
     moveUpPress: React.PropTypes.func.isRequired,
+    onNumberInputChange: React.PropTypes.func.isRequired,
+    onTextInputChange: React.PropTypes.func.isRequired,
     onToggleWeightChange: React.PropTypes.func.isRequired,
+    total: React.PropTypes.number,
     removeExercise: React.PropTypes.func.isRequired
   };
   _moveDownPress() {
@@ -44,9 +121,7 @@ class ExerciseForm extends Component {
   _outputErrorForField(field) {
     const exercise = this.props.exercise;
     if (exercise && exercise.errors && exercise.errors[field]) {
-      return (
-        <Text style={styles.error}>{exercise.errors[field].join(', ')}</Text>
-      );
+      return <Text style={styles.error}>{exercise.errors[field].join(', ')}</Text>;
     }
   }
 
@@ -111,7 +186,7 @@ class ExerciseForm extends Component {
             inactiveButtonColor='rgba(255, 255, 255, 1)'
             inactiveButtonPressedColor='rgba(255, 255, 255, 1)'
             onStateChange={() => { this.props.onToggleWeightChange(this.props.index); }}
-            style={styles.switch}
+            style={styles.weight}
           />
         </View>
         <View style={styles.actions}>
@@ -128,78 +203,5 @@ class ExerciseForm extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  actions: {
-    flexDirection: 'row'
-  },
-  actionButtonText: {
-    color: '#ffffff',
-    fontFamily: 'Optima',
-    fontSize: 10
-  },
-  error: {
-    fontFamily: 'Optima',
-    marginTop: 5,
-    marginBottom: 5,
-    color: 'red',
-    flex: 1
-  },
-
-  moveButtonTouch: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#555',
-    borderRadius: 5,
-    marginTop: 5,
-    paddingBottom: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 10,
-    marginRight: 5
-  },
-
-  removeButtonTouch: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#BB4949',
-    borderRadius: 5,
-    marginTop: 5,
-    paddingBottom: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 10,
-    marginRight: 5
-  },
-  showWeight: {
-    flexDirection: 'row',
-    margin: 5
-  },
-  showWeightText: {
-    fontFamily: 'Optima',
-    marginRight: 5,
-    paddingTop: 10
-  },
-  switch: {
-    marginTop: 5
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: '#E57F7F',
-    flex: 1,
-    fontFamily: 'Optima',
-    height: 30,
-    padding: 5,
-    marginTop: 5
-  },
-  view: {
-    flex: 1,
-    flexDirection: 'column',
-    paddingBottom: 30,
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: '#666666'
-  }
-});
 
 export default ExerciseForm;

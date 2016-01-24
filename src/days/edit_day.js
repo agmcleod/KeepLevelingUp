@@ -35,6 +35,15 @@ const styles = StyleSheet.create({
 });
 
 class EditDay extends Component {
+  static displayName = 'EditDay';
+  static propTypes = {
+    day: React.PropTypes.shape({
+      created_at: React.PropTypes.string,
+      exercises: React.PropTypes.array
+    }).isRequired,
+    navigator: React.PropTypes.object.isRequired,
+    parentListen: React.PropTypes.func.isRequired
+  };
   componentDidMount() {
     this._listen();
   }
@@ -61,7 +70,7 @@ class EditDay extends Component {
   }
 
   render() {
-    var buttons = [{
+    const buttons = [{
       text: "Save",
       onPressEvent: this._onSavePressEvent.bind(this)
     }];

@@ -1,6 +1,6 @@
 import Reflux from 'reflux';
 import DayActions from './day_actions';
-import {uuid} from '../utils/utility_functions';
+import {createUuid} from '../utils/utility_functions';
 import React from 'react-native';
 import RoutineStore from '../routines/routine_store';
 
@@ -14,18 +14,18 @@ const DayStore = Reflux.createStore({
     this.listenTo(DayActions.updateDay, this.updateDay);
     this.selectedDay = null;
   },
-
+  /* eslint-disable max-nested-callbacks  */
   createDay(data) {
-    data.uuid = uuid();
+    data.uuid = createUuid();
     data.created_at = new Date().toISOString();
     RoutineStore.getRoutineData(data.routine_uuid)
     .then((routine) => {
       data.exercises = [];
       const routineData = Object.clone(routine);
       routineData.exercises.forEach((exercise) => {
-        var ex = {...exercise, sets: []};
-        for (var i = 0; i < exercise.sets; i++) {
-          ex.sets.push({ weight: ex.showWeight ? 0 : undefined, reps: ex.reps, duration: ex.duration });
+        const ex = {...exercise, sets: []};
+        for (let i = 0; i < exercise.sets; i++) {
+          ex.sets.push({weight: ex.showWeight ? 0 : undefined, reps: ex.reps, duration: ex.duration});
         }
         data.exercises.push(ex);
       });
@@ -34,10 +34,10 @@ const DayStore = Reflux.createStore({
     .then((days) => {
       const daysData = JSON.parse(days || '{}');
 
-      var dayUUIDs = Object.keys(daysData);
-      var lastDayForRoutine = null;
+      const dayUUIDs = Object.keys(daysData);
+      let lastDayForRoutine = null;
       dayUUIDs.forEach((uuid) => {
-        var day = daysData[uuid];
+        const day = daysData[uuid];
         if (day.routine_uuid === data.routine_uuid) {
           lastDayForRoutine = day;
         }
@@ -45,10 +45,10 @@ const DayStore = Reflux.createStore({
 
       if (lastDayForRoutine) {
         lastDayForRoutine.exercises.forEach((lastDayExercise) => {
-          var dayEx = data.exercises.find((ex) => ex.uuid === lastDayExercise.uuid);
+          const dayEx = data.exercises.find((ex) => ex.uuid === lastDayExercise.uuid);
           if (dayEx) {
             lastDayExercise.sets.forEach((lastDaySet, setIndex) => {
-              var set = dayEx.sets[setIndex];
+              const set = dayEx.sets[setIndex];
               if (set) {
                 set.last_reps = lastDaySet.reps;
                 if (typeof lastDaySet.weight !== 'undefined') {
@@ -74,7 +74,7 @@ const DayStore = Reflux.createStore({
     })
     .catch((err) => console.error(err));
   },
-
+  /* eslint-enable max-nested-callbacks */
   deleteDay(uuid) {
     AsyncStorage.getItem('days').then((days) => {
       const daysData = JSON.parse(days);

@@ -13,7 +13,26 @@ const getMonth = function (date) {
   return MONTHS[date.getMonth()];
 };
 
+const styles = StyleSheet.create({
+  container: {
+    paddingLeft: 15,
+    paddingRight: 15,
+    width: 60
+  },
+  odd: {
+    backgroundColor: '#ccc'
+  },
+  selected: {
+    backgroundColor: '#39b54a'
+  },
+  text: {
+    fontFamily: 'Optima',
+    justifyContent: 'center'
+  }
+});
+
 class DayNavItem extends React.Component {
+  static displayName = 'DayNavItem';
   static propTypes = {
     day: React.PropTypes.object.isRequired,
     odd: React.PropTypes.bool,
@@ -39,23 +58,5 @@ class DayNavItem extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingLeft: 15,
-    paddingRight: 15,
-    width: 60
-  },
-  odd: {
-    backgroundColor: '#ccc'
-  },
-  selected: {
-    backgroundColor: '#39b54a'
-  },
-  text: {
-    fontFamily: 'Optima',
-    justifyContent: 'center'
-  }
-});
 
 export default DayNavItem;

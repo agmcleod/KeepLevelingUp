@@ -6,7 +6,6 @@ const {
   Component,
   StyleSheet,
   Text,
-  TouchableHighlight,
   View
 } = React;
 
@@ -62,7 +61,7 @@ class NewDay extends Component {
     this._dayCreationSub = DayStore.listen(this._onDayCreation.bind(this));
     RoutineActions.listRoutines();
 
-    updatePosition(this.refs['select']);
+    updatePosition(this.refs.select);
     updatePosition(this.refs[OPTIONLIST_REF]);
   }
 
@@ -108,7 +107,7 @@ class NewDay extends Component {
   }
 
   render() {
-    var buttons = [{
+    const buttons = [{
       text: 'Cancel',
       onPressEvent: this._cancelPressEvent.bind(this)
     }, {
@@ -125,7 +124,7 @@ class NewDay extends Component {
             optionListRef={this._getOptionList.bind(this)}
             ref='select'>
             {Object.keys(this.state.routines).map((key) => {
-              let routine = this.state.routines[key];
+              const routine = this.state.routines[key];
               return <Option key={key} value={routine.uuid}>{routine.name}</Option>;
             })}
           </Select>

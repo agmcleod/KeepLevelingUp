@@ -1,8 +1,6 @@
-'use strict';
+import React from 'react-native';
 
-var React = require('react-native');
-
-var {
+const {
   Component,
   StyleSheet,
   Text,
@@ -10,7 +8,7 @@ var {
   View
 } = React;
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   buttonText: {
     color: '#ffffff',
     fontFamily: 'Optima',
@@ -31,8 +29,15 @@ var styles = StyleSheet.create({
   }
 });
 
-
 class BottomBar extends Component {
+  static displayName = 'BottomBar';
+  static propTypes = {
+    buttons: React.PropTypes.arrayOf(
+      React.PropTypes.shape({
+        text: React.PropTypes.string
+      })
+    ).isRequired
+  };
   render() {
     return (
       <View style={styles.buttonView}>

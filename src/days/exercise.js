@@ -4,7 +4,6 @@ const {
   Component,
   StyleSheet,
   Text,
-  TextInput,
   View
 } = React;
 
@@ -41,19 +40,19 @@ class Exercise extends Component {
     }).isRequired
   };
 
-  _getExerciseFieldForProperty(label, propName, object) {
-    if (typeof object[propName] === 'Number') {
+  _getExerciseFieldForProperty(label, propName, object, index) {
+    if (typeof object[propName] === 'number') {
       return (
         <ExerciseField
           label={label}
-          onChange={(e) => { this._onExerciseFieldChange(e, i, propName) }}
-          value={value} />
+          onChange={(e) => {this._onExerciseFieldChange(e, index, propName);}}
+          value={object[propName]} />
       );
     }
   }
 
   _onExerciseFieldChange(event, i, field) {
-    var text = parseFloat(event.nativeEvent.text);
+    const text = parseFloat(event.nativeEvent.text);
     this.props.exercise.sets[i][field] = text;
   }
 
@@ -64,9 +63,9 @@ class Exercise extends Component {
         {this.props.exercise.sets.map((set, i) => {
           return (
             <View key={'exercise_' + i} style={styles.set}>
-              {this._getExerciseFieldForProperty('Weight', 'weight', set)}
-              {this._getExerciseFieldForProperty('Reps', 'reps', set)}
-              {this._getExerciseFieldForProperty('Duration', 'duration', set)}
+              {this._getExerciseFieldForProperty('Weight', 'weight', set, i)}
+              {this._getExerciseFieldForProperty('Reps', 'reps', set, i)}
+              {this._getExerciseFieldForProperty('Duration', 'duration', set, i)}
             </View>
           );
         })}

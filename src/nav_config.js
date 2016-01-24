@@ -1,17 +1,15 @@
-var React = require('react-native');
-var {
-  Dimensions
-} = React;
+import React from 'react-native';
+const {Dimensions} = React;
 
-var buildStyleInterpolator = require('buildStyleInterpolator');
-var PixelRatio = require('PixelRatio');
+import buildStyleInterpolator from 'buildStyleInterpolator';
+import PixelRatio from 'PixelRatio';
 
-var SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
-var FromTheRight = {
+const FromTheRight = {
   opacity: {
     value: 1.0,
-    type: 'constant',
+    type: 'constant'
   },
 
   transformTranslate: {
@@ -21,7 +19,7 @@ var FromTheRight = {
     max: 1,
     type: 'linear',
     extrapolate: true,
-    round: PixelRatio.get(),
+    round: PixelRatio.get()
   },
 
   translateX: {
@@ -31,20 +29,20 @@ var FromTheRight = {
     max: 1,
     type: 'linear',
     extrapolate: true,
-    round: PixelRatio.get(),
+    round: PixelRatio.get()
   },
 
   scaleX: {
     value: 1,
-    type: 'constant',
+    type: 'constant'
   },
   scaleY: {
     value: 1,
-    type: 'constant',
-  },
+    type: 'constant'
+  }
 };
 
-var ToTheLeft = {
+const ToTheLeft = {
   transformTranslate: {
     from: {x: 0, y: 0, z: 0},
     to: {x: -SCREEN_WIDTH, y: 0, z: 0},
@@ -52,11 +50,11 @@ var ToTheLeft = {
     max: 1,
     type: 'linear',
     extrapolate: true,
-    round: PixelRatio.get(),
+    round: PixelRatio.get()
   },
   opacity: {
     value: 1.0,
-    type: 'constant',
+    type: 'constant'
   },
 
   translateX: {
@@ -66,11 +64,11 @@ var ToTheLeft = {
     max: 1,
     type: 'linear',
     extrapolate: true,
-    round: PixelRatio.get(),
-  },
+    round: PixelRatio.get()
+  }
 };
 
-var FromTheLeft = {
+const FromTheLeft = {
   ...FromTheRight,
   transformTranslate: {
     from: {x: -SCREEN_WIDTH, y: 0, z: 0},
@@ -79,7 +77,7 @@ var FromTheLeft = {
     max: 1,
     type: 'linear',
     extrapolate: true,
-    round: PixelRatio.get(),
+    round: PixelRatio.get()
   },
   translateX: {
     from: -SCREEN_WIDTH,
@@ -88,11 +86,11 @@ var FromTheLeft = {
     max: 1,
     type: 'linear',
     extrapolate: true,
-    round: PixelRatio.get(),
-  },
+    round: PixelRatio.get()
+  }
 };
 
-var ToTheRight = {
+const ToTheRight = {
   ...ToTheLeft,
   transformTranslate: {
     from: {x: 0, y: 0, z: 0},
@@ -101,7 +99,7 @@ var ToTheRight = {
     max: 1,
     type: 'linear',
     extrapolate: true,
-    round: PixelRatio.get(),
+    round: PixelRatio.get()
   },
   translateX: {
     from: 0,
@@ -110,11 +108,11 @@ var ToTheRight = {
     max: 1,
     type: 'linear',
     extrapolate: true,
-    round: PixelRatio.get(),
-  },
+    round: PixelRatio.get()
+  }
 };
 
-module.exports = {
+export default {
   toLeft: {
     // Rebound spring parameters when transitioning FROM this scene
     springFriction: 26,
@@ -126,7 +124,7 @@ module.exports = {
     // Animation interpolators for horizontal transitioning:
     animationInterpolators: {
       into: buildStyleInterpolator(FromTheLeft),
-      out: buildStyleInterpolator(ToTheRight),
+      out: buildStyleInterpolator(ToTheRight)
     }
   },
   toRight: {
@@ -140,7 +138,7 @@ module.exports = {
     // Animation interpolators for horizontal transitioning:
     animationInterpolators: {
       into: buildStyleInterpolator(FromTheRight),
-      out: buildStyleInterpolator(ToTheLeft),
+      out: buildStyleInterpolator(ToTheLeft)
     }
   }
 };

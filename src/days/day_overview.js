@@ -124,7 +124,7 @@ class ExerciseValue extends Component {
                 <Text style={styles.counter}>{i + 1}.</Text>
                 <Text style={styles.setDetails}>{setString}</Text>
               </View>
-            )
+            );
           })}
         </View>
       </View>
@@ -139,7 +139,10 @@ class DayOverview extends Component {
       uuid: React.PropTypes.string,
       created_at: React.PropTypes.string,
       exercises: React.PropTypes.array
-    }).isRequired
+    }).isRequired,
+    navigator: React.PropTypes.object,
+    parentListen: React.PropTypes.func.isRequired,
+    parentUnlisten: React.PropTypes.func.isRequired
   };
   _deleteDayPressEvent() {
     DayActions.deleteDay(this.props.day.uuid);
@@ -159,11 +162,17 @@ class DayOverview extends Component {
       <ScrollView key={day.uuid} style={[{width: screen.width}, styles.daySection]} pagingEnabled={false}>
         <Text style={styles.dayHeader}>{friendlyDay(day.created_at)}</Text>
         <View style={styles.dayActions}>
-          <TouchableHighlight style={styles.editDayTouch} underlayColor='#C0FAC4' onPress={this._editDayPressEvent.bind(this)}>
+          <TouchableHighlight
+            style={styles.editDayTouch}
+            underlayColor='#C0FAC4'
+            onPress={this._editDayPressEvent.bind(this)}>
             <Text style={styles.editDayText}>Edit</Text>
           </TouchableHighlight>
 
-          <TouchableHighlight style={styles.deleteDayTouch} underlayColor='#ff8888' onPress={this._deleteDayPressEvent.bind(this)}>
+          <TouchableHighlight
+            style={styles.deleteDayTouch}
+            underlayColor='#ff8888'
+            onPress={this._deleteDayPressEvent.bind(this)}>
             <Text style={styles.deleteDayText}>Delete</Text>
           </TouchableHighlight>
         </View>
