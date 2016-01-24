@@ -2,10 +2,8 @@
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
-
 import React from 'react-native';
-var {
+const {
   AppRegistry,
   Navigator,
 } = React;
@@ -15,9 +13,9 @@ import NavConfig from './src/nav_config';
 
 import './src/object.js';
 
-var KeepLevelingUp = React.createClass({
+const KeepLevelingUp = React.createClass({
   _renderScene(route, navigator) {
-    var Component = route.component;
+    const Component = route.component;
     return (
       <Component {...route.props} navigator={navigator} route={route} />
     );
@@ -36,7 +34,7 @@ var KeepLevelingUp = React.createClass({
         }}
         initialRoute={{
           component: DayList,
-          id: "day_list"
+          type: "right"
         }}
         renderScene={this._renderScene}
       />

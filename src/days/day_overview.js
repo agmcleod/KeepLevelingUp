@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   daySection: {
     padding: 20,
-    flex: 9
+    flex: 8
   },
   deleteDayTouch: {
     alignSelf: 'flex-start',

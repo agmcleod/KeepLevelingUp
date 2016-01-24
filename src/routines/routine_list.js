@@ -49,7 +49,7 @@ class RoutineList extends Component {
 
   static propTypes = {
     navigator: React.PropTypes.object,
-    parentListen: React.PropTypes.Func
+    parentListen: React.PropTypes.func
   };
 
   constructor(props) {

@@ -34,6 +34,7 @@ class BottomBar extends Component {
   static propTypes = {
     buttons: React.PropTypes.arrayOf(
       React.PropTypes.shape({
+        onPressEvent: React.PropTypes.func,
         text: React.PropTypes.string
       })
     ).isRequired
