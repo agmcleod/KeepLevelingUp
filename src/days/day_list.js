@@ -18,7 +18,7 @@ import DayNavItem from './day_nav_item';
 import DayOverview from './day_overview';
 
 import {listRoutines} from '../routines/routine_actions';
-import {connect} from 'react-redux';
+import {connect} from 'react-redux/native';
 
 const styles = StyleSheet.create({
   actionText: {

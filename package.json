@@ -10,7 +10,7 @@
     "react-native-dropdown": "git://github.com/alfonsoperez/react-native-dropdown.git#patch-3",
     "react-native-material-switch": "0.0.4",
     "react-native-swipeout": "^2.0.8",
-    "react-redux": "^4.0.6",
+    "react-redux": "~3.1.0",
     "redux": "^3.0.5",
     "redux-thunk": "^1.0.3",
     "reflux": "^0.2.11"

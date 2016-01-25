@@ -3,7 +3,7 @@
  * https://github.com/facebook/react-native
  */
 import React from 'react-native';
-import {Provider} from 'react-redux'
+import {Provider} from 'react-redux/native'
 const {
   AppRegistry,
   Navigator,
