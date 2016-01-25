@@ -1,5 +1,11 @@
-import Reflux from 'reflux';
+import {GET_DATA} from '../middleware/get_data';
 
-export default Reflux.createActions([
-  'createDay', 'deleteDay', 'listDays', 'updateDay'
-]);
+export const LIST_DAYS = 'LIST_DAYS';
+
+export function listDays() {
+  return (dispatch) => {
+    return dispatch({
+      [GET_DATA]: {dataKey: 'days', type: LIST_DAYS}
+    });
+  };
+}

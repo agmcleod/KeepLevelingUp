@@ -13,13 +13,12 @@ import RoutineList from '../routines/routine_list';
 import BottomBar from '../components/bottom_bar';
 import NewDay from './new_day';
 
-import DayActions from './day_actions';
+import {listDays} from './day_actions';
 import DayNavItem from './day_nav_item';
-import DayStore from './day_store';
 import DayOverview from './day_overview';
 
-import RoutineActions from '../routines/routine_actions';
-import RoutineStore from '../routines/routine_store';
+import {listRoutines} from '../routines/routine_actions';
+import {connect} from 'react-redux';
 
 const styles = StyleSheet.create({
   actionText: {
@@ -61,37 +60,15 @@ const styles = StyleSheet.create({
 class DayList extends Component {
   static displayName = 'DayList';
   static propTypes = {
-    navigator: React.PropTypes.object
+    days: React.PropTypes.object.isRequired,
+    hasRoutines: React.PropTypes.bool,
+    navigator: React.PropTypes.object.isRequired,
+    viewingDayUuid: React.PropTypes.string.uuid
   };
-  constructor(props) {
-    super(props);
-    this.state = {
-      days: new Map(),
-      hasRoutines: false
-    };
-  }
-
-  componentDidMount() {
-    this._listen();
-  }
-
-  componentWillUnmount() {
-    this._unlisten();
-  }
-
-  _listen() {
-    this._subscription = DayStore.listen(this._onDayListChange.bind(this));
-    this._routineSubscription = RoutineStore.listen(this._onRoutinesChange.bind(this));
-
-    DayActions.listDays();
-    RoutineActions.listRoutines();
-  }
 
   _newDayPressEvent() {
-    this._unlisten();
     this.props.navigator.push({
       component: NewDay,
-      props: {parentListen: this._listen.bind(this)},
       type: 'right'
     });
   }
@@ -123,17 +100,10 @@ class DayList extends Component {
   }
 
   _routinesPressEvent() {
-    this._unlisten();
     this.props.navigator.push({
       component: RoutineList,
-      props: {parentListen: this._listen.bind(this)},
       type: 'left'
     });
-  }
-
-  _unlisten() {
-    this._subscription();
-    this._routineSubscription();
   }
 
   renderNoDays(buttons) {
@@ -165,21 +135,21 @@ class DayList extends Component {
   }
 
   render() {
-    if (!this.state.hasRoutines) {
+    if (!this.props.hasRoutines) {
       return this.renderNoRoutines();
     } else {
       const buttons = [
         {text: 'Routines', onPressEvent: this._routinesPressEvent.bind(this)},
         {text: 'New Day', onPressEvent: this._newDayPressEvent.bind(this)}
       ];
-      if (this.state.days.size === 0) {
+      if (Object.keys(this.props.days).length === 0) {
         return this.renderNoDays(buttons);
       } else {
         const screen = Dimensions.get('window');
-        const viewingDay = this.state.viewingDay;
+        const viewingDay = this.props.days[this.props.viewingDayUuid];
         let i = 0;
         const dayNavItems = [];
-        this.state.days.forEach((day, uuid) => {
+        this.props.days.forEach((day, uuid) => {
           const odd = i % 2 !== 0;
           i += 1;
           dayNavItems.push((
@@ -187,7 +157,7 @@ class DayList extends Component {
               key={uuid}
               day={day}
               odd={odd}
-              selected={uuid === this.state.viewingDay.uuid}
+              selected={uuid === this.props.viewingDayUuid}
               selectDay={this._selectDay.bind(this)} />));
         });
         return (
@@ -201,9 +171,7 @@ class DayList extends Component {
             </ScrollView>
             <DayOverview
               day={viewingDay}
-              navigator={this.props.navigator}
-              parentListen={this._listen.bind(this)}
-              parentUnlisten={this._unlisten.bind(this)} />
+              navigator={this.props.navigator} />
             <BottomBar buttons={buttons} />
           </View>
         );
@@ -212,4 +180,12 @@ class DayList extends Component {
   }
 }
 
-export default DayList;
+export default connect((state) => {
+  return {
+    days: state.days,
+    hasRoutines: Object.keys(state.routines).length > 0,
+    viewingDayUuid: state.viewingDayUuid || Object.keys(state.days)[0]
+  };
+}, {
+  listDays, listRoutines
+})(DayList);

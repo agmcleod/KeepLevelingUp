@@ -1,5 +1,5 @@
 import Reflux from 'reflux';
-import DayActions from './day_actions';
+// import DayActions from './day_actions';
 import {createUuid} from '../utils/utility_functions';
 import React from 'react-native';
 import RoutineStore from '../routines/routine_store';
@@ -8,10 +8,10 @@ const {AsyncStorage} = React;
 
 const DayStore = Reflux.createStore({
   init() {
-    this.listenTo(DayActions.createDay, this.createDay);
-    this.listenTo(DayActions.deleteDay, this.deleteDay);
-    this.listenTo(DayActions.listDays, this.listDays);
-    this.listenTo(DayActions.updateDay, this.updateDay);
+    // this.listenTo(DayActions.createDay, this.createDay);
+    // this.listenTo(DayActions.deleteDay, this.deleteDay);
+    // this.listenTo(DayActions.listDays, this.listDays);
+    // this.listenTo(DayActions.updateDay, this.updateDay);
     this.selectedDay = null;
   },
   /* eslint-disable max-nested-callbacks  */

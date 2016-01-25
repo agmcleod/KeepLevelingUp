@@ -1,5 +1,5 @@
 import Reflux from 'reflux';
-import RoutineActions from './routine_actions';
+// import RoutineActions from './routine_actions';
 import {createUuid} from '../utils/utility_functions';
 
 import React from 'react-native';
@@ -8,11 +8,11 @@ const {AsyncStorage} = React;
 const RoutineStore = Reflux.createStore({
   init() {
     this.routines = {};
-    this.listenTo(RoutineActions.createRoutine, this.createRoutine);
-    this.listenTo(RoutineActions.deleteRoutine, this.deleteRoutine);
-    this.listenTo(RoutineActions.getRoutine, this.getRoutine);
-    this.listenTo(RoutineActions.listRoutines, this.listRoutines);
-    this.listenTo(RoutineActions.updateRoutine, this.updateRoutine);
+    // this.listenTo(RoutineActions.createRoutine, this.createRoutine);
+    // this.listenTo(RoutineActions.deleteRoutine, this.deleteRoutine);
+    // this.listenTo(RoutineActions.getRoutine, this.getRoutine);
+    // this.listenTo(RoutineActions.listRoutines, this.listRoutines);
+    // this.listenTo(RoutineActions.updateRoutine, this.updateRoutine);
   },
 
   createRoutine(data) {
