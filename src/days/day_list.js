@@ -18,7 +18,7 @@ import DayNavItem from './day_nav_item';
 import DayOverview from './day_overview';
 
 import {listRoutines} from '../routines/routine_actions';
-import {connect} from 'react-redux/native';
+import {connect} from 'react-redux';
 
 const styles = StyleSheet.create({
   actionText: {
@@ -63,7 +63,7 @@ class DayList extends Component {
     days: React.PropTypes.object.isRequired,
     hasRoutines: React.PropTypes.bool,
     navigator: React.PropTypes.object.isRequired,
-    viewingDayUuid: React.PropTypes.string.uuid
+    viewingDayUuid: React.PropTypes.string
   };
 
   _newDayPressEvent() {
@@ -149,17 +149,20 @@ class DayList extends Component {
         const viewingDay = this.props.days[this.props.viewingDayUuid];
         let i = 0;
         const dayNavItems = [];
-        this.props.days.forEach((day, uuid) => {
-          const odd = i % 2 !== 0;
-          i += 1;
-          dayNavItems.push((
-            <DayNavItem
-              key={uuid}
-              day={day}
-              odd={odd}
-              selected={uuid === this.props.viewingDayUuid}
-              selectDay={this._selectDay.bind(this)} />));
-        });
+        for (const uuid in this.props.days) {
+          if (this.props.days.hasOwnProperty(uuid)) {
+            const day = this.props.days[uuid];
+            const odd = i % 2 !== 0;
+            i += 1;
+            dayNavItems.push((
+              <DayNavItem
+                key={uuid}
+                day={day}
+                odd={odd}
+                selected={uuid === this.props.viewingDayUuid}
+                selectDay={this._selectDay.bind(this)} />));
+          }
+        }
         return (
           <View style={styles.view}>
             <ScrollView
@@ -181,6 +184,7 @@ class DayList extends Component {
 }
 
 export default connect((state) => {
+  console.log(state);
   return {
     days: state.days,
     hasRoutines: Object.keys(state.routines).length > 0,

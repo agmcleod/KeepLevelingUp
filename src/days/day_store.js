@@ -82,7 +82,7 @@ const DayStore = Reflux.createStore({
       return AsyncStorage.setItem('days', JSON.stringify(daysData));
     })
     .then(() => {
-      DayActions.listDays();
+      // DayActions.listDays();
     })
     .catch((err) => console.error(err));
   },

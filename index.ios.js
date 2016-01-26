@@ -3,7 +3,7 @@
  * https://github.com/facebook/react-native
  */
 import React from 'react-native';
-import {Provider} from 'react-redux/native'
+import {Provider} from 'react-redux';
 const {
   AppRegistry,
   Navigator,
@@ -16,9 +16,7 @@ import NavConfig from './src/nav_config';
 import './src/object.js';
 
 import createStore from './src/create_store';
-const store = createStore({
-  routines: {}, days: {}
-});
+const store = createStore();
 
 const KeepLevelingUp = React.createClass({
   _renderScene(route, navigator) {
