@@ -140,18 +140,15 @@ class DayOverview extends Component {
       created_at: React.PropTypes.string,
       exercises: React.PropTypes.array
     }).isRequired,
-    navigator: React.PropTypes.object,
-    parentListen: React.PropTypes.func.isRequired,
-    parentUnlisten: React.PropTypes.func.isRequired
+    navigator: React.PropTypes.object
   };
   _deleteDayPressEvent() {
     DayActions.deleteDay(this.props.day.uuid);
   }
   _editDayPressEvent() {
-    this.props.parentUnlisten();
     this.props.navigator.push({
       component: EditDay,
-      props: {parentListen: this.props.parentListen, day: this.props.day}
+      props: {day: this.props.day}
     });
   }
 

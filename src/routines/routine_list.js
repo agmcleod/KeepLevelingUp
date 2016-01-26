@@ -1,4 +1,5 @@
 const React = require('react-native');
+import {connect} from 'react-redux';
 
 const {
   Component,
@@ -10,8 +11,7 @@ const {
 } = React;
 
 import BottomBar from '../components/bottom_bar';
-import RoutineActions from './routine_actions';
-import RoutineStore from './routine_store';
+import {deleteRoutine, listRoutines} from './routine_actions';
 import RoutineForm from './routine_form';
 
 import Swipeout from 'react-native-swipeout';
@@ -49,74 +49,60 @@ class RoutineList extends Component {
 
   static propTypes = {
     navigator: React.PropTypes.object,
-    parentListen: React.PropTypes.func
+    listRoutines: React.PropTypes.func
   };
 
   constructor(props) {
     super(props);
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2
+    });
+
     this.state = {
-      routineDataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2
-      })
+      routineDataSource: dataSource.cloneWithRows(props.routines)
     };
   }
+
   componentDidMount() {
-    this._listen();
+    this.props.listRoutines();
   }
 
-  componentWillUnmount() {
-    this._unlisten();
-    this.props.parentListen();
+  componentWillReceiveProps(props) {
+    this.setState({
+      routineDataSource: this.state.routineDataSource.cloneWithRows(Object.clone(props.routines))
+    });
   }
 
   _cancelPressEvent() {
     this.props.navigator.pop();
   }
 
-  _listen() {
-    this._subscription = RoutineStore.listen(this._onRoutinesChange.bind(this));
-    RoutineActions.listRoutines();
-  }
-
   _newRoutineButton() {
-    this._unlisten();
     this.props.navigator.push({
       component: RoutineForm,
-      props: {parentListen: this._listen.bind(this)},
-      type: "left"
+      type: 'left'
     });
   }
 
   _onDeletePress(uuid) {
-    RoutineActions.deleteRoutine(uuid);
+    deleteRoutine(uuid);
   }
 
   _onEditPress(routine) {
-    this._unlisten();
     this.props.navigator.push({
       component: RoutineForm,
-      props: {routine: routine, parentListen: this._listen.bind(this)},
-      type: "left"
+      props: {routine: routine},
+      type: 'left'
     });
-  }
-
-  _onRoutinesChange(routines) {
-    this.setState({
-      routineDataSource: this.state.routineDataSource.cloneWithRows(Object.clone(routines))
-    });
-  }
-
-  _unlisten() {
-    this._subscription();
   }
 
   render() {
-    const screen = Dimensions.get("window");
+    const screen = Dimensions.get('window');
     const bottomButtons = [{
-      text: "New Routine",
+      text: 'New Routine',
       onPressEvent: this._newRoutineButton.bind(this)
     }, {
-      text: "Home",
+      text: 'Home',
       onPressEvent: this._cancelPressEvent.bind(this)
     }];
     return (
@@ -150,4 +136,10 @@ class RoutineList extends Component {
   }
 }
 
-export default RoutineList;
+export default connect((state) => {
+  return {
+    routines: state.routines
+  };
+}, {
+  listRoutines
+})(RoutineList);

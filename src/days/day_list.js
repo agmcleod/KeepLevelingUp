@@ -62,9 +62,16 @@ class DayList extends Component {
   static propTypes = {
     days: React.PropTypes.object.isRequired,
     hasRoutines: React.PropTypes.bool,
+    listDays: React.PropTypes.func,
+    listRoutines: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired,
     viewingDayUuid: React.PropTypes.string
   };
+
+  componentDidMount() {
+    this.props.listDays();
+    this.props.listRoutines();
+  }
 
   _newDayPressEvent() {
     this.props.navigator.push({
@@ -184,7 +191,6 @@ class DayList extends Component {
 }
 
 export default connect((state) => {
-  console.log(state);
   return {
     days: state.days,
     hasRoutines: Object.keys(state.routines).length > 0,

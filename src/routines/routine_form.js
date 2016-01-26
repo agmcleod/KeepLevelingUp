@@ -13,7 +13,6 @@ const {
 import BottomBar from '../components/bottom_bar';
 import ExerciseForm from './exercise_form';
 import RoutineActions from './routine_actions';
-import RoutineStore from './routine_store';
 
 import arrayMove from '../array_move';
 
@@ -59,7 +58,6 @@ class RoutineForm extends Component {
   static displayName = 'RoutineForm';
   static propTypes = {
     navigator: React.PropTypes.object.isRequired,
-    parentListen: React.PropTypes.func.isRequired,
     routine: React.PropTypes.shape({
       name: React.PropTypes.string,
       uuid: React.PropTypes.string,
@@ -85,15 +83,6 @@ class RoutineForm extends Component {
         exercises: this.props.routine.exercises
       });
     }
-  }
-
-  componentDidMount() {
-    this._subscription = RoutineStore.listen(this._onRoutineChange.bind(this));
-  }
-
-  componentWillUnmount() {
-    this._subscription();
-    this.props.parentListen();
   }
 
   _addExercise() {
@@ -146,10 +135,6 @@ class RoutineForm extends Component {
     this.setState({
       exercises: exercises
     });
-  }
-
-  _onRoutineChange() {
-    this.props.navigator.pop();
   }
 
   _onSave() {

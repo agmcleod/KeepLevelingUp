@@ -1,9 +1,14 @@
-import * as ActionTypes from './routine_actions';
+import * as ActionTypes from './day_actions';
 
-export const routines = function(state = {}, action) {
-  if (action.type === ActionTypes.LIST_ROUTINES) {
-    return Object.assign({}, state, action.data);
-  } else {
-    return state;
+export const days = function(state = {}, action) {
+  switch (action.type) {
+    case ActionTypes.LIST_ROUTINES:
+      return Object.assign({}, state, action.data);
+    case ActionTypes.DELETE_ROUTINE:
+      const newState = Object.assign({}, state);
+      delete newState[action.uuid];
+      return state;
+    default:
+      return state;
   }
 };
