@@ -20,7 +20,7 @@ export default (store) => (next) => (action) => {
     return next(action);
   }
 
-  return getDataForKey(getData.dataKey).then(
-    (data) => next(actionWith(action, {data: data, type: getData.type}))
-  );
+  return getDataForKey(getData.dataKey).then((data) => {
+    return next(actionWith(action, {data: data, type: getData.type}));
+  });
 };

@@ -11,7 +11,7 @@ const {
 } = React;
 
 import BottomBar from '../components/bottom_bar';
-import {deleteRoutine, listRoutines} from './routine_actions';
+import {deleteRoutine, listRoutines, saveRoutines} from './routine_actions';
 import RoutineForm from './routine_form';
 
 import Swipeout from 'react-native-swipeout';
@@ -86,6 +86,7 @@ class RoutineList extends Component {
 
   _onDeletePress(uuid) {
     deleteRoutine(uuid);
+    saveRoutines();
   }
 
   _onEditPress(routine) {
