@@ -1,4 +1,4 @@
-import * as ActionTypes from './day_actions';
+import * as ActionTypes from './routine_actions';
 
 export const days = function(state = {}, action) {
   switch (action.type) {

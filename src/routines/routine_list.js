@@ -49,7 +49,9 @@ class RoutineList extends Component {
 
   static propTypes = {
     navigator: React.PropTypes.object,
-    listRoutines: React.PropTypes.func
+    deleteRoutine: React.PropTypes.func,
+    listRoutines: React.PropTypes.func,
+    saveRoutines: React.PropTypes.func
   };
 
   constructor(props) {
@@ -85,8 +87,8 @@ class RoutineList extends Component {
   }
 
   _onDeletePress(uuid) {
-    deleteRoutine(uuid);
-    saveRoutines();
+    this.props.deleteRoutine(uuid);
+    this.props.saveRoutines();
   }
 
   _onEditPress(routine) {
@@ -142,5 +144,5 @@ export default connect((state) => {
     routines: state.routines
   };
 }, {
-  listRoutines
+  deleteRoutine, listRoutines, saveRoutines
 })(RoutineList);
