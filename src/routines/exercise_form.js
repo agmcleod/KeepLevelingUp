@@ -93,7 +93,7 @@ class ExerciseForm extends Component {
       errors: React.PropTypes.object,
       duration: React.PropTypes.number,
       name: React.PropTypes.string,
-      reps: React.PropTypes.string,
+      reps: React.PropTypes.number,
       sets: React.PropTypes.number,
       showWeight: React.PropTypes.bool
     }).isRequired,

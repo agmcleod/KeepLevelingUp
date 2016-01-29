@@ -159,6 +159,7 @@ class RoutineForm extends Component {
     } else {
       this.props.setRoutine({name: this.state.name, uuid: this.state.uuid, exercises: this.state.exercises});
       this.props.saveRoutines();
+      this.props.navigator.pop();
     }
   }
 
@@ -223,10 +224,8 @@ class RoutineForm extends Component {
   }
 }
 
-export default connect((state) => {
-  return {
-    routine: state.routines[state.selectedRoutineUuid]
-  };
+export default connect(() => {
+  return {};
 }, {
   saveRoutines, setRoutine
 })(RoutineForm);

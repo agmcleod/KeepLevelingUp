@@ -50,7 +50,6 @@ class RoutineList extends Component {
   static propTypes = {
     navigator: React.PropTypes.object,
     deleteRoutine: React.PropTypes.func,
-    listRoutines: React.PropTypes.func,
     saveRoutines: React.PropTypes.func
   };
 
@@ -63,10 +62,6 @@ class RoutineList extends Component {
     this.state = {
       routineDataSource: dataSource.cloneWithRows(props.routines)
     };
-  }
-
-  componentDidMount() {
-    this.props.listRoutines();
   }
 
   componentWillReceiveProps(props) {
@@ -144,5 +139,5 @@ export default connect((state) => {
     routines: state.routines
   };
 }, {
-  deleteRoutine, listRoutines, saveRoutines
+  deleteRoutine, saveRoutines
 })(RoutineList);

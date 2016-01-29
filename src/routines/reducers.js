@@ -14,7 +14,7 @@ export const routines = function(state = {}, action) {
       if (!data.uuid) {
         data.uuid = createUuid();
       }
-      return Object.assign({}, state, data);
+      return Object.assign({}, state, {[data.uuid]: data});
     default:
       return state;
   }

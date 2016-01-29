@@ -1,4 +1,5 @@
 import React from 'react-native';
+import {connect} from 'react-redux';
 
 import {Select, Option, OptionList, updatePosition} from 'react-native-dropdown';
 
@@ -10,12 +11,7 @@ const {
 } = React;
 
 import BottomBar from '../components/bottom_bar';
-import RoutineActions from '../routines/routine_actions';
-import RoutineStore from '../routines/routine_store';
-
 import DayActions from './day_actions';
-import DayStore from './day_store';
-
 import EditDay from './edit_day';
 
 const OPTIONLIST_REF = 'optionlist';
@@ -45,30 +41,22 @@ const styles = StyleSheet.create({
 class NewDay extends Component {
   static displayName = 'NewDay';
   static propTypes = {
-    navigator: React.PropTypes.object,
-    parentListen: React.PropTypes.func
+    navigator: React.PropTypes.object.isRequired,
+    routines: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      routines: {},
       selectedUUID: null
     };
   }
   componentDidMount() {
-    this._subscription = RoutineStore.listen(this._onRoutinesChange.bind(this));
-    this._dayCreationSub = DayStore.listen(this._onDayCreation.bind(this));
-    RoutineActions.listRoutines();
-
     updatePosition(this.refs.select);
     updatePosition(this.refs[OPTIONLIST_REF]);
   }
 
   _cancelPressEvent() {
-    this._subscription();
-    this._dayCreationSub();
-    this.props.parentListen();
     this.props.navigator.pop();
   }
 
@@ -83,21 +71,10 @@ class NewDay extends Component {
   }
 
   _onDayCreation(day) {
-    this._subscription();
-    this._dayCreationSub();
     this.props.navigator.replace({
       component: EditDay,
       props: {day: day, parentListen: this.props.parentListen}
     });
-  }
-
-  _onRoutinesChange(routines) {
-    if (routines) {
-      this.setState({
-        routines: routines,
-        selectedUUID: Object.keys(routines)[0]
-      });
-    }
   }
 
   _selectRoutineEvent(uuid) {
@@ -123,8 +100,8 @@ class NewDay extends Component {
             onSelect={this._selectRoutineEvent.bind(this)}
             optionListRef={this._getOptionList.bind(this)}
             ref='select'>
-            {Object.keys(this.state.routines).map((key) => {
-              const routine = this.state.routines[key];
+            {Object.keys(this.props.routines).map((key) => {
+              const routine = this.props.routines[key];
               return <Option key={key} value={routine.uuid}>{routine.name}</Option>;
             })}
           </Select>
@@ -136,4 +113,8 @@ class NewDay extends Component {
   }
 }
 
-export default NewDay;
+export default connect((state) => {
+  return {
+    routines: state.routines
+  };
+})(NewDay);
