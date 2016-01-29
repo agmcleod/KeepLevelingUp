@@ -52,6 +52,7 @@ class NewDay extends Component {
     };
   }
   componentDidMount() {
+    console.log(this.props.routines);
     updatePosition(this.refs.select);
     updatePosition(this.refs[OPTIONLIST_REF]);
   }
@@ -73,7 +74,7 @@ class NewDay extends Component {
   _onDayCreation(day) {
     this.props.navigator.replace({
       component: EditDay,
-      props: {day: day, parentListen: this.props.parentListen}
+      props: {day: day}
     });
   }
 
