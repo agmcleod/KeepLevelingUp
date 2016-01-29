@@ -1,4 +1,5 @@
 import React from 'react-native';
+import {connect} from 'react-redux';
 
 const {
   Component,
@@ -12,7 +13,7 @@ const {
 
 import BottomBar from '../components/bottom_bar';
 import ExerciseForm from './exercise_form';
-import RoutineActions from './routine_actions';
+import {saveRoutines, setRoutine} from './routine_actions';
 
 import arrayMove from '../array_move';
 
@@ -62,7 +63,9 @@ class RoutineForm extends Component {
       name: React.PropTypes.string,
       uuid: React.PropTypes.string,
       exercises: React.PropTypes.array
-    })
+    }),
+    saveRoutines: React.PropTypes.func.isRequired,
+    setRoutine: React.PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -153,10 +156,9 @@ class RoutineForm extends Component {
     });
     if (hasErrors) {
       this.setState({exercises: exercises, errors: errors});
-    } else if (this.state.uuid) {
-      RoutineActions.updateRoutine({name: this.state.name, uuid: this.state.uuid, exercises: this.state.exercises});
     } else {
-      RoutineActions.createRoutine({name: this.state.name, exercises: this.state.exercises});
+      this.props.setRoutine({name: this.state.name, uuid: this.state.uuid, exercises: this.state.exercises});
+      this.props.saveRoutines();
     }
   }
 
@@ -221,4 +223,10 @@ class RoutineForm extends Component {
   }
 }
 
-export default RoutineForm;
+export default connect((state) => {
+  return {
+    routine: state.routines[state.selectedRoutineUuid]
+  };
+}, {
+  saveRoutines, setRoutine
+})(RoutineForm);

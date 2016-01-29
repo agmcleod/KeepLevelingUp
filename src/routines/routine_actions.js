@@ -1,8 +1,16 @@
 import {GET_DATA} from '../middleware/get_data';
 import {SAVE_DATA} from '../middleware/save_data';
 
+export const SET_ROUTINE = 'SET_ROUTINE';
+export const UPDATE_ROUTINE = 'UPDATE_ROUTINE';
 export const LIST_ROUTINES = 'LIST_ROUTINES';
 export const DELETE_ROUTINE = 'DELETE_ROUTINE';
+
+export function setRoutine(data) {
+  return (dispatch) => {
+    return dispatch({type: SET_ROUTINE, data: data});
+  };
+}
 
 export function listRoutines() {
   return (dispatch) => {
