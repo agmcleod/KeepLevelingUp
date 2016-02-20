@@ -29,3 +29,7 @@ export function listDays() {
     });
   };
 }
+
+export function saveDay() {
+  
+}

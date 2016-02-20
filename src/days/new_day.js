@@ -11,7 +11,7 @@ const {
 } = React;
 
 import BottomBar from '../components/bottom_bar';
-import DayActions from './day_actions';
+import * as DayActions from './day_actions';
 import EditDay from './edit_day';
 
 const OPTIONLIST_REF = 'optionlist';
@@ -51,8 +51,8 @@ class NewDay extends Component {
       selectedUUID: null
     };
   }
+
   componentDidMount() {
-    console.log(this.props.routines);
     updatePosition(this.refs.select);
     updatePosition(this.refs[OPTIONLIST_REF]);
   }
@@ -67,7 +67,7 @@ class NewDay extends Component {
 
   _goPressEvent() {
     if (this.state.selectedUUID) {
-      DayActions.createDay({routine_uuid: this.state.selectedUUID});
+      DayActions.createDay(this.state.selectedUUID);
     }
   }
 
