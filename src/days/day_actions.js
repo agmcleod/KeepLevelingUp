@@ -30,6 +30,10 @@ export function listDays() {
   };
 }
 
-export function saveDay() {
-  
+export function saveDays() {
+  return (dispatch, getState) => {
+    return dispatch({
+      [SAVE_DATA]: {dataKey: 'days', data: getState().days}
+    });
+  }
 }

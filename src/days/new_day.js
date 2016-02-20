@@ -11,7 +11,7 @@ const {
 } = React;
 
 import BottomBar from '../components/bottom_bar';
-import * as DayActions from './day_actions';
+import {saveDays, createDay} from './day_actions';
 import EditDay from './edit_day';
 
 const OPTIONLIST_REF = 'optionlist';
@@ -41,8 +41,10 @@ const styles = StyleSheet.create({
 class NewDay extends Component {
   static displayName = 'NewDay';
   static propTypes = {
+    createDay: React.PropTypes.func.isRequired,
     navigator: React.PropTypes.object.isRequired,
-    routines: React.PropTypes.object.isRequired
+    routines: React.PropTypes.object.isRequired,
+    saveDays: React.PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -67,7 +69,8 @@ class NewDay extends Component {
 
   _goPressEvent() {
     if (this.state.selectedUUID) {
-      DayActions.createDay(this.state.selectedUUID);
+      this.props.createDay(this.state.selectedUUID);
+      this.props.saveDays();
     }
   }
 
@@ -118,4 +121,6 @@ export default connect((state) => {
   return {
     routines: state.routines
   };
+}, {
+  createDay, saveDays
 })(NewDay);
