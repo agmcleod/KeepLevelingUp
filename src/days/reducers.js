@@ -11,8 +11,8 @@ export const days = function(state = {}, action) {
   switch (action.type) {
     case ActionTypes.CREATE_DAY:
       const {previousDay, routine} = action;
-      const newDay = {uuid: createUuid, created_at: new Date().toISOString(), exercises: []};
-      for (const exercise of routine.exercies) {
+      const newDay = {uuid: createUuid(), created_at: new Date().toISOString(), exercises: []};
+      for (const exercise of routine.exercises) {
         const dayExercise = {...exercise, sets: []};
         for (let i = 0; i < exercise.sets; i++) {
           dayExercise.sets.push({
@@ -36,11 +36,21 @@ export const days = function(state = {}, action) {
           }
         }
       }
-      const daysData = Object.assign({}, state.days, {[newDay.uuid]: newDay});
-      return Object.assign({}, state, {days: daysData});
+      return Object.assign({}, state, {[newDay.uuid]: newDay});
     case ActionTypes.LIST_DAYS:
       return Object.assign({}, state, action.data);
+    case ActionTypes.UPDATE_DAY:
+      return Object.assign({}, state, {[action.day.uuid]: action.day});
     default:
       return state;
   }
 };
+
+export const viewingDayUuid = function(state = null, action) {
+  switch (action.type) {
+    case ActionTypes.VIEW_DAY:
+      return action.uuid;
+    default:
+      return state;
+  }
+}

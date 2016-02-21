@@ -46,8 +46,8 @@ class ExerciseField extends Component {
   static propTypes = {
     label: React.PropTypes.string,
     onChange: React.PropTypes.func,
-    noteValue: React.PropTypes.oneOf([React.PropTypes.string, React.PropTypes.number]),
-    value: React.PropTypes.oneOf([React.PropTypes.string, React.PropTypes.number])
+    noteValue: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number])
   };
   render() {
     return (

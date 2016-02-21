@@ -1,4 +1,5 @@
 import React from 'react-native';
+import {connect} from 'react-redux';
 
 const {
   Component,
@@ -11,8 +12,7 @@ const {
 import BottomBar from '../components/bottom_bar';
 import Exercise from './exercise';
 
-import DayStore from './day_store';
-import DayActions from './day_actions';
+import {saveDays, updateDay} from './day_actions';
 import friendlyDay from '../friendly_day.js';
 
 const styles = StyleSheet.create({
@@ -42,31 +42,18 @@ class EditDay extends Component {
       exercises: React.PropTypes.array
     }).isRequired,
     navigator: React.PropTypes.object.isRequired,
-    parentListen: React.PropTypes.func.isRequired
+    saveDays: React.PropTypes.func.isRequired,
+    updateDay: React.PropTypes.func.isRequired
   };
-  componentDidMount() {
-    this._listen();
-  }
-
-  componentWillUnmount() {
-    this.props.parentListen();
-    this._unlisten();
-  }
-
-  _listen() {
-    this._subscription = DayStore.listen(this._onDayUpdate.bind(this));
-  }
 
   _onDayUpdate() {
     this.props.navigator.pop();
   }
 
   _onSavePressEvent() {
-    DayActions.updateDay(this.props.day);
-  }
-
-  _unlisten() {
-    this._subscription();
+    this.props.updateDay(this.props.day);
+    this.props.saveDays();
+    this.props.navigator.pop();
   }
 
   render() {
@@ -88,4 +75,8 @@ class EditDay extends Component {
   }
 }
 
-export default EditDay;
+export default connect(() => {
+  return {};
+}, {
+  saveDays, updateDay
+})(EditDay);

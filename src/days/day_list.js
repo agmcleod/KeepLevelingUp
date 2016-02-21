@@ -13,7 +13,7 @@ import RoutineList from '../routines/routine_list';
 import BottomBar from '../components/bottom_bar';
 import NewDay from './new_day';
 
-import {listDays} from './day_actions';
+import {listDays, viewDay} from './day_actions';
 import DayNavItem from './day_nav_item';
 import DayOverview from './day_overview';
 
@@ -65,6 +65,7 @@ class DayList extends Component {
     listDays: React.PropTypes.func,
     listRoutines: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired,
+    viewDay: React.PropTypes.func.isRequired,
     viewingDayUuid: React.PropTypes.string
   };
 
@@ -84,7 +85,7 @@ class DayList extends Component {
     if (daysDataSet) {
       const dayUuids = Object.keys(daysDataSet);
       dayUuids.reverse();
-      const days = this.state.days;
+      const days = this.props.days;
       days.clear();
       for (let i = 0; i < dayUuids.length; i++) {
         const uuid = dayUuids[i];
@@ -101,9 +102,7 @@ class DayList extends Component {
   }
 
   _selectDay(uuid) {
-    this.setState({
-      viewingDay: this.state.days.get(uuid)
-    });
+    this.props.viewDay(uuid);
   }
 
   _routinesPressEvent() {
@@ -197,5 +196,5 @@ export default connect((state) => {
     viewingDayUuid: state.viewingDayUuid || Object.keys(state.days)[0]
   };
 }, {
-  listDays, listRoutines
+  listDays, listRoutines, viewDay
 })(DayList);

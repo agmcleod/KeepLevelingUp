@@ -1,7 +1,10 @@
 import {GET_DATA} from '../middleware/get_data';
+import {SAVE_DATA} from '../middleware/save_data';
 
 export const CREATE_DAY = 'CREATE_DAY';
 export const LIST_DAYS = 'LIST_DAYS';
+export const UPDATE_DAY = 'UPDATE_DAY';
+export const VIEW_DAY = 'VIEW_DAY';
 
 export function createDay(routineUuid) {
   return (dispatch, getState) => {
@@ -35,5 +38,19 @@ export function saveDays() {
     return dispatch({
       [SAVE_DATA]: {dataKey: 'days', data: getState().days}
     });
+  };
+}
+
+export function updateDay(day) {
+  return (dispatch) => {
+    return dispatch({
+      type: UPDATE_DAY, day
+    });
+  };
+}
+
+export function viewDay(uuid) {
+  return (dispatch) => {
+    return dispatch({type: VIEW_DAY, uuid});
   }
 }

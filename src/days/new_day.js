@@ -12,7 +12,6 @@ const {
 
 import BottomBar from '../components/bottom_bar';
 import {saveDays, createDay} from './day_actions';
-import EditDay from './edit_day';
 
 const OPTIONLIST_REF = 'optionlist';
 
@@ -71,14 +70,8 @@ class NewDay extends Component {
     if (this.state.selectedUUID) {
       this.props.createDay(this.state.selectedUUID);
       this.props.saveDays();
+      this.props.navigator.pop();
     }
-  }
-
-  _onDayCreation(day) {
-    this.props.navigator.replace({
-      component: EditDay,
-      props: {day: day}
-    });
   }
 
   _selectRoutineEvent(uuid) {
