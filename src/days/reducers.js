@@ -10,8 +10,10 @@ const createSetFromPreviousDay = function(previousDaySet) {
 export const days = function(state = {}, action) {
   switch (action.type) {
     case ActionTypes.CREATE_DAY:
-      const {previousDay, routine} = action;
-      const newDay = {uuid: createUuid(), created_at: new Date().toISOString(), exercises: []};
+      const {previousDay, routine, routineUuid} = action;
+      const newDay = {
+        uuid: createUuid(), created_at: new Date().toISOString(), exercises: [], routine_uuid: routineUuid
+      };
       for (const exercise of routine.exercises) {
         const dayExercise = {...exercise, sets: []};
         for (let i = 0; i < exercise.sets; i++) {
@@ -53,4 +55,4 @@ export const viewingDayUuid = function(state = null, action) {
     default:
       return state;
   }
-}
+};

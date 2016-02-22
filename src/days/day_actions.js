@@ -20,7 +20,7 @@ export function createDay(routineUuid) {
     });
 
     return dispatch({
-      type: CREATE_DAY, previousDay, routine
+      type: CREATE_DAY, previousDay, routine, routineUuid
     });
   };
 }
@@ -52,5 +52,5 @@ export function updateDay(day) {
 export function viewDay(uuid) {
   return (dispatch) => {
     return dispatch({type: VIEW_DAY, uuid});
-  }
+  };
 }
