@@ -39,10 +39,13 @@ export const days = function(state = {}, action) {
         }
       }
       return Object.assign({}, state, {[newDay.uuid]: newDay});
+    case ActionTypes.DELETE_DAY:
+      delete state[action.uuid];
+      return Object.assign({}, state);
     case ActionTypes.LIST_DAYS:
       return Object.assign({}, state, action.data);
     case ActionTypes.UPDATE_DAY:
-      return Object.assign({}, state, {[action.day.uuid]: action.day});
+      return Object.assign({}, state, {[action.day.uuid]: Object.assign({}, action.day)});
     default:
       return state;
   }
@@ -52,6 +55,8 @@ export const viewingDayUuid = function(state = null, action) {
   switch (action.type) {
     case ActionTypes.VIEW_DAY:
       return action.uuid;
+    case ActionTypes.DELETE_DAY:
+      return null;
     default:
       return state;
   }

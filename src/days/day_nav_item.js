@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
   container: {
     paddingLeft: 15,
     paddingRight: 15,
-    width: 60
+    width: 60,
+    height: 49
   },
   odd: {
     backgroundColor: '#ccc'

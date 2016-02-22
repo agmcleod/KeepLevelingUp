@@ -40,12 +40,13 @@ class Exercise extends Component {
     }).isRequired
   };
 
-  _getExerciseFieldForProperty(label, propName, object, index) {
+  _getExerciseFieldForProperty(label, propName, object, index, noteValue) {
     if (typeof object[propName] === 'number') {
       return (
         <ExerciseField
           label={label}
           onChange={(e) => {this._onExerciseFieldChange(e, index, propName);}}
+          noteValue={noteValue}
           value={object[propName]} />
       );
     }
@@ -64,8 +65,8 @@ class Exercise extends Component {
           return (
             <View key={'exercise_' + i} style={styles.set}>
               {this._getExerciseFieldForProperty('Weight', 'weight', set, i)}
-              {this._getExerciseFieldForProperty('Reps', 'reps', set, i)}
-              {this._getExerciseFieldForProperty('Duration', 'duration', set, i)}
+              {this._getExerciseFieldForProperty('Reps', 'reps', set, i, set.last_reps)}
+              {this._getExerciseFieldForProperty('Duration', 'duration', set, i, set.last_duration)}
             </View>
           );
         })}

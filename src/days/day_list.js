@@ -81,26 +81,6 @@ class DayList extends Component {
     });
   }
 
-  _onDayListChange(daysDataSet) {
-    if (daysDataSet) {
-      const dayUuids = Object.keys(daysDataSet);
-      dayUuids.reverse();
-      const days = this.props.days;
-      days.clear();
-      for (let i = 0; i < dayUuids.length; i++) {
-        const uuid = dayUuids[i];
-        days.set(uuid, daysDataSet[uuid]);
-      }
-      this.setState({days: days, viewingDay: days.get(dayUuids[0])});
-    }
-  }
-
-  _onRoutinesChange(routines) {
-    this.setState({
-      hasRoutines: (Object.keys(routines).length > 0)
-    });
-  }
-
   _selectDay(uuid) {
     this.props.viewDay(uuid);
   }
@@ -148,27 +128,24 @@ class DayList extends Component {
         {text: 'Routines', onPressEvent: this._routinesPressEvent.bind(this)},
         {text: 'New Day', onPressEvent: this._newDayPressEvent.bind(this)}
       ];
-      if (Object.keys(this.props.days).length === 0) {
+      if (this.props.days.size === 0) {
         return this.renderNoDays(buttons);
       } else {
         const screen = Dimensions.get('window');
-        const viewingDay = this.props.days[this.props.viewingDayUuid];
+        const viewingDay = this.props.days.get(this.props.viewingDayUuid);
         let i = 0;
         const dayNavItems = [];
-        for (const uuid in this.props.days) {
-          if (this.props.days.hasOwnProperty(uuid)) {
-            const day = this.props.days[uuid];
-            const odd = i % 2 !== 0;
-            i += 1;
-            dayNavItems.push((
-              <DayNavItem
-                key={uuid}
-                day={day}
-                odd={odd}
-                selected={uuid === this.props.viewingDayUuid}
-                selectDay={this._selectDay.bind(this)} />));
-          }
-        }
+        this.props.days.forEach((day, uuid) => {
+          const odd = i % 2 !== 0;
+          i += 1;
+          dayNavItems.push((
+            <DayNavItem
+              key={uuid}
+              day={day}
+              odd={odd}
+              selected={uuid === this.props.viewingDayUuid}
+              selectDay={this._selectDay.bind(this)} />));
+        });
         return (
           <View style={styles.view}>
             <ScrollView
@@ -190,10 +167,23 @@ class DayList extends Component {
 }
 
 export default connect((state) => {
+  const days = [];
+  for (const uuid in state.days) {
+    if (state.days.hasOwnProperty(uuid)) {
+      days.push(state.days[uuid]);
+    }
+  }
+  days.sort((a, b) => {
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  });
+  const daysMap = new Map();
+  for (let i = 0; i < days.length; i++) {
+    daysMap.set(days[i].uuid, days[i]);
+  }
   return {
-    days: state.days,
+    days: daysMap,
     hasRoutines: Object.keys(state.routines).length > 0,
-    viewingDayUuid: state.viewingDayUuid || Object.keys(state.days)[0]
+    viewingDayUuid: state.viewingDayUuid || days[0] && days[0].uuid
   };
 }, {
   listDays, listRoutines, viewDay

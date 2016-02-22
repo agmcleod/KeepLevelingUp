@@ -2,6 +2,7 @@ import {GET_DATA} from '../middleware/get_data';
 import {SAVE_DATA} from '../middleware/save_data';
 
 export const CREATE_DAY = 'CREATE_DAY';
+export const DELETE_DAY = 'DELETE_DAY';
 export const LIST_DAYS = 'LIST_DAYS';
 export const UPDATE_DAY = 'UPDATE_DAY';
 export const VIEW_DAY = 'VIEW_DAY';
@@ -22,6 +23,12 @@ export function createDay(routineUuid) {
     return dispatch({
       type: CREATE_DAY, previousDay, routine, routineUuid
     });
+  };
+}
+
+export function deleteDay(routineUuid) {
+  return (dispatch) => {
+    return dispatch({type: DELETE_DAY, uuid: routineUuid});
   };
 }
 

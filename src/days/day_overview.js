@@ -1,4 +1,5 @@
 import React from 'react-native';
+import {connect} from 'react-redux';
 
 const {
   Component,
@@ -10,7 +11,7 @@ const {
   View
 } = React;
 
-import DayActions from './day_actions';
+import {deleteDay, saveDays, viewDay} from './day_actions';
 import EditDay from './edit_day';
 import friendlyDay from '../friendly_day';
 
@@ -100,6 +101,7 @@ class ExerciseValue extends Component {
       sets: React.PropTypes.array
     }).isRequired
   };
+
   render() {
     return (
       <View style={styles.exerciseWrapper}>
@@ -140,11 +142,17 @@ class DayOverview extends Component {
       created_at: React.PropTypes.string,
       exercises: React.PropTypes.array
     }).isRequired,
-    navigator: React.PropTypes.object
+    deleteDay: React.PropTypes.func.isRequired,
+    navigator: React.PropTypes.object,
+    saveDays: React.PropTypes.func.isRequired,
+    viewDay: React.PropTypes.func.isRequired
   };
+
   _deleteDayPressEvent() {
-    DayActions.deleteDay(this.props.day.uuid);
+    this.props.deleteDay(this.props.day.uuid);
+    this.props.saveDays();
   }
+
   _editDayPressEvent() {
     this.props.navigator.push({
       component: EditDay,
@@ -179,4 +187,8 @@ class DayOverview extends Component {
   }
 }
 
-export default DayOverview;
+export default connect(() => {
+  return {};
+}, {
+  deleteDay, saveDays, viewDay
+})(DayOverview);
