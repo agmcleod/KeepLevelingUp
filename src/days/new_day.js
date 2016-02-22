@@ -93,7 +93,7 @@ class NewDay extends Component {
         <View style={styles.formView}>
           <Text style={styles.label}>Select which routine:</Text>
           <Select
-            defaultValue='Select which routine'
+            defaultValue='Tap to select routine'
             onSelect={this._selectRoutineEvent.bind(this)}
             optionListRef={this._getOptionList.bind(this)}
             ref='select'>
