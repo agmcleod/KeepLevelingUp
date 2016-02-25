@@ -7,7 +7,8 @@ import {Provider} from 'react-redux';
 const {
   AppRegistry,
   Navigator,
-  Text
+  Text,
+  View
 } = React;
 
 import DayList from './src/days/day_list';
@@ -19,6 +20,7 @@ import createStore from './src/create_store';
 const store = createStore();
 
 const KeepLevelingUp = React.createClass({
+  displayName: 'KeepLevelingUp',
   _renderScene(route, navigator) {
     const Component = route.component;
     return (
@@ -32,8 +34,7 @@ const KeepLevelingUp = React.createClass({
           configureScene={(route) => {
             if (route.type === "left") {
               return NavConfig.toLeft;
-            }
-            else {
+            } else {
               return NavConfig.toRight;
             }
           }}
