@@ -1,7 +1,7 @@
 import * as ActionTypes from './routine_actions';
 import {createUuid} from '../utils/utility_functions';
 
-export const routines = function(state = null, action) {
+export const routines = function(state = {}, action) {
   switch (action.type) {
     case ActionTypes.LIST_ROUTINES:
       return Object.assign({}, state, action.data);
