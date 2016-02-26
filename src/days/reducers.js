@@ -46,6 +46,20 @@ export const days = function(state = {}, action) {
       return Object.assign({}, state, action.data);
     case ActionTypes.UPDATE_DAY:
       return Object.assign({}, state, {[action.day.uuid]: Object.assign({}, action.day)});
+    case ActionTypes.COMPLETE_EXERCISE:
+      const day = state[action.dayUuid];
+      let exercise = null;
+      for (const ex of day.exercises) {
+        if (ex.uuid === action.exerciseUuid) {
+          exercise = ex;
+          break;
+        }
+      }
+
+      exercise.completed = true;
+
+      return Object.assign({}, state, {[day.uuid]: Object.assign({}, day)});
+
     default:
       return state;
   }
