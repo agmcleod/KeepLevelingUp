@@ -1,31 +1,18 @@
 import {GET_DATA} from '../middleware/get_data';
 import {SAVE_DATA} from '../middleware/save_data';
 
-export const COMPLETE_EXERCISE = 'COMPLETE_EXERCISE';
+export const TOGGLE_COMPLETE_EXERCISE = 'TOGGLE_COMPLETE_EXERCISE';
 export const CREATE_DAY = 'CREATE_DAY';
 export const DELETE_DAY = 'DELETE_DAY';
 export const LIST_DAYS = 'LIST_DAYS';
 export const UPDATE_DAY = 'UPDATE_DAY';
 export const VIEW_DAY = 'VIEW_DAY';
 
-export function completeExericse(dayUuid, exerciseUuid) {
+export function toggleCompleteExercise(dayUuid, exerciseUuid) {
   return (dispatch, getState) => {
-    const day = getState().days[dayUuid];
-    let exercise = null;
-    for (const ex of day.exercises) {
-      if (ex.uuid === exerciseUuid) {
-        exercise = ex;
-        break;
-      }
-    }
-
-    if (!exercise) {
-      throw new Error(`Could not find exercise: ${exerciseUuid}`);
-    } else {
-      return dispatch({
-        type: COMPLETE_EXERCISE, exercise: exerciseUuid, dayUuid: dayUuid
-      });
-    }
+    return dispatch({
+      type: TOGGLE_COMPLETE_EXERCISE, exerciseUuid: exerciseUuid, dayUuid: dayUuid
+    });
   };
 }
 

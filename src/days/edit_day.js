@@ -61,12 +61,15 @@ class EditDay extends Component {
       text: "Save",
       onPressEvent: this._onSavePressEvent.bind(this)
     }];
+    const {day} = this.props;
     return (
       <View style={styles.view}>
         <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={false}>
           <View style={styles.dayContainer}>
-            <Text style={styles.dayHeader}>{friendlyDay(this.props.day.created_at)}</Text>
-            {this.props.day.exercises.map((exercise) => <Exercise key={exercise.uuid} exercise={exercise} />)}
+            <Text style={styles.dayHeader}>{friendlyDay(day.created_at)}</Text>
+            {this.props.day.exercises.map((exercise) => {
+              return <Exercise key={exercise.uuid} dayUuid={day.uuid} exercise={exercise} />;
+            })}
           </View>
         </ScrollView>
         <BottomBar buttons={buttons} />

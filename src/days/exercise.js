@@ -1,13 +1,36 @@
 import React from 'react-native';
+import {connect} from 'react-redux';
+import {toggleCompleteExercise} from './day_actions';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const {
   Component,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } = React;
 
 const styles = StyleSheet.create({
+  checkmark: {
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 12,
+    justifyContent: 'center',
+    width: 25,
+    height: 25,
+    borderColor: '#39b54a',
+    overflow: 'hidden'
+  },
+  checkmarkActive: {
+    backgroundColor: '#39b54a'
+  },
+  checkmarkInactive: {
+    borderColor: '#39b54a'
+  },
+  completed: {
+    borderColor: '#39b54a'
+  },
   exerciseName: {
     color: '#555',
     fontFamily: 'Optima',
@@ -18,6 +41,10 @@ const styles = StyleSheet.create({
     marginTop: 15,
     padding: 5,
     paddingBottom: 10
+  },
+  topRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   view: {
     borderRadius: 10,
@@ -34,10 +61,14 @@ import ExerciseField from './exercise_field';
 class Exercise extends Component {
   static displayName = 'Exercise';
   static propTypes = {
+    toggleCompleteExercise: React.PropTypes.func.isRequired,
     exercise: React.PropTypes.shape({
+      completed: React.PropTypes.bool,
       name: React.PropTypes.string,
-      sets: React.PropTypes.array
-    }).isRequired
+      sets: React.PropTypes.array,
+      uuid: React.PropTypes.string
+    }).isRequired,
+    dayUuid: React.PropTypes.string.isRequired
   };
 
   _getExerciseFieldForProperty(label, propName, object, index, noteValue) {
@@ -57,10 +88,27 @@ class Exercise extends Component {
     this.props.exercise.sets[i][field] = text;
   }
 
+  _onToggleActivity() {
+    this.props.toggleCompleteExercise(this.props.dayUuid, this.props.exercise.uuid);
+  }
+
   render() {
+    const viewStyle = [styles.view];
+    if (this.props.exercise.completed) {
+      viewStyle.push(styles.completed);
+    }
+    const checkmarkStyles = [styles.checkmark];
+    checkmarkStyles.push(this.props.exercise.completed ? styles.checkmarkActive : styles.checkmarkInactive);
     return (
-      <View style={styles.view}>
-        <Text style={styles.exerciseName}>{this.props.exercise.name}</Text>
+      <View style={viewStyle}>
+        <View style={styles.topRow}>
+          <Text style={styles.exerciseName}>{this.props.exercise.name}</Text>
+          <TouchableOpacity onPress={this._onToggleActivity.bind(this)}>
+            <View style={checkmarkStyles}>
+              <Icon color={this.props.exercise.completed ? '#ffffff' : '#39b54a'} name='check' size={18} />
+            </View>
+          </TouchableOpacity>
+        </View>
         {this.props.exercise.sets.map((set, i) => {
           return (
             <View key={'exercise_' + i} style={styles.set}>
@@ -76,4 +124,8 @@ class Exercise extends Component {
   }
 }
 
-export default Exercise;
+export default connect(() => {
+  return {};
+}, {
+  toggleCompleteExercise
+})(Exercise);
