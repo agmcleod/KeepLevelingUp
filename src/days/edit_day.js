@@ -68,7 +68,7 @@ class EditDay extends Component {
           <View style={styles.dayContainer}>
             <Text style={styles.dayHeader}>{friendlyDay(day.created_at)}</Text>
             {this.props.day.exercises.map((exercise) => {
-              return <Exercise key={exercise.uuid} dayUuid={day.uuid} exercise={exercise} />;
+              return <Exercise key={exercise.uuid} dayUuid={day.uuid} exerciseUuid={exercise.uuid} />;
             })}
           </View>
         </ScrollView>

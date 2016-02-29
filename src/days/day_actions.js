@@ -9,7 +9,7 @@ export const UPDATE_DAY = 'UPDATE_DAY';
 export const VIEW_DAY = 'VIEW_DAY';
 
 export function toggleCompleteExercise(dayUuid, exerciseUuid) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     return dispatch({
       type: TOGGLE_COMPLETE_EXERCISE, exerciseUuid: exerciseUuid, dayUuid: dayUuid
     });

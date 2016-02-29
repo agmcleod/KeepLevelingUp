@@ -49,15 +49,13 @@ export const days = function(state = {}, action) {
     case ActionTypes.TOGGLE_COMPLETE_EXERCISE:
       const day = state[action.dayUuid];
       let exercise = null;
-      console.log(action);
-      for (const ex of day.exercises) {
+      for (var i = 0; i < day.exercises.length; i++) {
+        const ex = day.exercises[i];
         if (ex.uuid === action.exerciseUuid) {
-          exercise = ex;
+          day.exercises[i] = Object.assign({}, ex, {completed: !ex.completed});
           break;
         }
       }
-
-      exercise.completed = !exercise.completed;
 
       return Object.assign({}, state, {[day.uuid]: Object.assign({}, day)});
 

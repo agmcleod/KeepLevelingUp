@@ -2,6 +2,7 @@ import React from 'react-native';
 import {connect} from 'react-redux';
 import {toggleCompleteExercise} from './day_actions';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import _ from 'lodash';
 
 const {
   Component,
@@ -68,6 +69,7 @@ class Exercise extends Component {
       sets: React.PropTypes.array,
       uuid: React.PropTypes.string
     }).isRequired,
+    exerciseUuid: React.PropTypes.string.isRequired,
     dayUuid: React.PropTypes.string.isRequired
   };
 
@@ -124,8 +126,10 @@ class Exercise extends Component {
   }
 }
 
-export default connect(() => {
-  return {};
+export default connect((state, props) => {
+  return {
+    exercise: _.find(state.days[props.dayUuid].exercises, {uuid: props.exerciseUuid})
+  };
 }, {
   toggleCompleteExercise
 })(Exercise);
