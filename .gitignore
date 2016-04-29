@@ -21,7 +21,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-ios/main.jsbundle
+iOS/main.jsbundle
 
 # Android/IJ
 #

@@ -30,6 +30,17 @@ const styles = StyleSheet.create({
     flex: 1
   },
 
+  exerciseText: {
+    alignSelf: 'stretch',
+    color: '#555',
+    fontFamily: 'Optima',
+    marginRight: 10,
+    fontSize: 16,
+    paddingTop: 10,
+    textAlign: 'left',
+    width: 70
+  },
+
   moveButtonTouch: {
     alignSelf: 'flex-start',
     backgroundColor: '#555',
@@ -61,6 +72,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Optima',
     marginRight: 5,
     paddingTop: 10
+  },
+  row: {
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    marginBottom: 5
   },
   textInput: {
     borderWidth: 1,
@@ -152,25 +168,31 @@ class ExerciseForm extends Component {
 
     return (
       <View style={styles.view}>
-        <TextInput
-          style={styles.textInput}
-          onChange={(e) => {this.props.onTextInputChange(e, this.props.index, 'name');}}
-          placeholder='Name'
-          defaultValue={this.props.exercise.name}
-        />
+        <View style={styles.row}>
+          <Text style={styles.exerciseText}>Name</Text>
+          <TextInput
+            style={styles.textInput}
+            onChange={(e) => {this.props.onTextInputChange(e, this.props.index, 'name');}}
+            defaultValue={this.props.exercise.name}
+          />
+        </View>
         {this._outputErrorForField('name')}
-        <TextInput
-          style={styles.textInput}
-          onChange={(e) => {this.props.onNumberInputChange(e, this.props.index, 'sets');}}
-          placeholder='Sets'
-          keyboardType='numeric'
-          defaultValue={numberAsString(this.props.exercise.sets)} />
-        <TextInput
-          style={styles.textInput}
-          onChange={(e) => {this.props.onNumberInputChange(e, this.props.index, 'reps');}}
-          placeholder='Reps'
-          keyboardType='numeric'
-          defaultValue={numberAsString(this.props.exercise.reps)} />
+        <View style={styles.row}>
+          <Text style={styles.exerciseText}>Sets</Text>
+          <TextInput
+            style={styles.textInput}
+            onChange={(e) => {this.props.onNumberInputChange(e, this.props.index, 'sets');}}
+            keyboardType='numeric'
+            defaultValue={numberAsString(this.props.exercise.sets)} />
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.exerciseText}>Reps</Text>
+          <TextInput
+            style={styles.textInput}
+            onChange={(e) => {this.props.onNumberInputChange(e, this.props.index, 'reps');}}
+            keyboardType='numeric'
+            defaultValue={numberAsString(this.props.exercise.reps)} />
+        </View>
         <TextInput
           style={styles.textInput}
           onChange={(e) => {this.props.onNumberInputChange(e, this.props.index, 'duration');}}
