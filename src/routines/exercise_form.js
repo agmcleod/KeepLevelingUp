@@ -193,12 +193,14 @@ class ExerciseForm extends Component {
             keyboardType='numeric'
             defaultValue={numberAsString(this.props.exercise.reps)} />
         </View>
-        <TextInput
-          style={styles.textInput}
-          onChange={(e) => {this.props.onNumberInputChange(e, this.props.index, 'duration');}}
-          placeholder='Duration in Seconds'
-          keyboardType='numeric'
-          defaultValue={numberAsString(this.props.exercise.duration)} />
+        <View style={styles.row}>
+          <Text style={styles.exerciseText}>Duration in Seconds</Text>
+          <TextInput
+            style={styles.textInput}
+            onChange={(e) => {this.props.onNumberInputChange(e, this.props.index, 'duration');}}
+            keyboardType='numeric'
+            defaultValue={numberAsString(this.props.exercise.duration)} />
+        </View>
         <View style={styles.showWeight}>
           <Text style={styles.showWeightText}>Show Weight:</Text>
           <Switch
