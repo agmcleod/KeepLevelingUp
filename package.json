@@ -7,12 +7,14 @@
   },
   "dependencies": {
     "lodash": "^4.5.1",
+    "react-mixin": "^2.0.2",
     "react-native": "^0.20.0",
     "react-native-dropdown": "git://github.com/alfonsoperez/react-native-dropdown.git#patch-3",
     "react-native-material-switch": "0.0.4",
     "react-native-swipeout": "git://github.com/agmcleod/react-native-swipeout.git",
     "react-native-vector-icons": "^1.2.1",
     "react-redux": "^4.4.0",
+    "react-timer-mixin": "^0.13.3",
     "redux": "^3.3.1",
     "redux-thunk": "^1.0.3"
   },

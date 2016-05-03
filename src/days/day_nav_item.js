@@ -1,4 +1,7 @@
 import React from 'react-native';
+import TimerMixin from 'react-timer-mixin';
+import reactMixin from 'react-mixin';
+
 
 const {
   StyleSheet,
@@ -41,6 +44,12 @@ class DayNavItem extends React.Component {
     selected: React.PropTypes.bool
   };
 
+  _onPress() {
+    this.requestAnimationFrame(() => {
+      this.props.selectDay(this.props.day.uuid);
+    });
+  }
+
   render() {
     const d = new Date(this.props.day.created_at);
     const viewStyles = [styles.container];
@@ -50,7 +59,7 @@ class DayNavItem extends React.Component {
       viewStyles.push(styles.odd);
     }
     return (
-      <TouchableOpacity style={viewStyles} onPress={() => this.props.selectDay(this.props.day.uuid)}>
+      <TouchableOpacity style={viewStyles} onPress={this._onPress.bind(this)}>
         <View>
           <Text style={styles.text}>{getMonth(d)}</Text>
           <Text style={styles.text}>{d.getDate()}</Text>
@@ -59,5 +68,7 @@ class DayNavItem extends React.Component {
     );
   }
 }
+
+reactMixin(DayNavItem.prototype, TimerMixin);
 
 export default DayNavItem;
