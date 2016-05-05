@@ -1,9 +1,10 @@
 import React from 'react-native';
+import _ from 'lodash';
 
 const {
   Component,
   Dimensions,
-  ScrollView,
+  ListView,
   StyleSheet,
   Text,
   View
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
 class DayList extends Component {
   static displayName = 'DayList';
   static propTypes = {
-    days: React.PropTypes.object.isRequired,
+    days: React.PropTypes.array.isRequired,
     hasRoutines: React.PropTypes.bool,
     listDays: React.PropTypes.func,
     listRoutines: React.PropTypes.func,
@@ -69,9 +70,37 @@ class DayList extends Component {
     viewingDayUuid: React.PropTypes.string
   };
 
+  constructor(props) {
+    super(props);
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows(props.days)
+    };
+  }
+
   componentDidMount() {
     this.props.listDays();
     this.props.listRoutines();
+  }
+
+  componentWillReceiveProps(newProps) {
+    let days = newProps.days;
+    if (newProps.viewingDayUuid !== this.props.viewingDayUuid) {
+      days = days.map((day) => {
+        if (day.uuid === newProps.viewingDayUuid || day.uuid === this.props.viewingDayUuid) {
+          return Object.assign({}, day);
+        } else {
+          return day;
+        }
+      });
+    }
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(days)
+    });
+  }
+
+  _daysAsArray() {
+    return _.values(this.props.days);
   }
 
   _newDayPressEvent() {
@@ -120,6 +149,17 @@ class DayList extends Component {
     );
   }
 
+  _renderDayNavItem(day, sectionId, rowId) {
+    return (
+      <DayNavItem
+        key={day.uuid}
+        day={day}
+        odd={parseFloat(rowId) % 2 !== 0}
+        selected={day.uuid === this.props.viewingDayUuid}
+        selectDay={this._selectDay.bind(this)} />
+    );
+  }
+
   render() {
     if (!this.props.hasRoutines) {
       return this.renderNoRoutines();
@@ -128,33 +168,20 @@ class DayList extends Component {
         {text: 'Routines', onPressEvent: this._routinesPressEvent.bind(this)},
         {text: 'New Day', onPressEvent: this._newDayPressEvent.bind(this)}
       ];
-      if (this.props.days.size === 0) {
+      if (this.props.days.length === 0) {
         return this.renderNoDays(buttons);
       } else {
         const screen = Dimensions.get('window');
-        const viewingDay = this.props.days.get(this.props.viewingDayUuid);
-        let i = 0;
-        const dayNavItems = [];
-        this.props.days.forEach((day, uuid) => {
-          const odd = i % 2 !== 0;
-          i += 1;
-          dayNavItems.push((
-            <DayNavItem
-              key={uuid}
-              day={day}
-              odd={odd}
-              selected={uuid === this.props.viewingDayUuid}
-              selectDay={this._selectDay.bind(this)} />));
-        });
+        const viewingDay = _.find(this.props.days, { uuid: this.props.viewingDayUuid });
         return (
           <View style={styles.view}>
-            <ScrollView
+            <ListView
               style={[{width: screen.width}, styles.nav]}
               horizontal={true}
               showsHorizontalScrollIndicator={true}
-              automaticallyAdjustContentInsets={false}>
-              {dayNavItems}
-            </ScrollView>
+              dataSource={this.state.dataSource}
+              automaticallyAdjustContentInsets={false}
+              renderRow={this._renderDayNavItem.bind(this)} />
             <DayOverview
               day={viewingDay}
               navigator={this.props.navigator} />
@@ -176,12 +203,8 @@ export default connect((state) => {
   days.sort((a, b) => {
     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
-  const daysMap = new Map();
-  for (let i = 0; i < days.length; i++) {
-    daysMap.set(days[i].uuid, days[i]);
-  }
   return {
-    days: daysMap,
+    days: days,
     hasRoutines: Object.keys(state.routines).length > 0,
     viewingDayUuid: state.viewingDayUuid || days[0] && days[0].uuid
   };
