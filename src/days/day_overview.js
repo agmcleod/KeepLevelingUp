@@ -1,15 +1,14 @@
-import React from 'react-native';
+import React from 'react';
 import {connect} from 'react-redux';
 
-const {
-  Component,
+import {
   Dimensions,
   ScrollView,
   StyleSheet,
   Text,
   TouchableHighlight,
   View
-} = React;
+} from 'react-native';
 
 import {deleteDay, saveDays, viewDay} from './day_actions';
 import EditDay from './edit_day';
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class ExerciseValue extends Component {
+class ExerciseValue extends React.Component {
   static displayName = 'ExerciseValue';
   static propTypes = {
     exercise: React.PropTypes.shape({
@@ -134,7 +133,7 @@ class ExerciseValue extends Component {
   }
 }
 
-class DayOverview extends Component {
+class DayOverview extends React.Component {
   static displayName = 'DayOverview';
   static propTypes = {
     day: React.PropTypes.shape({

@@ -1,15 +1,14 @@
-import React from 'react-native';
+import React from 'react';
 import {connect} from 'react-redux';
 
-const {
-  Component,
+import {
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableHighlight,
   View
-} = React;
+} from 'react-native';
 
 import BottomBar from '../components/bottom_bar';
 import ExerciseForm from './exercise_form';
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class RoutineForm extends Component {
+class RoutineForm extends React.Component {
   static displayName = 'RoutineForm';
   static propTypes = {
     navigator: React.PropTypes.object.isRequired,

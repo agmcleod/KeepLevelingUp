@@ -1,13 +1,12 @@
-import React from 'react-native';
+import React from 'react';
 import {connect} from 'react-redux';
 
-const {
-  Component,
+import {
   ScrollView,
   StyleSheet,
   Text,
   View
-} = React;
+} from 'react-native';
 
 import BottomBar from '../components/bottom_bar';
 import Exercise from './exercise';
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class EditDay extends Component {
+class EditDay extends React.Component {
   static displayName = 'EditDay';
   static propTypes = {
     day: React.PropTypes.shape({

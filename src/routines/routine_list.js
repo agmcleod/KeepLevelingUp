@@ -1,14 +1,13 @@
-const React = require('react-native');
+import React from 'react';
 import {connect} from 'react-redux';
 
-const {
-  Component,
+import {
   Dimensions,
   ListView,
   StyleSheet,
   Text,
   View
-} = React;
+} from 'react-native';
 
 import BottomBar from '../components/bottom_bar';
 import {deleteRoutine, saveRoutines} from './routine_actions';
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class RoutineList extends Component {
+class RoutineList extends React.Component {
   static displayName = 'RoutineList';
 
   static propTypes = {

@@ -2,14 +2,14 @@
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-import React from 'react-native';
+import React from 'react';
 import {Provider} from 'react-redux';
-const {
+import {
   AppRegistry,
   Navigator,
   Text,
   View
-} = React;
+} from 'react-native';
 
 import DayList from './src/days/day_list';
 import NavConfig from './src/nav_config';
@@ -19,14 +19,16 @@ import './src/object.js';
 import createStore from './src/create_store';
 const store = createStore();
 
-const KeepLevelingUp = React.createClass({
-  displayName: 'KeepLevelingUp',
+class YourRoutine extends React.Component {
+  static displayName = 'KeepLevelingUp';
+
   _renderScene(route, navigator) {
     const Component = route.component;
     return (
       <Component {...route.props} navigator={navigator} route={route} />
     );
-  },
+  }
+
   render() {
     return (
       <Provider store={store}>
@@ -47,6 +49,6 @@ const KeepLevelingUp = React.createClass({
       </Provider>
     );
   }
-});
+}
 
-AppRegistry.registerComponent('YourRoutine', () => KeepLevelingUp);
+AppRegistry.registerComponent('YourRoutine', () => YourRoutine);

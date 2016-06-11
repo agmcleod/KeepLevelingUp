@@ -1,14 +1,13 @@
-import React from 'react-native';
+import React from 'react';
 import {connect} from 'react-redux';
 
 import {Select, Option, OptionList, updatePosition} from 'react-native-dropdown';
 
-const {
-  Component,
+import {
   StyleSheet,
   Text,
   View
-} = React;
+} from 'react-native';
 
 import BottomBar from '../components/bottom_bar';
 import {saveDays, createDay} from './day_actions';
@@ -37,7 +36,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class NewDay extends Component {
+class NewDay extends React.Component {
   static displayName = 'NewDay';
   static propTypes = {
     createDay: React.PropTypes.func.isRequired,

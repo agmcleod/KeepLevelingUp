@@ -1,5 +1,5 @@
 {
-  "name": "KeepLevelingUp",
+  "name": "YourRoutine",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,11 +8,12 @@
   "dependencies": {
     "lodash": "^4.5.1",
     "react-mixin": "^2.0.2",
-    "react-native": "^0.20.0",
-    "react-native-dropdown": "git://github.com/alfonsoperez/react-native-dropdown.git#patch-3",
-    "react-native-material-switch": "0.0.4",
+    "react": "^15.1.0",
+    "react-native": "^0.27.0",
+    "react-native-dropdown": "git://github.com/agmcleod/react-native-dropdown",
+    "react-native-material-switch": "git://github.com/recr0ns/react-native-material-switch",
     "react-native-swipeout": "git://github.com/agmcleod/react-native-swipeout.git",
-    "react-native-vector-icons": "^1.2.1",
+    "react-native-vector-icons": "^2.0.3",
     "react-redux": "^4.4.0",
     "react-timer-mixin": "^0.13.3",
     "redux": "^3.3.1",

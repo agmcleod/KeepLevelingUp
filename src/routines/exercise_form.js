@@ -1,15 +1,14 @@
-import React from 'react-native';
+import React from 'react';
 
 import {numberAsString} from '../utils/utility_functions';
 
-const {
-  Component,
+import {
   StyleSheet,
   Text,
   TextInput,
   TouchableHighlight,
   View
-} = React;
+} from 'react-native';
 
 import Switch from 'react-native-material-switch';
 
@@ -102,7 +101,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class ExerciseForm extends Component {
+class ExerciseForm extends React.Component {
   static displayName = 'ExerciseForm';
   static propTypes = {
     exercise: React.PropTypes.shape({

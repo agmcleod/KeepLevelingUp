@@ -1,5 +1,4 @@
-import React from 'react-native';
-const {Dimensions} = React;
+import {Dimensions} from 'react-native';
 
 import buildStyleInterpolator from 'buildStyleInterpolator';
 import PixelRatio from 'PixelRatio';

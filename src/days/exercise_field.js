@@ -1,12 +1,11 @@
-import React from 'react-native';
+import React from 'react';
 
-const {
-  Component,
+import {
   StyleSheet,
   Text,
   TextInput,
   View
-} = React;
+} from 'react-native';
 
 const styles = StyleSheet.create({
   exerciseInput: {
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class ExerciseField extends Component {
+class ExerciseField extends React.Component {
   static displayName = 'ExerciseField';
   static propTypes = {
     label: React.PropTypes.string,

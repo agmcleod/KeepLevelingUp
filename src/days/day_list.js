@@ -1,14 +1,13 @@
-import React from 'react-native';
+import React from 'react';
 import _ from 'lodash';
 
-const {
-  Component,
+import {
   Dimensions,
   ListView,
   StyleSheet,
   Text,
   View
-} = React;
+} from 'react-native';
 
 import RoutineList from '../routines/routine_list';
 import BottomBar from '../components/bottom_bar';
@@ -58,7 +57,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class DayList extends Component {
+class DayList extends React.Component {
   static displayName = 'DayList';
   static propTypes = {
     days: React.PropTypes.array.isRequired,

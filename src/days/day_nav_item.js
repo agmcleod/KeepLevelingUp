@@ -1,14 +1,13 @@
-import React from 'react-native';
+import React from 'react';
 import TimerMixin from 'react-timer-mixin';
 import reactMixin from 'react-mixin';
 
-
-const {
+import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View
-} = React;
+} from 'react-native';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 

@@ -1,16 +1,15 @@
-import React from 'react-native';
+import React from 'react';
 import {connect} from 'react-redux';
 import {toggleCompleteExercise} from './day_actions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import _ from 'lodash';
 
-const {
-  Component,
+import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View
-} = React;
+} from 'react-native';
 
 const styles = StyleSheet.create({
   checkmark: {
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
 
 import ExerciseField from './exercise_field';
 
-class Exercise extends Component {
+class Exercise extends React.Component {
   static displayName = 'Exercise';
   static propTypes = {
     toggleCompleteExercise: React.PropTypes.func.isRequired,

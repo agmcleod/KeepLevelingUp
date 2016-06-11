@@ -1,12 +1,11 @@
-import React from 'react-native';
+import React from 'react';
 
-const {
-  Component,
+import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View
-} = React;
+} from 'react-native';
 
 const styles = StyleSheet.create({
   buttonText: {
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class BottomBar extends Component {
+class BottomBar extends React.Component {
   static displayName = 'BottomBar';
   static propTypes = {
     buttons: React.PropTypes.arrayOf(
