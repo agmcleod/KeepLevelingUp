@@ -149,7 +149,7 @@ class DayList extends Component {
     );
   }
 
-  _renderDayNavItem(day, sectionId, rowId) {
+  renderDayNavItem(day, sectionId, rowId) {
     return (
       <DayNavItem
         key={day.uuid}
@@ -181,7 +181,7 @@ class DayList extends Component {
               showsHorizontalScrollIndicator={true}
               dataSource={this.state.dataSource}
               automaticallyAdjustContentInsets={false}
-              renderRow={this._renderDayNavItem.bind(this)} />
+              renderRow={this.renderDayNavItem.bind(this)} />
             <DayOverview
               day={viewingDay}
               navigator={this.props.navigator} />

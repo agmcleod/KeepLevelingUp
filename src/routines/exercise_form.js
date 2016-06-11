@@ -209,7 +209,7 @@ class ExerciseForm extends Component {
             inactiveBackgroundColor='rgba(205, 0, 0, 1)'
             inactiveButtonColor='rgba(255, 255, 255, 1)'
             inactiveButtonPressedColor='rgba(255, 255, 255, 1)'
-            onStateChange={() => { this.props.onToggleWeightChange(this.props.index); }}
+            onChangeState={() => { this.props.onToggleWeightChange(this.props.index); }}
             style={styles.weight}
           />
         </View>

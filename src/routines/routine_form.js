@@ -80,10 +80,16 @@ class RoutineForm extends Component {
 
   componentWillMount() {
     if (this.props.routine) {
+      const newExercises = [];
+      const existingExercises = this.props.routine.exercises;
+      for (let i = 0; i < existingExercises.length; i++) {
+        newExercises.push(Object.assign({}, existingExercises[i]));
+      }
+
       this.setState({
         name: this.props.routine.name,
         uuid: this.props.routine.uuid,
-        exercises: this.props.routine.exercises
+        exercises: newExercises
       });
     }
   }
@@ -127,6 +133,7 @@ class RoutineForm extends Component {
   _onToggleWeightChange(i) {
     const exercises = this.state.exercises;
     exercises[i].showWeight = !exercises[i].showWeight;
+    console.log(exercises[i].showWeight);
     this.setState({
       exercises: exercises
     });
