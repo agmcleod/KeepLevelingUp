@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   textInput: {
     borderWidth: 1,
     borderColor: '#E57F7F',
-    flex: 1,
+    // flex: 1,
     fontFamily: 'Optima',
     height: 35,
     padding: 5

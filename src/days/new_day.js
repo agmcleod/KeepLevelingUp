@@ -1,9 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {Select, Option, OptionList, updatePosition} from 'react-native-dropdown';
-
 import {
+  Picker,
   StyleSheet,
   Text,
   View
@@ -11,8 +10,6 @@ import {
 
 import BottomBar from '../components/bottom_bar';
 import {saveDays, createDay} from './day_actions';
-
-const OPTIONLIST_REF = 'optionlist';
 
 const styles = StyleSheet.create({
   formView: {
@@ -52,11 +49,6 @@ class NewDay extends React.Component {
     };
   }
 
-  componentDidMount() {
-    updatePosition(this.refs.select);
-    updatePosition(this.refs[OPTIONLIST_REF]);
-  }
-
   _cancelPressEvent() {
     this.props.navigator.pop();
   }
@@ -91,17 +83,14 @@ class NewDay extends React.Component {
       <View style={styles.view}>
         <View style={styles.formView}>
           <Text style={styles.label}>Select which routine:</Text>
-          <Select
-            defaultValue='Tap to select routine'
-            onSelect={this._selectRoutineEvent.bind(this)}
-            optionListRef={this._getOptionList.bind(this)}
-            ref='select'>
+          <Picker
+            selectedValue={this.state.language}
+            onValueChange={this._selectRoutineEvent.bind(this)}>
             {Object.keys(this.props.routines).map((key) => {
               const routine = this.props.routines[key];
-              return <Option key={key} value={routine.uuid}>{routine.name}</Option>;
+              return <Picker.Item label={routine.name} key={routine.uuid} value={routine.uuid} />;
             })}
-          </Select>
-          <OptionList ref={OPTIONLIST_REF} />
+          </Picker>
         </View>
         <BottomBar buttons={buttons} />
       </View>
