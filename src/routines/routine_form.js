@@ -132,7 +132,6 @@ class RoutineForm extends React.Component {
   _onToggleWeightChange(i) {
     const exercises = this.state.exercises;
     exercises[i].showWeight = !exercises[i].showWeight;
-    console.log(exercises[i].showWeight);
     this.setState({
       exercises: exercises
     });

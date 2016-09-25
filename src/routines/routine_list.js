@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import _ from 'lodash';
 
 import {
   Dimensions,
@@ -49,7 +50,8 @@ class RoutineList extends React.Component {
   static propTypes = {
     navigator: React.PropTypes.object,
     deleteRoutine: React.PropTypes.func,
-    saveRoutines: React.PropTypes.func
+    saveRoutines: React.PropTypes.func,
+    routines: React.PropTypes.array
   };
 
   constructor(props) {
@@ -65,7 +67,7 @@ class RoutineList extends React.Component {
 
   componentWillReceiveProps(props) {
     this.setState({
-      routineDataSource: this.state.routineDataSource.cloneWithRows(Object.clone(props.routines))
+      routineDataSource: this.state.routineDataSource.cloneWithRows(props.routines)
     });
   }
 
@@ -107,6 +109,7 @@ class RoutineList extends React.Component {
         <ListView
           style={[{width: screen.width}, styles.scrollView]}
           dataSource={this.state.routineDataSource}
+          removeClippedSubviews={false}
           renderRow={(routine) => {
             const buttons = [{
               backgroundColor: '#39b54a',
@@ -135,7 +138,7 @@ class RoutineList extends React.Component {
 
 export default connect((state) => {
   return {
-    routines: state.routines
+    routines: _.values(state.routines)
   };
 }, {
   deleteRoutine, saveRoutines

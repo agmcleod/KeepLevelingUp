@@ -44,17 +44,15 @@ class NewDay extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      selectedUUID: null
-    };
+    let selectedUUID = null;
+    if (this.props.routines) {
+      selectedUUID = this.props.routines[Object.keys(this.props.routines)[0]].uuid;
+    }
+    this.state = { selectedUUID };
   }
 
   _cancelPressEvent() {
     this.props.navigator.pop();
-  }
-
-  _getOptionList() {
-    return this.refs[OPTIONLIST_REF];
   }
 
   _goPressEvent() {

@@ -180,6 +180,7 @@ class DayList extends React.Component {
               showsHorizontalScrollIndicator={true}
               dataSource={this.state.dataSource}
               automaticallyAdjustContentInsets={false}
+              removeClippedSubviews={false}
               renderRow={this.renderDayNavItem.bind(this)} />
             <DayOverview
               day={viewingDay}
