@@ -82,7 +82,7 @@ class NewDay extends React.Component {
         <View style={styles.formView}>
           <Text style={styles.label}>Select which routine:</Text>
           <Picker
-            selectedValue={this.state.language}
+            selectedValue={this.state.selectedUUID}
             onValueChange={this._selectRoutineEvent.bind(this)}>
             {Object.keys(this.props.routines).map((key) => {
               const routine = this.props.routines[key];
