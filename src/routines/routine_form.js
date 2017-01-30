@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {
+  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
@@ -37,7 +38,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   scrollView: {
-    flex: 10,
     padding: 15
   },
   textInput: {
@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    paddingTop: 20
   }
 });
 
@@ -129,9 +130,9 @@ class RoutineForm extends React.Component {
     });
   }
 
-  _onToggleWeightChange(i) {
+  _onToggleWeightChange(i, value) {
     const exercises = this.state.exercises;
-    exercises[i].showWeight = !exercises[i].showWeight;
+    exercises[i].showWeight = value;
     this.setState({
       exercises: exercises
     });
@@ -191,9 +192,10 @@ class RoutineForm extends React.Component {
       text: text,
       onPressEvent: this._onSave.bind(this)
     }];
+    const screen = Dimensions.get('window');
     return (
       <View style={styles.view}>
-        <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={false}>
+        <ScrollView style={[{ width: screen.width, height: screen.height * 0.8 }, styles.scrollView]} keyboardShouldPersistTaps='never'>
           <TextInput
             placeholder='Routine Name'
             ref='textInput'

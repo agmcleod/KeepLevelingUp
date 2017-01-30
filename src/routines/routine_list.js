@@ -22,9 +22,6 @@ const styles = StyleSheet.create({
     padding: 20,
     fontSize: 16
   },
-  scrollView: {
-    flex: 10
-  },
   separator: {
     height: 1,
     backgroundColor: '#CCCCCC'
@@ -40,7 +37,8 @@ const styles = StyleSheet.create({
   view: {
     alignItems: 'center',
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    paddingTop: 20
   }
 });
 
@@ -107,9 +105,10 @@ class RoutineList extends React.Component {
     return (
       <View style={styles.view}>
         <ListView
-          style={[{width: screen.width}, styles.scrollView]}
+          style={[{ width: screen.width, height: screen.height * 0.8 }]}
           dataSource={this.state.routineDataSource}
           removeClippedSubviews={false}
+          enableEmptySections={true}
           renderRow={(routine) => {
             const buttons = [{
               backgroundColor: '#39b54a',

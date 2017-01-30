@@ -4,13 +4,12 @@ import {numberAsString} from '../utils/utility_functions';
 
 import {
   StyleSheet,
+  Switch,
   Text,
   TextInput,
   TouchableHighlight,
   View
 } from 'react-native';
-
-import Switch from 'react-native-material-switch';
 
 const styles = StyleSheet.create({
   actions: {
@@ -203,12 +202,8 @@ class ExerciseForm extends React.Component {
         <View style={styles.showWeight}>
           <Text style={styles.showWeightText}>Show Weight:</Text>
           <Switch
-            active={this.props.exercise.showWeight}
-            activeBackgroundColor='rgba(0, 205, 0, 1)'
-            inactiveBackgroundColor='rgba(205, 0, 0, 1)'
-            inactiveButtonColor='rgba(255, 255, 255, 1)'
-            inactiveButtonPressedColor='rgba(255, 255, 255, 1)'
-            onChangeState={() => { this.props.onToggleWeightChange(this.props.index); }}
+            onValueChange={(value) => { this.props.onToggleWeightChange(this.props.index, value); }}
+            value={this.props.exercise.showWeight}
             style={styles.weight}
           />
         </View>

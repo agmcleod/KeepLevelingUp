@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   nav: {
     padding: 0,
     marginTop: 30,
-    flex: 0.8,
+    flex: 1,
     borderBottomWidth: 1,
     borderColor: '#000000'
   },

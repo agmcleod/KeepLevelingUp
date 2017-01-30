@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {
+  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
@@ -24,9 +25,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 30
-  },
-  scrollView: {
-    flex: 10
   },
   view: {
     flex: 1
@@ -61,9 +59,12 @@ class EditDay extends React.Component {
       onPressEvent: this._onSavePressEvent.bind(this)
     }];
     const {day} = this.props;
+    const screen = Dimensions.get('window');
     return (
       <View style={styles.view}>
-        <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={false}>
+        <ScrollView
+          style={[{ width: screen.width, height: screen.height * 0.8 }]}
+          keyboardShouldPersistTaps='never'>
           <View style={styles.dayContainer}>
             <Text style={styles.dayHeader}>{friendlyDay(day.created_at)}</Text>
             {this.props.day.exercises.map((exercise) => {

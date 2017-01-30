@@ -17,10 +17,9 @@ const getMonth = function (date) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingLeft: 15,
-    paddingRight: 15,
-    width: 60,
-    height: 49
+    alignItems: 'center',
+    paddingTop: 10,
+    width: 60
   },
   odd: {
     backgroundColor: '#ccc'
@@ -29,8 +28,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#39b54a'
   },
   text: {
-    fontFamily: 'Optima',
-    justifyContent: 'center'
+    fontFamily: 'Optima'
   }
 });
 
@@ -60,8 +58,7 @@ class DayNavItem extends React.Component {
     return (
       <TouchableOpacity style={viewStyles} onPress={this._onPress.bind(this)}>
         <View>
-          <Text style={styles.text}>{getMonth(d)}</Text>
-          <Text style={styles.text}>{d.getDate()}</Text>
+          <Text style={styles.text}>{getMonth(d)} {d.getDate()}</Text>
         </View>
       </TouchableOpacity>
     );
